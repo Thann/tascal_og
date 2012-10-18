@@ -1,11 +1,29 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class user extends CI_Model {
+class User extends CI_Model {
 	
 	function __construct()
     {
         // Call the Model constructor
         parent::__construct();
+    }
+    
+    function login($data){
+	$qq = array('uname'=>$data["uname"], 'passwd'=>sha1($data["passwd"]));
+	$query = $this->db->get_where('users',$qq);
+	if( $query->num_rows() > 0 )
+	{
+	    $user = $query->row();
+	    $sesh = array(
+		    'id' 	=> $user->uid,
+		    'uname'	=> $user->uname,
+		    'logged_in' => TRUE
+	    );
+	    $this->session->set_userdata($sesh);
+	    
+	    return true;
+	}
+	return false;
     }
     
     function get_user_row($uname) {

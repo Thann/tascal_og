@@ -39,5 +39,18 @@ if (!function_exists('js_url'))
     }
 }
 
+if (!function_exists('img_url'))
+{   
+    function img_url()
+    {
+        // the helper function doesn't have access to $this, so we need to get a reference to the 
+        // CodeIgniter instance.  We'll store that reference as $CI and use it instead of $this
+        $CI =& get_instance();
+
+        // return the css_url
+        return asset_url() . $CI->config->item('img_path') . "/";
+    }
+}
+
 /* End of file path_helper.php */
 /* Location: ./application/helpers/path_helper.php */

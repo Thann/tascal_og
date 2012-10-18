@@ -12,10 +12,9 @@
 	<script type='text/javascript' src='<?php echo js_url() . "gcal.js"; ?>' ></script>
 	<?php echo $application_js; ?>
 
-	<!--<link rel='shortcut icon' type='image/png' href='<?php echo  "img_url()" . "favicon.png"; ?>' > -->
+	<link rel='shortcut icon' type='image/png' href='<?php echo img_url() . "favicon.png"; ?>' >
 	<script type='text/javascript'>
-		//~ var TEST = "woah";	
-		var php_ret = <?php echo json_encode($java_vars); ?>;
+		var php_ret = <?php echo json_encode($js_vars); ?>;
 	</script>
 </head>
 <body>
@@ -24,9 +23,8 @@
 	<div id="new-task" class="tasks">
 		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));
 		echo form_hidden('uid',$user->uid);
-		echo form_hidden('desc',""); ?>
-		<input type='text' id='new-task-input' name='title' size=17 />
-		<?php //echo form_input(array('id'=>'new-task-input','name'=>'title','size'=>17));
+		echo form_hidden('desc',"");
+		echo form_input(array('id'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17));
 		echo form_close(); ?>
 	</div>
 	<?php foreach (array_reverse($tasks) as $t){
@@ -36,5 +34,6 @@
 </div>
 <div id='calendar'></div>
 </div>
+<div class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</div>
 </body>
 </html>
