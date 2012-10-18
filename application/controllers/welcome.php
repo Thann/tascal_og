@@ -18,10 +18,7 @@ class Welcome extends CI_Controller {
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
 	public function index() {
-		//~ $this->load->helper('path');
 		$this->load->model('user');
-
-		//~ $this->load->database();
 		
 		$data = array();
 		$data["java_vars"] = $this->user->logon_user();
