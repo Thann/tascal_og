@@ -57,6 +57,7 @@ class CI_DB_sqlite_driver extends CI_DB {
 	 */
 	function db_connect()
 	{
+		log_message('debug', "trying to open DB");
 		if ( ! $conn_id = @sqlite_open($this->database, FILE_WRITE_MODE, $error))
 		{
 			log_message('error', $error);

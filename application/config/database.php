@@ -48,11 +48,12 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'tascal';
-$db['default']['password'] = 'LAAAAME';
-$db['default']['database'] = 'tascal';
-$db['default']['dbdriver'] = 'sqlite';
+$db['default']['hostname'] = 'sqlite:./application/db/tascal.sqlite';
+//~ $db['default']['hostname'] = '';
+$db['default']['username'] = '';
+$db['default']['password'] = '';
+$db['default']['database'] = '';
+$db['default']['dbdriver'] = 'pdo'; // should be sqlite, but it doesn't work =/
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;

@@ -12,9 +12,22 @@
 	<?php echo $application_js; ?>
 
 	<!--<link rel='shortcut icon' type='image/png' href='<?php echo  "img_url()" . "favicon.png"; ?>' > -->
+	<script type='text/javascript'>
+		//~ var TEST = "woah";	
+		var php_ret = <?php echo json_encode($java_vars); ?>;
+	</script>
 </head>
 <body>
-woot
+<div id='wrap'>
+<div id='tasks'>
+	<div id="new-task" class="tasks">
+		<input id="new-task-input" type="text" name="new-task-name" size=17></input>
+	</div>
+	<?php foreach ($tasks as $t){
+		echo "<div id='task_".$t["id"]."' class='tasks' desc='".$t["desc"]."' >".$t["name"]."</div>";
+	}?>
+</div>
 <div id='calendar'></div>
+</div>
 </body>
 </html>

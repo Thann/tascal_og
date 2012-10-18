@@ -16,6 +16,8 @@ $(document).ready( function()
 			right:  'month,agendaWeek,agendaDay'
 		},
 		editable:true,
+		droppable: true,
+		defaultView: 'agendaWeek',
 		events: [
 				{
 					title: 'All Day Event',
@@ -80,7 +82,7 @@ $(document).ready( function()
 			//~ //Other sources eg. GCal
 		//~ ],
 		eventClick: function(calEvent, jsEvent, view) {
-			alert('Event: ' + calEvent.title + '\nDesc: ' + calEvent.long_title + '\nSection: ' + calEvent.section);
+			alert('Event: ' + calEvent.title + '\nDesc: ' + calEvent.desc + '\nSection: ' + calEvent.section);
 			//~ // change the border color just for fun
 			//~ //$(this).css('border-color', 'red');
 		},
@@ -94,7 +96,77 @@ $(document).ready( function()
 				//~ data: 'id=' + event.id + '&start=' + event.start + '&end=' + event.end,
 			//~ })
 		//~ }
-	 } );
-	 
-	 //~ $("#agenda").css( "margin-top", 0 - $("#agenda").height()/2 );
+		
+		// this function is called when something is dropped..
+		drop: function(date, allDay) {
+			// retrieve the dropped element's stored Event Object
+			var originalEventObject = $(this).data('eventObject');
+			
+			// we need to copy it, so that multiple events don't have a reference to the same object
+			var copiedEventObject = $.extend({}, originalEventObject);
+			
+			// assign it the date that was reported
+			copiedEventObject.start = date;
+			copiedEventObject.allDay = allDay;
+			copiedEventObject.desc = $(this).attr('desc');
+			
+			// render the event on the calendar
+			// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+			$("#calendar").fullCalendar('renderEvent', copiedEventObject, true);
+			
+			$('#new-task').each(function() {
+				//~ $(this).html($(this).text() + "1");
+				//~ var eventObject = {
+					//~ title: $.trim($(this).text())
+				//~ };
+				//~ $(this).data('eventObject', eventObject);
+			});
+			// is the "remove after drop" checkbox checked?
+			//~ if ($('#drop-remove').is(':checked')) {
+				//~ // if so, remove the element from the "Draggable Events" list
+				//~ $(this).remove();
+			//~ }
+			
+		},
+
+	} );
+	
+	function makeTasksDragable() {
+		$(".tasks").each(function() {
+			var eventObject = {
+				title: $.trim($(this).text())
+			};
+			$(this).data('eventObject', eventObject);
+			$(this).draggable({
+				zIndex: 999,
+				revert: true,      // will cause the event to go back to its
+				revertDuration: 0  //  original position after the drag
+				//~ helper: "clone",
+				//~ revert: "invalid"
+			});
+		});
+	};
+	makeTasksDragable();
+	//~ $("#new-task-input").mousedown(function(e) {
+		//~ $("#new-task").trigger(e);
+	//~ });
+	$("#new-task-input").keyup(function(event){
+		if(event.keyCode == 13){
+			$("#tasks :nth-child(2)").before("<div class='tasks'>"+$("#new-task-input").val()+"</div>")			
+			//~ var nv = $("<div class='tasks'></div>").attr("class","tasks");
+			//~ $("#tasks :nth-child(2)").before(nv);
+			
+			
+			$("#new-task-input").val("");
+			
+			makeTasksDragable();
+			//~ alert("yay");
+			//~ var divTag = document.createElement("div"); 
+            //~ divTag.id = "div1"; 
+            //~ divTag.className = "tasks";
+            //~ divTag.innerHTML = $("#new-task-input").val();
+            //~ document.getElementById("tasks").appendChild(divTag);
+		}
+		
+    });
 });
