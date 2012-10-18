@@ -8,15 +8,29 @@ class user extends CI_Model {
         parent::__construct();
     }
     
-    function logon_user() {
-
-	$qret = array();
-	$query = $this->db->get('users');
-	//~ foreach ($query->result() as $row)
-	//~ {
-	    //~ $qret[] = $row->id;
-	//~ }
-
+    function get_user_row($uname) {
+	$query = $this->db->get_where('users',array('uname' => $uname));
+	$query = $query->result();
+	return $query[0];
+    }
+    
+    function get_tasks($uid){
+	$query = $this->db->get_where('tasks',array('uid' => $uid));
+	$query = $query->result();
 	return $query;
     }
+    
+    function add_task($data)
+    {
+	//~ $data = array(
+	    //~ 'uid'   =>$uid,
+	    //~ 'title' =>$title,
+	    //~ 'desc'  =>$desc
+	//~ );
+	$this->db->insert('tasks',$data);
+    }
 }
+	//~ foreach ($query->result() as $row)
+	//~ {
+	    //~ //$qret[] = $row->id;
+	//~ }

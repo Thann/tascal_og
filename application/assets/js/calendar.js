@@ -145,27 +145,32 @@ $(document).ready( function()
 				//~ revert: "invalid"
 			});
 		});
+		$("#new-task").draggable({cancel: '#new-task'});
 	};
 	makeTasksDragable();
 	//~ $("#new-task-input").mousedown(function(e) {
 		//~ $("#new-task").trigger(e);
 	//~ });
-	$("#new-task-input").keyup(function(event){
+	//~ $("#new-task-form").ajaxForm({
+		//~ dataType: 'json',
+		//~ success: function(responseText) {
+			//~ ret = jQuery.parseJSON( responseText );
+			//~ alert(ret);
+		//~ }
+	//~ });
+	$("#new-task-input").keypress(function(event){
 		if(event.keyCode == 13){
-			$("#tasks :nth-child(2)").before("<div class='tasks'>"+$("#new-task-input").val()+"</div>")			
-			//~ var nv = $("<div class='tasks'></div>").attr("class","tasks");
-			//~ $("#tasks :nth-child(2)").before(nv);
-			
-			
+			$("#new-task-form").ajaxSubmit({
+				success: function(responseText) {
+					ret = jQuery.parseJSON( responseText );
+					//alert(ret);
+				}
+			});
+			$("#task-box div:nth-child(2)").before("<div class='tasks'>"+$("#new-task-input").val()+"</div>")	;
 			$("#new-task-input").val("");
-			
 			makeTasksDragable();
-			//~ alert("yay");
-			//~ var divTag = document.createElement("div"); 
-            //~ divTag.id = "div1"; 
-            //~ divTag.className = "tasks";
-            //~ divTag.innerHTML = $("#new-task-input").val();
-            //~ document.getElementById("tasks").appendChild(divTag);
+			//~ return false;
+			event.preventDefault();
 		}
 		
     });
