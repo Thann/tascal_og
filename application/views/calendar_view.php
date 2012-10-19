@@ -24,7 +24,7 @@
 <div id='task-box'>
 	<div id="new-task" class="tasks">
 		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));
-		echo form_hidden('uid',$user->uid);
+		//echo form_hidden('uid',$user->uid);
 		echo form_hidden('desc',"");
 		echo form_input(array('id'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17));
 		echo form_close(); ?>

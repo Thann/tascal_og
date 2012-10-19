@@ -7,8 +7,6 @@ $(document).ready( function()
 
 	$("#calendar").fullCalendar(
 	{
-		//options
-		//theme:true,
 		header:
 		{
 			left:   'prev,next today',
@@ -18,69 +16,72 @@ $(document).ready( function()
 		editable:true,
 		droppable: true,
 		defaultView: 'agendaWeek',
-		events: [
-				{
-					title: 'All Day Event',
-					start: new Date(y, m, 1)
-				},
-				{
-					title: 'Long Event',
-					start: new Date(y, m, d-5),
-					end: new Date(y, m, d-2)
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d-3, 16, 0),
-					allDay: false
-				},
-				{
-					id: 999,
-					title: 'Repeating Event',
-					start: new Date(y, m, d+4, 16, 0),
-					allDay: false
-				},
-				{
-					title: 'Meeting',
-					start: new Date(y, m, d, 10, 30),
-					allDay: false
-				},
-				{
-					title: 'Lunch',
-					start: new Date(y, m, d, 12, 0),
-					end: new Date(y, m, d, 14, 0),
-					allDay: false
-				},
-				{
-					title: 'Birthday Party',
-					start: new Date(y, m, d+1, 19, 0),
-					end: new Date(y, m, d+1, 22, 30),
-					allDay: false
-				},
-				{
-					title: 'Click for Google',
-					start: new Date(y, m, 28),
-					end: new Date(y, m, 29),
-					url: 'http://google.com/'
-				}
-			],
+		//~ events: [
+				//~ {
+					//~ title: 'tester',
+					//~ start: '2012-10-19T10:22:30Z'
+				//~ },
+				//~ {
+					//~ title: 'All Day Event',
+					//~ start: new Date(y, m, 1)
+				//~ },
+				//~ {
+					//~ title: 'Long Event',
+					//~ start: new Date(y, m, d-5),
+					//~ end: new Date(y, m, d-2)
+				//~ },
+				//~ {
+					//~ id: 999,
+					//~ title: 'Repeating Event',
+					//~ start: new Date(y, m, d-3, 16, 0),
+					//~ allDay: false
+				//~ },
+				//~ {
+					//~ id: 999,
+					//~ title: 'Repeating Event',
+					//~ start: new Date(y, m, d+4, 16, 0),
+					//~ allDay: false
+				//~ },
+				//~ {
+					//~ title: 'Meeting',
+					//~ start: new Date(y, m, d, 10, 30),
+					//~ allDay: false
+				//~ },
+				//~ {
+					//~ title: 'Lunch',
+					//~ start: new Date(y, m, d, 12, 0),
+					//~ end: new Date(y, m, d, 14, 0),
+					//~ allDay: false
+				//~ },
+				//~ {
+					//~ title: 'Birthday Party',
+					//~ start: new Date(y, m, d+1, 19, 0),
+					//~ end: new Date(y, m, d+1, 22, 30),
+					//~ allDay: false
+				//~ },
+				//~ {
+					//~ title: 'Click for Google',
+					//~ start: new Date(y, m, 28),
+					//~ end: new Date(y, m, 29),
+					//~ url: 'http://google.com/'
+				//~ }
+			//~ ],
 
-		//~ eventSources:
-		//~ [
-			//~ {
-				//~ url:'agenda_data',
-				//~ //type: 'POST',
-				//~ data: {
-					//~ eid: 'some number',
-					//~ long_title: 'some desctiption',
-					//~ section: 'true or false',
-				//~ },
-				//~ error: function() {
-					//~ alert('there was an error while fetching events!');
-				//~ },
-			//~ }
-			//~ //Other sources eg. GCal
-		//~ ],
+		eventSources:
+		[
+			{
+				url:'calendar/fetchCal',
+				data: {
+					eid: 'some number',
+					long_title: 'some desctiption',
+					section: 'true or false',
+				},
+				error: function() {
+					alert('there was an error while fetching events!');
+				},
+			}
+			//Other sources eg. GCal
+		],
 		eventClick: function(calEvent, jsEvent, view) {
 			alert('Event: ' + calEvent.title + '\nDesc: ' + calEvent.desc + '\nSection: ' + calEvent.section);
 			//~ // change the border color just for fun
@@ -121,13 +122,7 @@ $(document).ready( function()
 				//~ };
 				//~ $(this).data('eventObject', eventObject);
 			});
-			// is the "remove after drop" checkbox checked?
-			//~ if ($('#drop-remove').is(':checked')) {
-				//~ // if so, remove the element from the "Draggable Events" list
-				//~ $(this).remove();
-			//~ }
-			
-		},
+		}, //end: 'drop'
 
 	} );
 	

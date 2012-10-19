@@ -2,8 +2,7 @@
 
 class User extends CI_Model {
 	
-	function __construct()
-    {
+    function __construct() {
         // Call the Model constructor
         parent::__construct();
     }
@@ -14,8 +13,7 @@ class User extends CI_Model {
 	$remember = $this->input->post( "remember" );
 	
 	$query = $this->db->get_where('users',array('uname'=>$uname, 'passwd'=>sha1($passwd)));
-	if( $query->num_rows() > 0 )
-	{
+	if( $query->num_rows() > 0 ) {
 	    $user = $query->row();
 	    
 	    $sesh = array(
@@ -26,8 +24,7 @@ class User extends CI_Model {
 	    $this->session->set_userdata($sesh);
 	    
 	    //if the user requested to be remembered
-	    if( $remember )
-	    {
+	    if( $remember ) {
 		//load string heler
 		$this->load->helper('string');
 		
@@ -57,15 +54,13 @@ class User extends CI_Model {
 	//unset the cookies
 	delete_cookie( "uid" );
 	delete_cookie( "token" );
-	
     }
     
-    function logged_in(){
+    function logged_in() {
 	//load the cookie helper
 	$this->load->helper('cookie');
     
-	if( $this->session->userdata('uid') && $this->session->userdata('uname') )
-	{
+	if( $this->session->userdata('uid') && $this->session->userdata('uname') ) {
 	    //check the database for the user
 	    $session_query = $this->db->get_where('users',array(
 		    "uid"=>$this->session->userdata('uid'),
@@ -78,8 +73,7 @@ class User extends CI_Model {
 	}
 	
 	//if sessions were not successful, try cookies
-	if( get_cookie('uid') && get_cookie('token') )
-	{	
+	if( get_cookie('uid') && get_cookie('token') ) {	
 	    //check if user exists with id and remember me token
 	    $cookie_query = $this->db->get_where("users",array(
 		    "uid"   => get_cookie('uid'),
@@ -87,8 +81,7 @@ class User extends CI_Model {
 		));
 	    
 	    //if we found a user
-	    if( $cookie_query->num_rows() > 0 )
-	    {
+	    if( $cookie_query->num_rows() > 0 ) {
 		//get the user row
 		$user = $cookie_query->row();
 		
@@ -119,11 +112,10 @@ class User extends CI_Model {
 		return true;
 	    }
 	}
-	
 	return false;
     }
     
-    function get_user_row($uname = NULL) {
+    function get_row($uname = NULL) {
 	if ($uname == NULL)
 	    $uname = $this->session->userdata('uname');
 
@@ -132,20 +124,44 @@ class User extends CI_Model {
 	return $query[0];
     }
     
-    function get_tasks($uid){
+    function get_tasks($uid) {
 	$query = $this->db->get_where('tasks',array('uid' => $uid));
 	$query = $query->result();
 	return $query;
     }
     
-    function add_task($data)
-    {
+    function get_task_events($uid, $tid) {
+	$query = $this->db->get_where('tasks',array('uid'=>$uid,'tid'=>$tid));
+	$query = $query->result();
+	return $query;
+    }
+    
+    function add_task($data) {
 	//~ $data = array(
 	    //~ 'uid'   =>$uid,
 	    //~ 'title' =>$title,
 	    //~ 'desc'  =>$desc
 	//~ );
 	$this->db->insert('tasks',$data);
+	return true;
+    }
+    
+    //~ function get_events($uid) {
+	//~ $query = $this->db->get_where('events',array('uid' => $uid));
+	//~ $query = $query->result();
+	//~ return $query;
+    //~ }
+    
+    function create_new($data) {
+	$query = $this->db->get_where('users',array('uname' => $data["uname"]));
+	if( $query->num_rows() != 0 )
+	    return false;
+
+	//unset($data['uid']);
+	$data["passwd"] = sha1($data["passwd"]);
+	$this->db->insert('users',$data);
+	
+	return true;
     }
 }
 	//~ foreach ($query->result() as $row)

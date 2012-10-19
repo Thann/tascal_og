@@ -57,6 +57,20 @@ class Login extends CI_Controller {
 		$this->user->logout();
 		redirect( "login" );
 	}
+	
+	public function create() {
+		//#TODO: make a form and pull this info.
+		$data = array(
+			'uname' => 'dme2',
+			'rname' => 'testers real name',
+			'email' => 'tester@nowhere.com',
+			'passwd' => 'test'
+		);
+		if ($this->user->create_new($data))
+			echo json_encode(array('status'=>true));
+		else
+			echo json_encode(array('status'=>false, 'msg'=>'username taken!'));
+	}
 }
 
 /* End of file login.php */
