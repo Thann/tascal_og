@@ -14,7 +14,7 @@
 <body>
 <?php echo $title; ?>
 <div id="login-container">
-	<?php echo form_open('login/validate',array('id'=>'login-form'));
+	<?php echo form_open('login/validate',array('id'=>'login-form',)); //'target'=>'dummy'
 	echo "<div id='input-container'>";
 	echo form_input(array('id'=>'login-uname','name'=>'uname','placeholder'=>'Username','size'=>25 ));
 	echo form_input(array('id'=>'login-passwd','name'=>'passwd','placeholder'=>'Password','size'=>25,'type'=>'password'));
@@ -25,7 +25,11 @@
 	echo "</div>";
 	echo form_button(array('id'=>'login-button','content'=>'Log In','type'=>'submit'));
 	echo form_close(); ?>
+	<?php //if (1) {echo "blah!"}; ?>
 </div>
+
+<div id='laame'></div>
+<iframe id='dummy' style='display:none;'/>
 
 </body>
 </html>

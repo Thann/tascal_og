@@ -18,6 +18,8 @@
 	</script>
 </head>
 <body>
+<?php echo $header; ?>
+
 <div id='wrap'>
 <div id='task-box'>
 	<div id="new-task" class="tasks">

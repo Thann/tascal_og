@@ -5,12 +5,15 @@ class Calendar extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('user');
+		
+		if( !$this->user->logged_in() )
+			redirect( "login" );
 	}
 
 	public function index() {
 		$data = array();
 		$data["title"] = "Tascal";
-		$data["user"] = $this->user->get_user_row("nobody");
+		$data["user"] = $this->user->get_user_row();
 		$data["application_js"] = "<script type='text/javascript' src='" . js_url() . "calendar.js' ></script>";
 		$data["application_css"] = "<link rel='stylesheet' type='text/css' href='".css_url()."calendar.css'/>\n";
 		
@@ -19,8 +22,9 @@ class Calendar extends CI_Controller {
 
 		//~ $data["js_vars"] = array("one", "two", "three");
 		$data["js_vars"] = $data["tasks"];
-
-		$this->load->view('calendar', $data );
+		$data["header"] = $this->load->view('header_view', $data, TRUE);
+		
+		$this->load->view('calendar_view', $data );
 	}
 	
 	public function addTask() {

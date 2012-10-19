@@ -1,0 +1,11 @@
+#header {
+	margin-right:10%;
+	margin-left:10%;
+	clear:both;
+}
+
+#header-logout-icon {
+	/*margin-right:10%;*/
+	float:right;
+	height:25px;
+}

@@ -23,22 +23,39 @@ class Login extends CI_Controller {
 	}
 	
 	public function index() {
-		$data = array();
-		$data["title"] = "Tascal Login";
-		$data["application_js"] = "<script type='text/javascript' src='" . js_url() . "login.js' ></script>";
-		$data["application_css"] = "<link rel='stylesheet' type='text/css' href='".css_url()."login.css'/>\n";
-		//~ redirect('calendar');
-		$this->load->view('login_view', $data);
+		if( $this->user->logged_in() )
+			redirect( "calendar" );
+		else
+		{		
+			$data = array();
+			$data["title"] = "Tascal Login";
+			$data["application_js"] = "<script type='text/javascript' src='" . js_url() . "login.js' ></script>";
+			$data["application_css"] = "<link rel='stylesheet' type='text/css' href='".css_url()."login.css'/>\n";
+			//~ redirect('calendar');
+			$this->load->view('login_view', $data);
+		}
 	}
 	
-	public function validate(){
-		$ret = $this->input->post();
-		if( $this->user->login($ret) )
-			//echo site_url('calendar');
-			redirect('calendar');
+	public function validate() {
+		//$ret = $this->input->post();
+		//~ echo json_encode($this->input->post( "remember" ));
+
+		if( $this->user->login())
+			echo site_url('calendar');
+			////~ redirect('calendar');
+			////~ echo json_encode($ret);
+			////~ echo 1;
 		else
-			//echo "fail";
-			redirect('');
+			echo "fail";
+			////~ redirect('');
+			////~ echo 0;
+			////~ echo json_encode($ret);
+			////~ return "fail";
+	}
+	
+	public function logout() {
+		$this->user->logout();
+		redirect( "login" );
 	}
 }
 
