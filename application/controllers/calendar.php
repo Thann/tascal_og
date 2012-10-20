@@ -56,11 +56,10 @@ class Calendar extends CI_Controller {
 			echo json_encode($ret);
 		}
 		else
-			echo "you done fucked up";
-		//~ $ret = "yay";
-		//~ echo $ret["eid"];
-		//~ $blah = array('one'=>'oneone', 'two'=>'twotwo');
-		//~ echo json_encode();
+			if ($this->user->update_event($ret))
+				echo json_encode(array('status'=>'success'));
+			else
+				echo json_encode(array('status'=>'fail'));
 	}
 }
 

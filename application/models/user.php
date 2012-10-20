@@ -152,6 +152,14 @@ class User extends CI_Model {
 		else
 			return false;
 	}
+	
+	function update_event($data) {
+		$this->db->where('eid', $data['eid']);
+		if ($this->db->update('events',$data))
+			return true; 
+		else
+			return false;
+	}
 
 	function create_new($data) {
 		$query = $this->db->get_where('users',array('uname' => $data["uname"]));

@@ -49,7 +49,7 @@ $(document).ready( function()
 			//Other sources eg. GCal
 		],
 		eventClick: function(calEvent, jsEvent, view) {
-			alert('Event: ' + calEvent.title + '\nDesc: ' + calEvent.desc );
+			alert('Event: ' + calEvent.title + '\nDesc: ' + calEvent.desc + '\nEid: '+ calEvent.eid);
 			//~ // change the border color just for fun
 			//~ //$(this).css('border-color', 'red');
 		},
