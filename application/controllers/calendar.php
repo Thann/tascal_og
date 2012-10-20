@@ -26,8 +26,7 @@ class Calendar extends CI_Controller {
 		
 		$this->load->view('calendar_view', $data );
 	}
-	
-	
+
 	public function fetchCal() {
 		$user_id = $this->session->userdata('uid');
 		//~ $tasks = $this->user->get_tasks($user_id);
@@ -36,7 +35,7 @@ class Calendar extends CI_Controller {
 		//~ $events = array(array('title'=>"test", 'start'=>'2012-10-19T10:22:30Z', 'desc'=>$user_id));
 		echo json_encode($events);
 	}
-	
+
 	public function addTask() {
 		$ret = $this->input->post();
 		$ret["uid"] = $this->session->userdata('uid');

@@ -97,20 +97,20 @@ $(document).ready( function()
 				//~ data: 'id=' + event.id + '&start=' + event.start + '&end=' + event.end,
 			//~ })
 		//~ }
-		
+
 		// this function is called when something is dropped..
 		drop: function(date, allDay) {
 			// retrieve the dropped element's stored Event Object
 			var originalEventObject = $(this).data('eventObject');
-			
+
 			// we need to copy it, so that multiple events don't have a reference to the same object
 			var copiedEventObject = $.extend({}, originalEventObject);
-			
+
 			// assign it the date that was reported
 			copiedEventObject.start = date;
 			copiedEventObject.allDay = allDay;
 			copiedEventObject.desc = $(this).attr('desc');
-			
+
 			// render the event on the calendar
 			// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 			$("#calendar").fullCalendar('renderEvent', copiedEventObject, true);
@@ -136,23 +136,13 @@ $(document).ready( function()
 				zIndex: 999,
 				revert: true,	  // will cause the event to go back to its
 				revertDuration: 0  //  original position after the drag
-				//~ helper: "clone",
-				//~ revert: "invalid"
+
 			});
 		});
 		$("#new-task").draggable({cancel: '#new-task'});
 	};
 	makeTasksDragable();
-	//~ $("#new-task-input").mousedown(function(e) {
-		//~ $("#new-task").trigger(e);
-	//~ });
-	//~ $("#new-task-form").ajaxForm({
-		//~ dataType: 'json',
-		//~ success: function(responseText) {
-			//~ ret = jQuery.parseJSON( responseText );
-			//~ alert(ret);
-		//~ }
-	//~ });
+
 	$("#new-task-input").keypress(function(event){
 		if(event.keyCode == 13){
 			$("#new-task-form").ajaxSubmit({
@@ -168,6 +158,5 @@ $(document).ready( function()
 			//~ return false;
 			event.preventDefault();
 		}
-		
 	});
 });
