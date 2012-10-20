@@ -47,7 +47,6 @@ class User extends CI_Model {
 
 	function logout() {
 		$this->load->helper('cookie');
-		
 		//set the user as logged out
 		$this->session->set_userdata( array( 'logged_in' => FALSE ) );
 
@@ -108,7 +107,6 @@ class User extends CI_Model {
 		);
 		$this->session->set_userdata($sesh);
 
-		//set retstat to true, user logged in
 		return true;
 		}
 	}
@@ -129,12 +127,18 @@ class User extends CI_Model {
 		$query = $query->result();
 		return $query;
 	}
-	
-	function get_task_events($uid, $tid) {
-		$query = $this->db->get_where('tasks',array('uid'=>$uid,'tid'=>$tid));
+
+	function get_task($tid){
+		$query = $this->db->get_where('tasks',array('tid' => $tid));
 		$query = $query->result();
-		return $query;
+		return $query[0];
 	}
+
+	//~ function get_task_events($uid, $tid) {
+		//~ $query = $this->db->get_where('tasks',array('uid'=>$uid,'tid'=>$tid));
+		//~ $query = $query->result();
+		//~ return $query;
+	//~ }
 
 	function add_task($data) {
 		if ($this->db->insert('tasks',$data))
@@ -143,21 +147,19 @@ class User extends CI_Model {
 			return false;
 	}
 
-	//~ function get_events($uid) {
-	//~ $query = $this->db->get_where('events',array('uid' => $uid));
-	//~ $query = $query->result();
-	//~ return $query;
-	//~ }
-	
+	function get_events($uid) {
+		$query = $this->db->get_where('events',array('uid' => $uid));
+		return $query->result();;
+	}
+
 	function create_new($data) {
 		$query = $this->db->get_where('users',array('uname' => $data["uname"]));
 		if( $query->num_rows() != 0 )
 			return false;
 
-		//unset($data['uid']);
 		$data["passwd"] = sha1($data["passwd"]);
 		$this->db->insert('users',$data);
-	
+
 	return true;
 	}
 }

@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title><?php echo $title; ?></title>
-	
+
 	<?php echo $application_css; ?>
 	<script type='text/javascript' src='<?php echo js_url() . "jquery-1.8.1.min.js"; ?>' ></script>
 	<script type='text/javascript' src='<?php echo js_url() . "jquery-ui-1.8.23.custom.min.js"; ?>' ></script>

@@ -22,7 +22,7 @@
 
 <div id='wrap'>
 <div id='task-box'>
-	<div id="new-task" class="tasks">
+	<div id="new-task" class="tasks" style="background:#3366CC">
 		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));
 		//echo form_hidden('uid',$user->uid);
 		echo form_hidden('desc',"");
@@ -30,7 +30,12 @@
 		echo form_close(); ?>
 	</div>
 	<?php foreach (array_reverse($tasks) as $t){
-		echo "<div id='task_".$t->tid."' class='tasks' desc='".$t->desc."' >".$t->title."</div>";
+		if ($t->color)
+			$color = $t->color;
+		else
+			$color = "#3366CC";
+		//The 'desc' and 'color' attributes are there so the calendar can easily pull their values.
+		echo "<div id='task_".$t->tid."' style='background:".$color.";' color='".$color."' desc='".$t->desc."' class='tasks' >".$t->title."</div>";
 	}?>
 	<div id='hidden_task' class='tasks' style='display:none'></div>
 </div>

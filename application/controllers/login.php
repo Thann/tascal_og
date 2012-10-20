@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Login extends CI_Controller {
-	
+
 	/**
 	 * Index Page for this controller.
 	 *
@@ -21,12 +21,12 @@ class Login extends CI_Controller {
 		parent::__construct();
 		$this->load->model('user');
 	}
-	
+
 	public function index() {
 		if( $this->user->logged_in() )
 			redirect( "calendar" );
 		else
-		{		
+		{
 			$data = array();
 			$data["title"] = "Tascal Login";
 			$data["application_js"] = "<script type='text/javascript' src='" . js_url() . "login.js' ></script>";
@@ -35,7 +35,7 @@ class Login extends CI_Controller {
 			$this->load->view('login_view', $data);
 		}
 	}
-	
+
 	public function validate() {
 		//$ret = $this->input->post();
 		//~ echo json_encode($this->input->post( "remember" ));
@@ -52,12 +52,12 @@ class Login extends CI_Controller {
 			////~ echo json_encode($ret);
 			////~ return "fail";
 	}
-	
+
 	public function logout() {
 		$this->user->logout();
 		redirect( "login" );
 	}
-	
+
 	public function create() {
 		//#TODO: make a form and pull this info.
 		$data = array(
