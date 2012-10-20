@@ -28,15 +28,7 @@ class Calendar extends CI_Controller {
 	}
 
 	public function fetchCal() {
-		//~ $index = 0;
-		//~ $events = array();
 		$user_id = $this->session->userdata('uid');
-		//~ $tasks = $this->user->get_tasks($user_id);
-		//~ foreach ($tasks as $t) {
-			//~ 
-			//~ $events[$index] = $t;
-			//~ $index++;
-		//~ }
 		$events = $this->user->get_events($user_id);
 		foreach ($events as $e) {
 			$task = $this->user->get_task($e->tid);
@@ -44,8 +36,6 @@ class Calendar extends CI_Controller {
 			$e->allDay = false;
 			$e->color = $task->color;
 		}
-		//~ $events[0]->title = "woot woot";
-		//~ $events = array(array('title'=>"test", 'start'=>'2012-10-19T10:22:30Z','end'=>'2012-10-19T12:22:30Z', 'desc'=>$user_id));
 		echo json_encode($events);
 	}
 
@@ -59,9 +49,18 @@ class Calendar extends CI_Controller {
 	}
 	public function addEvent() {
 		$ret = $this->input->post();
-		//~ $this->user->add_event($ret);
-		$ret = "yay";
-		echo json_encode($ret);
+		if ($ret['eid'] == 0) {
+			unset($ret['eid']);
+			$ret['uid'] = $this->session->userdata('uid');
+			$this->user->add_event($ret);
+			echo json_encode($ret);
+		}
+		else
+			echo "you done fucked up";
+		//~ $ret = "yay";
+		//~ echo $ret["eid"];
+		//~ $blah = array('one'=>'oneone', 'two'=>'twotwo');
+		//~ echo json_encode();
 	}
 }
 

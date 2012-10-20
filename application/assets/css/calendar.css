@@ -22,7 +22,8 @@
 .tasks {
 	margin: 10px 0;
 	padding: 2px 4px;
-	/*background: #3366CC;*/
+	/*default color*/
+	background: #3366CC;
 	color: #fff;
 	font-size: .85em;
 	cursor: pointer;

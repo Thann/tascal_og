@@ -4,6 +4,23 @@ $(document).ready( function()
 	var d = date.getDate();
 	var m = date.getMonth();
 	var y = date.getFullYear();
+	
+	function eventMod(event) {
+		var data = new Object();
+		data.eid = event.eid;
+		data.tid = event.tid;
+		data.start = event.start.toString();
+		data.end = event.end.toString();
+		$.ajax({
+			type: 'POST',
+			url: 'calendar/addEvent',
+			dataType: 'json',
+			data: data,
+			success: function(ret) {
+				console.log(ret);
+			}
+		});
+	}
 
 	$("#calendar").fullCalendar(
 	{
@@ -22,7 +39,7 @@ $(document).ready( function()
 				url:'calendar/fetchCal',
 				data: {
 					//eid: 'some number',
-					long_title: 'some desctiption',
+					//long_title: 'some desctiption',
 					//section: 'true or false',
 				},
 				error: function() {
@@ -56,26 +73,32 @@ $(document).ready( function()
 			var copiedEventObject = $.extend({}, originalEventObject);
 
 			// assign it the date that was reported
+			copiedEventObject.eid = 0;
 			copiedEventObject.start = date;
-			copiedEventObject.allDay = allDay;
+			copiedEventObject.tid = $(this).attr('id');
 			copiedEventObject.desc = $(this).attr('desc');
 			copiedEventObject.color = $(this).attr('color');
+
+			copiedEventObject.end = new Date;
+			copiedEventObject.end.setTime(date.getTime()+3*3600000); //60*60*1000 = miliseconds in an hour.
+			copiedEventObject.allDay = allDay;
 
 			// render the event on the calendar
 			// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 			$("#calendar").fullCalendar('renderEvent', copiedEventObject, true);
-			
-			//~ $('#new-task').each(function() {
-				//~ $(this).html($(this).text() + "1");
-				//~ var eventObject = {
-					//~ title: $.trim($(this).text())
-				//~ };
-				//~ $(this).data('eventObject', eventObject);
-			//~ });
+
+			eventMod(copiedEventObject);
 		}, //end: 'drop'
+		//these are set inside functions to prevent them from being run on load.
+		eventDrop: function(event) {
+			eventMod(event);
+		},
+		eventResize: function(event) {
+			eventMod(event);
+		},
 
 	} );
-	
+
 	function makeTasksDragable() {
 		$(".tasks").each(function() {
 			var eventObject = {

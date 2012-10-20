@@ -35,7 +35,7 @@
 		else
 			$color = "#3366CC";
 		//The 'desc' and 'color' attributes are there so the calendar can easily pull their values.
-		echo "<div id='task_".$t->tid."' style='background:".$color.";' color='".$color."' desc='".$t->desc."' class='tasks' >".$t->title."</div>";
+		echo "<div id='".$t->tid."' style='background:".$color.";' color='".$color."' desc='".$t->desc."' class='tasks' >".$t->title."</div>";
 	}?>
 	<div id='hidden_task' class='tasks' style='display:none'></div>
 </div>

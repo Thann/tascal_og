@@ -134,12 +134,6 @@ class User extends CI_Model {
 		return $query[0];
 	}
 
-	//~ function get_task_events($uid, $tid) {
-		//~ $query = $this->db->get_where('tasks',array('uid'=>$uid,'tid'=>$tid));
-		//~ $query = $query->result();
-		//~ return $query;
-	//~ }
-
 	function add_task($data) {
 		if ($this->db->insert('tasks',$data))
 			return true; 
@@ -150,6 +144,13 @@ class User extends CI_Model {
 	function get_events($uid) {
 		$query = $this->db->get_where('events',array('uid' => $uid));
 		return $query->result();;
+	}
+
+	function add_event($data) {
+		if ($this->db->insert('events',$data))
+			return true; 
+		else
+			return false;
 	}
 
 	function create_new($data) {
@@ -163,7 +164,3 @@ class User extends CI_Model {
 	return true;
 	}
 }
-	//~ foreach ($query->result() as $row)
-	//~ {
-		//~ //$qret[] = $row->id;
-	//~ }
