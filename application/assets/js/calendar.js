@@ -110,7 +110,10 @@ $(document).ready( function()
 				revertDuration: 0  //  original position after the drag
 			});
 			$(this).click(function(){
-				$(this).children(".task-toggle").toggle("fast");
+				if (!$(this).children("div.task-toggle").is(":visible")){
+					$("div.task-toggle").hide("fast");
+					$(this).children("div.task-toggle").toggle("fast");
+				}
 			});
 		});
 		$("#new-task").draggable({cancel: '#new-task'});
