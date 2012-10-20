@@ -21,7 +21,7 @@ class Calendar extends CI_Controller {
 		$data["events"] = "";
 
 		//~ $data["js_vars"] = array("one", "two", "three");
-		$data["js_vars"] = "";//$data["tasks"];
+		$data["js_vars"] = $data["tasks"];
 		$data["header"] = $this->load->view('header_view', $data, TRUE);
 
 		$this->load->view('calendar_view', $data );
@@ -31,6 +31,8 @@ class Calendar extends CI_Controller {
 		$user_id = $this->session->userdata('uid');
 		$events = $this->user->get_events($user_id);
 		foreach ($events as $e) {
+			if ($e->desc == NULL)
+				$e->desc = "";
 			$task = $this->user->get_task($e->tid);
 			$e->title = $task->title;
 			$e->allDay = false;

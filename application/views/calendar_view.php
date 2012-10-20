@@ -29,14 +29,21 @@
 		echo form_input(array('id'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17));
 		echo form_close(); ?>
 	</div>
+	<?php $js_tasks = array(); ?>
 	<?php foreach (array_reverse($tasks) as $t){
+		$js_tasks[$t->tid] = $t;
 		if ($t->color)
-			$color = $t->color;
+			$bgstyle = "style='background:".$t->color.";'";
 		else
-			$color = "";
-		//The 'desc' and 'color' attributes are there so the calendar can easily pull their values.
-		echo "<div id='".$t->tid."' style='background:".$color.";' color='".$color."' desc='".$t->desc."' class='tasks' >".$t->title."</div>";
+			$bgstyle = "";
+		echo "<div id='".$t->tid."' ".$bgstyle." class='tasks' >".$t->title;
+			//echo "<br>blahblha";
+			echo "<div id='task-toggle-".$t->tid."' style='display:none;' class='task-toggle';'>DESC=".$t->desc."</div>";
+		echo "</div>";
 	}?>
+	<script type='text/javascript'>
+		var tasks = <?php echo json_encode($js_tasks); ?>;
+	</script>
 	<div id='hidden_task' class='tasks' style='display:none'></div>
 </div>
 <div id='calendar'></div>

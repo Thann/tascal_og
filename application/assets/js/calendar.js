@@ -17,7 +17,7 @@ $(document).ready( function()
 			dataType: 'json',
 			data: data,
 			success: function(ret) {
-				console.log(ret);
+				//console.log(ret);
 			}
 		});
 	}
@@ -50,8 +50,7 @@ $(document).ready( function()
 		],
 		eventClick: function(calEvent, jsEvent, view) {
 			alert('Event: ' + calEvent.title + '\nDesc: ' + calEvent.desc + '\nEid: '+ calEvent.eid);
-			//~ // change the border color just for fun
-			//~ //$(this).css('border-color', 'red');
+			
 		},
 		// Things we want to implement later. #BETA
 		//~ disableResizing: true,
@@ -71,16 +70,17 @@ $(document).ready( function()
 
 			// we need to copy it, so that multiple events don't have a reference to the same object
 			var copiedEventObject = $.extend({}, originalEventObject);
-
+			
 			// assign it the date that was reported
+			tid = $(this).attr('id');
 			copiedEventObject.eid = 0;
+			copiedEventObject.desc = "";
+			copiedEventObject.tid = tid;
 			copiedEventObject.start = date;
-			copiedEventObject.tid = $(this).attr('id');
-			copiedEventObject.desc = $(this).attr('desc');
-			copiedEventObject.color = $(this).attr('color');
-
+			copiedEventObject.color = tasks[tid].color;
+			copiedEventObject.title = tasks[tid].title;
 			copiedEventObject.end = new Date;
-			copiedEventObject.end.setTime(date.getTime()+3*3600000); //60*60*1000 = miliseconds in an hour.
+			copiedEventObject.end.setTime(date.getTime()+1*3600000); //60*60*1000 = miliseconds in an hour.
 			copiedEventObject.allDay = allDay;
 
 			// render the event on the calendar
@@ -96,20 +96,21 @@ $(document).ready( function()
 		eventResize: function(event) {
 			eventMod(event);
 		},
-
 	} );
 
 	function makeTasksDragable() {
 		$(".tasks").each(function() {
 			var eventObject = {
-				title: $.trim($(this).text())
+				title: 'ERROR'
 			};
 			$(this).data('eventObject', eventObject);
 			$(this).draggable({
 				zIndex: 999,
 				revert: true,	  // will cause the event to go back to its
 				revertDuration: 0  //  original position after the drag
-
+			});
+			$(this).click(function(){
+				$(this).children(".task-toggle").toggle("fast");
 			});
 		});
 		$("#new-task").draggable({cancel: '#new-task'});
@@ -122,7 +123,7 @@ $(document).ready( function()
 				success: function(responseText) {
 					ret = jQuery.parseJSON( responseText );
 					//alert(ret);
-					console.log(ret);
+					//console.log(ret);
 				}
 			});
 			$("#task-box div:nth-child(2)").before("<div class='tasks'>"+$("#new-task-input").val()+"</div>")	;
@@ -132,4 +133,10 @@ $(document).ready( function()
 			event.preventDefault();
 		}
 	});
+	//~ $("#16").each(function() {
+		//~ $(this).click(function() {
+			//~ $("#task-desc-16").removeClass("open-task").show("fast");
+			//alert("woah");
+		//~ });
+	//~ });
 });
