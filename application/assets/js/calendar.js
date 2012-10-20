@@ -134,7 +134,7 @@ $(document).ready( function()
 			$(this).data('eventObject', eventObject);
 			$(this).draggable({
 				zIndex: 999,
-				revert: true,      // will cause the event to go back to its
+				revert: true,	  // will cause the event to go back to its
 				revertDuration: 0  //  original position after the drag
 				//~ helper: "clone",
 				//~ revert: "invalid"
@@ -159,6 +159,7 @@ $(document).ready( function()
 				success: function(responseText) {
 					ret = jQuery.parseJSON( responseText );
 					//alert(ret);
+					console.log(ret);
 				}
 			});
 			$("#task-box div:nth-child(2)").before("<div class='tasks'>"+$("#new-task-input").val()+"</div>")	;
@@ -168,5 +169,5 @@ $(document).ready( function()
 			event.preventDefault();
 		}
 		
-    });
+	});
 });

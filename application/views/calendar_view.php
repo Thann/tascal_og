@@ -35,7 +35,7 @@
 	<div id='hidden_task' class='tasks' style='display:none'></div>
 </div>
 <div id='calendar'></div>
-</div>
+</ div>
 <div class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</div>
 </body>
 </html>

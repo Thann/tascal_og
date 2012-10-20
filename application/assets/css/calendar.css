@@ -4,17 +4,16 @@
 	padding-top:50px;
 }
 
-
 #calendar {
 	float:right;
 	width: 900px;
-	/*margin: 0 auto;*/
 }
 
 #task-box {
 	float: left;
-	width: 148px;
+	/*width: 148px;*/
 	padding: 0 10px;
+	margin-right: 10px;
 	border: 1px solid #ccc;
 	background: #eee;
 	text-align: left;
@@ -31,6 +30,11 @@
 
 #new-task-input{
 	
+}
+#new-task input, .formLine calendar{ 
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 div.footer{

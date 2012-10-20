@@ -33,7 +33,7 @@ class Calendar extends CI_Controller {
 		//~ $tasks = $this->user->get_tasks($user_id);
 		//~ foreach ($tasks as $t) {
 		//~ $events[0]->title = "woot woot";
-		$events = array(array('title'=>"test", 'start'=>'2012-10-19T10:22:30Z', 'desc'=>$user_id));
+		//~ $events = array(array('title'=>"test", 'start'=>'2012-10-19T10:22:30Z', 'desc'=>$user_id));
 		echo json_encode($events);
 	}
 	
