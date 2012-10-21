@@ -10,9 +10,6 @@
 		echo "<script type='text/javascript' src='".js_url().$lib."'></script>\n\t";?>
 
 	<link rel='shortcut icon' type='image/png' href='<?php echo img_url() . "favicon.png"; ?>' >
-	<script type='text/javascript'>
-		var php_ret = <?php echo json_encode($js_vars); ?>;
-	</script>
 </head>
 <body>
 <?php echo $header; ?>
@@ -22,7 +19,6 @@
 	<div class='task-title'>My Tasks</div>
 	<div id="new-task" >
 		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));
-		//echo form_hidden('uid',$user->uid);
 		echo form_hidden('desc',"");
 		echo form_input(array('id'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17));
 		echo form_close(); ?>
@@ -41,8 +37,8 @@
 		echo "</div>";
 	}?>
 	<div id='hidden_task' class='tasks' style='display:none'>
-		<div id='task-toggle-4' style='display:none;' class='task-toggle'>DESC= 
-			<button id='task-button-4' class='task-button'>edit</button>
+		<div id='task-toggle-0' style='display:none;' class='task-toggle'>DESC= 
+			<button id='task-button-0' class='task-button'>edit</button>
 		</div>
 	</div>
 	<script type='text/javascript'>
@@ -52,7 +48,7 @@
 <div id='calendar'></div>
 </div>
 <!-- The following divs will be hidden, and displayed as dialogs. -->
-<div id='task-edit-dialog' >
+<div id='task-edit-dialog'>
 	this is madness!
 </div>
 <div class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</div>

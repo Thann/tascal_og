@@ -3,11 +3,11 @@
 <head>
 	<title><?php echo $title; ?></title>
 
-	<?php echo $application_css; ?>
-	<script type='text/javascript' src='<?php echo js_url() . "jquery-1.8.1.min.js"; ?>' ></script>
-	<script type='text/javascript' src='<?php echo js_url() . "jquery-ui-1.8.23.custom.min.js"; ?>' ></script>
-	<script type='text/javascript' src='<?php echo js_url() . "jquery.form.js"; ?>' ></script>
-	<?php echo $application_js; ?>
+	<?php foreach($load_css as $lib)
+		echo "<link rel='stylesheet' type='text/css' href='".css_url().$lib."'/>\n\t";?>
+
+	<?php foreach($load_js as $lib)
+		echo "<script type='text/javascript' src='".js_url().$lib."'></script>\n\t";?>
 	
 	<link rel='shortcut icon' type='image/png' href='<?php echo img_url() . "favicon.png"; ?>' >
 </head>
@@ -25,11 +25,11 @@
 	echo "</div>";
 	echo form_button(array('id'=>'login-button','content'=>'Log In','type'=>'submit'));
 	echo form_close(); ?>
-	<?php //if (1) {echo "blah!"}; ?>
 </div>
-
-<div id='laame'></div>
-<iframe id='dummy' style='display:none;'/>
-
+<button id='create-account-button'>Create Account</button>
+<!-- The following divs will be hidden, and displayed as dialogs. -->
+<div id='create-account-dialog'>
+	this is madness!
+</div>
 </body>
 </html>

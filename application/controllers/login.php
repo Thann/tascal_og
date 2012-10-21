@@ -29,9 +29,17 @@ class Login extends CI_Controller {
 		{
 			$data = array();
 			$data["title"] = "Tascal Login";
-			$data["application_js"] = "<script type='text/javascript' src='" . js_url() . "login.js' ></script>";
-			$data["application_css"] = "<link rel='stylesheet' type='text/css' href='".css_url()."login.css'/>\n";
-			//~ redirect('calendar');
+			$data["load_js"] = array(
+				"libs/jquery-1.8.1.min.js", //1.8.2 causes problems with fullcal
+				"libs/jquery-ui-1.9.0.custom.min.js",
+				"libs/jquery.form.js",
+				"login.js"
+			);
+			$data["load_css"] = array(
+				"libs/ui-lightness/jquery-ui-1.9.0.custom.min.css",
+				"login.css"
+			);
+
 			$this->load->view('login_view', $data);
 		}
 	}

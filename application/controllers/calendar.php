@@ -30,16 +30,11 @@ class Calendar extends CI_Controller {
 		);
 
 		$data["tasks"] = $this->user->get_tasks($data["user"]->uid);
-		//$data["tasks"][] = (object) array('tid'=>'0','title'=>'HIDDEN','color'=>false,'desc'=>'HIDDEN');
 		$data["events"] = "";
 
-		$data["js_vars"] = array("one", "two", "three");
-		//$data["js_vars"] = $data["tasks"];
 		$data["header"] = $this->load->view('header_view', $data, TRUE);
 
 		$this->load->view('calendar_view', $data );
-		//echo json_encode($data["tasks"]);
-		//print_r($data['tasks']);
 	}
 
 	public function fetchCal() {
