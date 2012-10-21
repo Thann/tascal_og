@@ -44,7 +44,6 @@ $(document).ready( function()
 		],
 		eventClick: function(calEvent, jsEvent, view) {
 			alert('Event: ' + calEvent.title + '\nDesc: ' + calEvent.desc + '\nEid: '+ calEvent.eid);
-			
 		},
 
 		// this function is called when something is dropped..
@@ -54,7 +53,7 @@ $(document).ready( function()
 
 			// we need to copy it, so that multiple events don't have a reference to the same object
 			var copiedEventObject = $.extend({}, originalEventObject);
-			
+
 			// assign it the date that was reported
 			tid = $(this).attr('id');
 			copiedEventObject.eid = 0;
@@ -93,7 +92,8 @@ $(document).ready( function()
 				revert: true,	  // will cause the event to go back to its
 				revertDuration: 0  //  original position after the drag
 			});
-			$(this).click(function(){
+			$(this).unbind('click');
+			$(this).bind('click',function(){
 				if (!$(this).children("div.task-toggle").is(":visible")){
 					//only have one expanded at a time.
 					$("div.task-toggle").hide("fast");
@@ -111,7 +111,7 @@ $(document).ready( function()
 			return false;
 		});
 	};
-	//#TODO: running this twice causes problems.
+	//#TODO: running this twice causes click functions to be bound twice.
 	makeTasksDragable();
 
 	//Create a new Task
