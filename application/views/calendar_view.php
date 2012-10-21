@@ -2,16 +2,12 @@
 <html>
 <head>
 	<title><?php echo $title; ?></title>
-	
-	<?php echo $application_css; ?>
-	<link rel="stylesheet" type="text/css" href='<?php echo css_url()."fullcalendar.css"; ?>'/>
-	<script type='text/javascript' src='<?php echo js_url() . "jquery-1.8.1.min.js"; ?>' ></script>
-	<!--<script type='text/javascript' src='<?php echo js_url() . "jquery-ui-1.8.23.custom.min.js"; ?>' ></script>-->
-	<script type='text/javascript' src='<?php echo js_url() . "jquery-ui-1.9.0.custom.min.js"; ?>' ></script>
-	<script type='text/javascript' src='<?php echo js_url() . "jquery.form.js"; ?>' ></script>
-	<script type='text/javascript' src='<?php echo js_url() . "fullcalendar.min.js"; ?>' ></script>
-	<script type='text/javascript' src='<?php echo js_url() . "gcal.js"; ?>' ></script>
-	<?php echo $application_js; ?>
+
+	<?php foreach($load_css as $lib)
+		echo "<link rel='stylesheet' type='text/css' href='".css_url().$lib."'/>\n\t";?>
+
+	<?php foreach($load_js as $lib)
+		echo "<script type='text/javascript' src='".js_url().$lib."'></script>\n\t";?>
 
 	<link rel='shortcut icon' type='image/png' href='<?php echo img_url() . "favicon.png"; ?>' >
 	<script type='text/javascript'>
@@ -54,6 +50,10 @@
 	</script>
 </div>
 <div id='calendar'></div>
+</div>
+<!-- The following divs will be hidden, and displayed as dialogs. -->
+<div id='task-edit-dialog' >
+	this is madness!
 </div>
 <div class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</div>
 </body>

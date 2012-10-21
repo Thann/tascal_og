@@ -104,9 +104,12 @@ $(document).ready( function()
 		});
 		//activate 'edit' button.
 		task.children(".task-toggle").children(".task-button").button({
-			icon:'ui-icon-gear',
+			icons: {
+				primary: "ui-icon-gear"
+			},
 		}).click(function( event ) {
-			alert("clicked");
+			//~ alert("clicked");
+			$("#task-edit-dialog").dialog("open");
 			return false;
 		});
 	}
@@ -136,6 +139,16 @@ $(document).ready( function()
 				conditionTask($("#"+ret.task.tid));
 			});
 			event.preventDefault();
+		}
+	});
+
+	//Dialog for editing tasks.
+	$( "#task-edit-dialog" ).dialog({
+		autoOpen: false,
+		height: 300,
+		width: 350,
+		close: function() {
+			allFields.val("").removeClass("ui-state-error");
 		}
 	});
 });
