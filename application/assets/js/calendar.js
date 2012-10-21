@@ -81,42 +81,47 @@ $(document).ready( function()
 		},
 	} );
 
-	function makeTasksDragable() {
-		$(".tasks").each(function() {
-			var eventObject = {
-				title: 'ERROR'
-			};
-			$(this).data("eventObject", eventObject);
-			$(this).draggable({
-				zIndex: 999,
-				revert: true,	  // will cause the event to go back to its
-				revertDuration: 0  //  original position after the drag
-			});
-			$(this).unbind('click');
-			$(this).bind('click',function(){
-				if (!$(this).children("div.task-toggle").is(":visible")){
-					//only have one expanded at a time.
-					$("div.task-toggle").hide("fast");
-					$(this).children("div.task-toggle").show("fast");
-				}
-				else
-					$(this).children("div.task-toggle").hide("fast");
-			});
+	//Make a task object draggable, expandable, etc.
+	function conditionTask(task) {
+		var eventObject = {
+			title: 'ERROR'
+		};
+		task.data("eventObject", eventObject);
+		task.draggable({
+			zIndex: 999,
+			revert: true,
+			revertDuration: 0
 		});
-		$("#new-task").draggable({cancel: "#new-task"});
-		$("button").button({
+		//activate expanding functionality
+		task.bind('click',function(){
+			if (!task.children("div.task-toggle").is(":visible")){
+				//only have one expanded at a time.
+				$("div.task-toggle").hide("fast");
+				task.children("div.task-toggle").show("fast");
+			}
+			else
+				task.children("div.task-toggle").hide("fast");
+		});
+		//activate 'edit' button.
+		task.children(".task-toggle").children(".task-button").button({
 			icon:'ui-icon-gear',
 		}).click(function( event ) {
 			alert("clicked");
 			return false;
 		});
-	};
-	//#TODO: running this twice causes click functions to be bound twice.
-	makeTasksDragable();
+	}
+
+	//Make all tasks draggable, etc.
+	$(".tasks").each(function() {
+		conditionTask($(this));
+	});
 
 	//Create a new Task
 	$("#new-task-input").keypress(function(event){
 		if(event.keyCode == 13){
+			//make sure the form is not empty.
+			if ($("#new-task-input").val()=="")
+				return false;
 			var data = $("#new-task-form").formSerialize(); 
 			$.ajax({
 				type: "POST",
@@ -124,12 +129,11 @@ $(document).ready( function()
 				data: data,
 			}).done(function( responseText ) {
 				ret = jQuery.parseJSON( responseText );
-				console.log(ret);
 				tasks[ret.task.tid] = ret.task;
-				$("div.tasks:first").next().before("<div class='tasks'>"+$("#new-task-input").val()+$("#hidden_task").html()+"</div>");
-				$("div.tasks:first").next().attr('id',ret.task.tid);
+				$("div.tasks:first").before("<div class='tasks'>"+$("#new-task-input").val()+$("#hidden_task").html()+"</div>");
+				$("div.tasks:first").attr('id',ret.task.tid);
 				$("#new-task-input").val("");
-				makeTasksDragable();
+				conditionTask($("#"+ret.task.tid));
 			});
 			event.preventDefault();
 		}

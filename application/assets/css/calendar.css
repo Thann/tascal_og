@@ -20,7 +20,13 @@
 	text-align: left;
 }
 
-.tasks {
+.task-title {
+	color:green;
+	font-size: 1.1em;
+	margin-bottom:-8px;
+}
+
+#new-task, .tasks {
 	margin: 10px 0;
 	padding: 2px 4px;
 	/*default color*/
@@ -41,7 +47,7 @@
 }
 
 #new-task-input {
-	
+	font-size: .85em;
 }
 
 #new-task input, .formLine calendar{ 

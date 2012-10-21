@@ -23,7 +23,8 @@
 
 <div id='wrap'>
 <div id='task-box-1' class='task-box'>
-	<div id="new-task" class="tasks" >
+	<div class='task-title'>My Tasks</div>
+	<div id="new-task" >
 		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));
 		//echo form_hidden('uid',$user->uid);
 		echo form_hidden('desc',"");

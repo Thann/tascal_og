@@ -5,7 +5,7 @@ $(document).ready( function()
 			if( responseText != "fail" )
 				window.location.href = responseText;
 			else{
-				$('#login-results').html('Bad username or password.');
+				$("#login-results").html('Bad username or password.');
 				$("#login-passwd").val("");
 			}
 		}
