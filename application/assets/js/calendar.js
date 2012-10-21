@@ -4,7 +4,7 @@ $(document).ready( function()
 	var d = date.getDate();
 	var m = date.getMonth();
 	var y = date.getFullYear();
-	
+
 	function eventMod(event) {
 		var data = new Object();
 		data.eid = event.eid;
@@ -16,7 +16,7 @@ $(document).ready( function()
 			url: "calendar/addEvent",
 			data: data,
 		}).done(function( ret ) {
-		  //console.log(ret)
+			//console.log(ret)
 		});
 	}
 
@@ -125,18 +125,21 @@ $(document).ready( function()
 	//Create a new Task
 	$("#new-task-input").keypress(function(event){
 		if(event.keyCode == 13){
-			$("#new-task-form").ajaxSubmit({
-				success: function(responseText) {
-					ret = jQuery.parseJSON( responseText );
-					//alert(ret);
-					//console.log(ret);
-					//~ tasks.push();
-				}
+			var data = $("#new-task-form").formSerialize(); 
+			$.ajax({
+				type: "POST",
+				url: "calendar/addTask",
+				data: data,
+			}).done(function( responseText ) {
+				ret = jQuery.parseJSON( responseText );
+				console.log(ret);
+				tasks[ret.task.tid] = ret.task;
+				$("div.tasks:first").next().before("<div class='tasks'>"+$("#new-task-input").val()+$("#hidden_task").html()+"</div>");
+				$("div.tasks:first").next().attr('id',ret.task.tid);
+				$("#new-task-input").val("");
+				makeTasksDragable();
 			});
 			//$("#task-box div:nth-child(2)").before("<div class='tasks'>"+$("#new-task-input").val()+"<button id='task-button-0 class='task-button'>edit</button></div>")	;
-			$("#task-box div:nth-child(2)").before("<div class='tasks'>"+$("#new-task-input").val()+$("#task-box div:nth-child(2)").html()+"</div>");
-			$("#new-task-input").val("");
-			makeTasksDragable();
 			//~ return false;
 			event.preventDefault();
 		}

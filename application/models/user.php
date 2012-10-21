@@ -137,8 +137,9 @@ class User extends CI_Model {
 	function add_task($data) {
 		if ($this->db->insert('tasks',$data)) {
 			//#TODO: get task and return it.
-			//~ $tid = $this->db->insert_id();
-			return 1;
+			$tid = $this->db->insert_id();
+			$task = $this->get_task($tid);
+			return array('status'=>true, 'task'=>$task);
 		}
 		else
 			return 0;

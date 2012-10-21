@@ -44,10 +44,10 @@
 			echo "</div>";
 		echo "</div>";
 	}?>
+	<div id='hidden_task' class='tasks' style='display:none'></div>
 	<script type='text/javascript'>
 		var tasks = <?php echo json_encode($js_tasks); ?>;
 	</script>
-	<div id='hidden_task' class='tasks' style='display:none'></div>
 </div>
 <div id='calendar'></div>
 </div>
