@@ -56,7 +56,6 @@ class Calendar extends CI_Controller {
 
 	public function addEvent() {
 		$ret = $this->input->post();
-		//~ $ret = array('eid'=>0,'tid'=>"1");
 		if ($ret['eid'] == 0) {
 			unset($ret['eid']);
 			$ret['uid'] = $this->session->userdata('uid');

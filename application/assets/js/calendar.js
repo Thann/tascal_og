@@ -1,10 +1,5 @@
 $(document).ready( function()
 {
-	var date = new Date();
-	var d = date.getDate();
-	var m = date.getMonth();
-	var y = date.getFullYear();
-
 	function eventMod(event) {
 		var data = new Object();
 		data.eid = event.eid;
@@ -50,16 +45,6 @@ $(document).ready( function()
 			alert('Event: ' + calEvent.title + '\nDesc: ' + calEvent.desc + '\nEid: '+ calEvent.eid);
 			
 		},
-		// Things we want to implement later. #BETA
-		//~ disableResizing: true,
-		//~ disableDragging: true,
-		//~ drop: function(date) {
-			//~ $.ajax({
-				//~ type: "POST",
-				//~ url: 'agenda_data_post',
-				//~ data: 'id=' + event.id + '&start=' + event.start + '&end=' + event.end,
-			//~ })
-		//~ }
 
 		// this function is called when something is dropped..
 		drop: function(date, allDay) {
@@ -85,7 +70,6 @@ $(document).ready( function()
 			// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 			$("#calendar").fullCalendar('renderEvent', copiedEventObject, true);
 
-//console.log(copiedEventObject);
 			eventMod(copiedEventObject);
 		}, //end: 'drop'
 		//these are set inside functions to prevent them from being run on load.
@@ -102,7 +86,7 @@ $(document).ready( function()
 			var eventObject = {
 				title: 'ERROR'
 			};
-			$(this).data('eventObject', eventObject);
+			$(this).data("eventObject", eventObject);
 			$(this).draggable({
 				zIndex: 999,
 				revert: true,	  // will cause the event to go back to its
@@ -118,8 +102,15 @@ $(document).ready( function()
 					$(this).children("div.task-toggle").hide("fast");
 			});
 		});
-		$("#new-task").draggable({cancel: '#new-task'});
+		$("#new-task").draggable({cancel: "#new-task"});
+		$("button").button({
+			icon:'ui-icon-gear',
+		}).click(function( event ) {
+			alert("clicked");
+			return false;
+		});
 	};
+	//#TODO: running this twice causes problems.
 	makeTasksDragable();
 
 	//Create a new Task
@@ -139,22 +130,7 @@ $(document).ready( function()
 				$("#new-task-input").val("");
 				makeTasksDragable();
 			});
-			//$("#task-box div:nth-child(2)").before("<div class='tasks'>"+$("#new-task-input").val()+"<button id='task-button-0 class='task-button'>edit</button></div>")	;
-			//~ return false;
 			event.preventDefault();
 		}
 	});
-	//~ $( "button" ).button();
-	$("button").button({
-		icon:'ui-icon-gear',
-	}).click(function( event ) {
-			alert("clicked");
-			return false;
-	});
-	//~ $("#16").each(function() {
-		//~ $(this).click(function() {
-			//~ $("#task-desc-16").removeClass("open-task").show("fast");
-			//alert("woah");
-		//~ });
-	//~ });
 });

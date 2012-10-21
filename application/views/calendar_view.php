@@ -22,7 +22,7 @@
 <?php echo $header; ?>
 
 <div id='wrap'>
-<div id='task-box'>
+<div id='task-box-1' class='task-box'>
 	<div id="new-task" class="tasks" >
 		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));
 		//echo form_hidden('uid',$user->uid);
@@ -31,7 +31,6 @@
 		echo form_close(); ?>
 	</div>
 	<?php $js_tasks = array(); ?>
-	<?php //$tasks[] = (object)array('tid'=>'hidden_task','title'=>'','color'=>false,'desc'=>''); ?>
 	<?php foreach (array_reverse($tasks) as $t){
 		$js_tasks[$t->tid] = $t;
 		if ($t->color)
@@ -44,7 +43,11 @@
 			echo "</div>";
 		echo "</div>";
 	}?>
-	<div id='hidden_task' class='tasks' style='display:none'></div>
+	<div id='hidden_task' class='tasks' style='display:none'>
+		<div id='task-toggle-4' style='display:none;' class='task-toggle'>DESC= 
+			<button id='task-button-4' class='task-button'>edit</button>
+		</div>
+	</div>
 	<script type='text/javascript'>
 		var tasks = <?php echo json_encode($js_tasks); ?>;
 	</script>

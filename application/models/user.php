@@ -176,3 +176,6 @@ class User extends CI_Model {
 	return true;
 	}
 }
+
+/* End of file user.php */
+/* Location: ./application/models/user.php *

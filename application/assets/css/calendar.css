@@ -9,7 +9,7 @@
 	width: 900px;
 }
 
-#task-box {
+.task-box {
 	float: left;
 	width: auto;
 	width: 168px;
