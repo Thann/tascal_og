@@ -12,13 +12,11 @@ $(document).ready( function()
 		data.start = event.start.toString();
 		data.end = event.end.toString();
 		$.ajax({
-			type: 'POST',
-			url: 'calendar/addEvent',
-			dataType: 'json',
+			type: "POST",
+			url: "calendar/addEvent",
 			data: data,
-			success: function(ret) {
-				//console.log(ret);
-			}
+		}).done(function( ret ) {
+		  //console.log(ret)
 		});
 	}
 
@@ -87,6 +85,7 @@ $(document).ready( function()
 			// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 			$("#calendar").fullCalendar('renderEvent', copiedEventObject, true);
 
+//console.log(copiedEventObject);
 			eventMod(copiedEventObject);
 		}, //end: 'drop'
 		//these are set inside functions to prevent them from being run on load.
@@ -111,15 +110,19 @@ $(document).ready( function()
 			});
 			$(this).click(function(){
 				if (!$(this).children("div.task-toggle").is(":visible")){
+					//only have one expanded at a time.
 					$("div.task-toggle").hide("fast");
-					$(this).children("div.task-toggle").toggle("fast");
+					$(this).children("div.task-toggle").show("fast");
 				}
+				else
+					$(this).children("div.task-toggle").hide("fast");
 			});
 		});
 		$("#new-task").draggable({cancel: '#new-task'});
 	};
 	makeTasksDragable();
 
+	//Create a new Task
 	$("#new-task-input").keypress(function(event){
 		if(event.keyCode == 13){
 			$("#new-task-form").ajaxSubmit({
@@ -127,14 +130,23 @@ $(document).ready( function()
 					ret = jQuery.parseJSON( responseText );
 					//alert(ret);
 					//console.log(ret);
+					//~ tasks.push();
 				}
 			});
-			$("#task-box div:nth-child(2)").before("<div class='tasks'>"+$("#new-task-input").val()+"</div>")	;
+			//$("#task-box div:nth-child(2)").before("<div class='tasks'>"+$("#new-task-input").val()+"<button id='task-button-0 class='task-button'>edit</button></div>")	;
+			$("#task-box div:nth-child(2)").before("<div class='tasks'>"+$("#new-task-input").val()+$("#task-box div:nth-child(2)").html()+"</div>");
 			$("#new-task-input").val("");
 			makeTasksDragable();
 			//~ return false;
 			event.preventDefault();
 		}
+	});
+	//~ $( "button" ).button();
+	$("button").button({
+		icon:'ui-icon-gear',
+	}).click(function( event ) {
+			alert("clicked");
+			return false;
 	});
 	//~ $("#16").each(function() {
 		//~ $(this).click(function() {

@@ -6,7 +6,8 @@
 	<?php echo $application_css; ?>
 	<link rel="stylesheet" type="text/css" href='<?php echo css_url()."fullcalendar.css"; ?>'/>
 	<script type='text/javascript' src='<?php echo js_url() . "jquery-1.8.1.min.js"; ?>' ></script>
-	<script type='text/javascript' src='<?php echo js_url() . "jquery-ui-1.8.23.custom.min.js"; ?>' ></script>
+	<!--<script type='text/javascript' src='<?php echo js_url() . "jquery-ui-1.8.23.custom.min.js"; ?>' ></script>-->
+	<script type='text/javascript' src='<?php echo js_url() . "jquery-ui-1.9.0.custom.min.js"; ?>' ></script>
 	<script type='text/javascript' src='<?php echo js_url() . "jquery.form.js"; ?>' ></script>
 	<script type='text/javascript' src='<?php echo js_url() . "fullcalendar.min.js"; ?>' ></script>
 	<script type='text/javascript' src='<?php echo js_url() . "gcal.js"; ?>' ></script>
@@ -30,6 +31,7 @@
 		echo form_close(); ?>
 	</div>
 	<?php $js_tasks = array(); ?>
+	<?php //$tasks[] = (object)array('tid'=>'hidden_task','title'=>'','color'=>false,'desc'=>''); ?>
 	<?php foreach (array_reverse($tasks) as $t){
 		$js_tasks[$t->tid] = $t;
 		if ($t->color)
@@ -37,8 +39,9 @@
 		else
 			$bgstyle = "";
 		echo "<div id='".$t->tid."' ".$bgstyle." class='tasks' >".$t->title;
-			//echo "<br>blahblha";
-			echo "<div id='task-toggle-".$t->tid."' style='display:none;' class='task-toggle';'>DESC=".$t->desc."</div>";
+			echo "<div id='task-toggle-".$t->tid."' style='display:none;' class='task-toggle';'>DESC=".$t->desc;
+				echo "<button id='task-button-".$t->tid."' class='task-button'>edit</button>";
+			echo "</div>";
 		echo "</div>";
 	}?>
 	<script type='text/javascript'>
@@ -47,7 +50,7 @@
 	<div id='hidden_task' class='tasks' style='display:none'></div>
 </div>
 <div id='calendar'></div>
-</ div>
+</div>
 <div class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</div>
 </body>
 </html>

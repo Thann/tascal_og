@@ -12,7 +12,7 @@
 #task-box {
 	float: left;
 	width: auto;
-	/*width: 148px;*/
+	width: 168px;
 	padding: 0 10px;
 	margin-right: 10px;
 	border: 1px solid #ccc;
@@ -33,6 +33,11 @@
 .task-toggle {
 	background:white;
 	color:black;
+}
+
+.task-button {
+	float:right;
+	display:inline-block;
 }
 
 #new-task-input {

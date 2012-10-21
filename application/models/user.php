@@ -135,10 +135,13 @@ class User extends CI_Model {
 	}
 
 	function add_task($data) {
-		if ($this->db->insert('tasks',$data))
-			return true; 
+		if ($this->db->insert('tasks',$data)) {
+			//#TODO: get task and return it.
+			//~ $tid = $this->db->insert_id();
+			return 1;
+		}
 		else
-			return false;
+			return 0;
 	}
 
 	function get_events($uid) {
