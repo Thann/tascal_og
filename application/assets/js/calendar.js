@@ -4,8 +4,9 @@ $(document).ready( function()
 		var data = new Object();
 		data.eid = event.eid;
 		data.tid = event.tid;
-		data.start = event.start.toString();
+		data.allDay = event.allDay;
 		data.end = event.end.toString();
+		data.start = event.start.toString();
 		$.ajax({
 			type: "POST",
 			url: "calendar/addEvent",

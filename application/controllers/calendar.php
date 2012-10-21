@@ -38,7 +38,11 @@ class Calendar extends CI_Controller {
 				$e->desc = "";
 			$task = $this->user->get_task($e->tid);
 			$e->title = $task->title;
-			$e->allDay = false;
+			if ($e->allDay == 'true')
+				$e->allDay = true;
+			else
+				$e->allDay = false;
+			//~ $e->allDay = $e->allday;
 			$e->color = $task->color;
 		}
 		echo json_encode($events);
