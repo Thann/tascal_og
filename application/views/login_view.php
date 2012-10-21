@@ -16,7 +16,7 @@
 <div id="login-container">
 	<?php echo form_open('login/validate',array('id'=>'login-form',)); //'target'=>'dummy'
 	echo "<div id='input-container'>";
-	echo form_input(array('id'=>'login-uname','name'=>'uname','placeholder'=>'Username','size'=>25 ));
+	echo form_input(array('id'=>'login-uname','name'=>'uname','placeholder'=>'Username','size'=>25 ,'autofocus'=>'autofocus'));
 	echo form_input(array('id'=>'login-passwd','name'=>'passwd','placeholder'=>'Password','size'=>25,'type'=>'password'));
 	echo "<br>";
 	echo "<div id=login-results></div>";

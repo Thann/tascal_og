@@ -42,7 +42,6 @@ class Calendar extends CI_Controller {
 				$e->allDay = true;
 			else
 				$e->allDay = false;
-			//~ $e->allDay = $e->allday;
 			$e->color = $task->color;
 		}
 		echo json_encode($events);

@@ -1,16 +1,16 @@
-#login-container{
+#login-container {
 	/*shrink*/
 }
 
-#input-button{
+#input-button {
 	/*float:right;*/
 }
 
-#login-results{
+#login-results {
 	color:red;
 }
 
-div.footer{
+div.footer {
 	clear:both;
 	text-align: right;
 	font-size: 11px;
