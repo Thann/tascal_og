@@ -17,7 +17,7 @@
 <div id='wrap'>
 <div id='task-box-1' class='task-box'>
 	<div class='task-title'>My Tasks</div>
-	<div id="new-task" >
+	<div id="new-task" style='background:<?php echo $default_color ?>;'>
 		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));
 		echo form_hidden('desc',"");
 		echo form_input(array('id'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17));
@@ -26,11 +26,9 @@
 	<?php $js_tasks = array(); ?>
 	<?php foreach (array_reverse($tasks) as $t){
 		$js_tasks[$t->tid] = $t;
-		if ($t->color)
-			$bgstyle = "style='background:".$t->color.";'";
-		else
-			$bgstyle = "";
-		echo "<div id='".$t->tid."' ".$bgstyle." class='tasks' >".$t->title;
+		if (!$t->color)
+			$t->color = $default_color;
+		echo "<div id='".$t->tid."' style='background:".$t->color.";' class='tasks' >".$t->title;
 			echo "<div id='task-toggle-".$t->tid."' style='display:none;' class='task-toggle';'>".$t->desc;
 				echo "<button id='task-button-".$t->tid."' tid='".$t->tid."' class='task-button'>edit</button>";
 			echo "</div>";

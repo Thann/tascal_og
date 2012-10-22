@@ -32,8 +32,9 @@ class Calendar extends CI_Controller {
 			"calendar.css"
 		);
 
-		$data["tasks"] = $this->user->get_tasks($data["user"]->uid);
 		$data["events"] = "";
+		$data["default_color"] = '#3366CC';
+		$data["tasks"] = $this->user->get_tasks($data["user"]->uid);
 
 		$data["header"] = $this->load->view('header_view', $data, TRUE);
 
