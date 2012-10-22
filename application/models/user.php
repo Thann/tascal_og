@@ -7,12 +7,9 @@ class User extends CI_Model {
 		parent::__construct();
 	}
 
-	function login(){
-		$uname = $this->input->post( "uname" );
-		$passwd = $this->input->post( "passwd" );
-		$remember = $this->input->post( "remember" );
-
-		$query = $this->db->get_where('users',array('uname'=>$uname, 'passwd'=>sha1($passwd)));
+	function login($data){
+		$query = $this->db->get_where('users',array('uname'=>$data["uname"], 'passwd'=>sha1($data["passwd"])));
+		
 		if( $query->num_rows() > 0 ) {
 			$user = $query->row();
 			
@@ -24,7 +21,7 @@ class User extends CI_Model {
 			$this->session->set_userdata($sesh);
 
 			//if the user requested to be remembered
-			if( $remember ) {
+			if( $data["remember"] ) {
 			//load string heler
 			$this->load->helper('string');
 

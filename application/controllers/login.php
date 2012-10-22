@@ -45,19 +45,21 @@ class Login extends CI_Controller {
 	}
 
 	public function validate() {
-		//$ret = $this->input->post();
-		//~ echo json_encode($this->input->post( "remember" ));
+		$data = $this->input->post();
 
-		if( $this->user->login())
-			echo site_url('calendar');
+		if (!isset($data['remember']))
+			$data['remember'] = false;
+		
+		if( $this->user->login($data))
+			//~ echo site_url('calendar');
 			////~ redirect('calendar');
-			////~ echo json_encode($ret);
+			echo json_encode(array('status'=>true,'url'=>site_url('calendar')));
 			////~ echo 1;
 		else
-			echo "fail";
+			//~ echo "fail";
 			////~ redirect('');
 			////~ echo 0;
-			////~ echo json_encode($ret);
+			echo json_encode(array('status'=>false,'msg'=>'Bad Username or Password!'));
 			////~ return "fail";
 	}
 
@@ -67,17 +69,15 @@ class Login extends CI_Controller {
 	}
 
 	public function create() {
-		//#TODO: make a form and pull this info.
-		$data = array(
-			'uname' => 'dme2',
-			'rname' => 'testers real name',
-			'email' => 'tester@nowhere.com',
-			'passwd' => 'test'
-		);
-		if ($this->user->create_new($data))
-			echo json_encode(array('status'=>true));
+		$data = $this->input->post();
+
+		if ($this->user->create_new($data)){
+			$data['remember'] = false;
+			$this->user->login($data);
+			echo json_encode(array('status'=>true,'url'=>site_url('calendar')));
+		}
 		else
-			echo json_encode(array('status'=>false, 'msg'=>'username taken!'));
+			echo json_encode(array('status'=>false,'msg'=>'username taken!'));
 	}
 }
 

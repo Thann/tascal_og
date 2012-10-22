@@ -40,6 +40,7 @@ class Calendar extends CI_Controller {
 	public function fetchCal() {
 		$user_id = $this->session->userdata('uid');
 		$events = $this->user->get_events($user_id);
+
 		foreach ($events as $e) {
 			if ($e->desc == NULL)
 				$e->desc = "";
@@ -57,6 +58,7 @@ class Calendar extends CI_Controller {
 	public function addTask() {
 		$ret = $this->input->post();
 		$ret["uid"] = $this->session->userdata('uid');
+
 		$task = $this->user->add_task($ret);
 		if ($task['status'])
 			echo json_encode(array('status'=>true, 'task'=>$task['task']));
@@ -66,6 +68,7 @@ class Calendar extends CI_Controller {
 
 	public function addEvent() {
 		$ret = $this->input->post();
+
 		if ($ret['eid'] == 0) {
 			unset($ret['eid']);
 			$ret['uid'] = $this->session->userdata('uid');

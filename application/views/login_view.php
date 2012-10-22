@@ -14,7 +14,7 @@
 <body>
 <?php echo $title; ?>
 <div id="login-container">
-	<?php echo form_open('login/validate',array('id'=>'login-form',)); //'target'=>'dummy'
+	<?php echo form_open('login/validate',array('id'=>'login-form',));
 	echo "<div id='input-container'>";
 	echo form_input(array('id'=>'login-uname','name'=>'uname','placeholder'=>'Username','size'=>25 ,'autofocus'=>'autofocus'));
 	echo form_input(array('id'=>'login-passwd','name'=>'passwd','placeholder'=>'Password','size'=>25,'type'=>'password'));
@@ -28,8 +28,17 @@
 </div>
 <button id='create-account-button'>Create Account</button>
 <!-- The following divs will be hidden, and displayed as dialogs. -->
-<div id='create-account-dialog'>
-	this is madness!
+<div id='create-account-dialog' title="Create new user">
+	<?php echo form_open('',array('id'=>'create-form',));
+	echo "<div id='create-container'>";
+	echo form_input(array('id'=>'create-rname','name'=>'rname','placeholder'=>'Full Name','size'=>25));
+	echo form_input(array('id'=>'create-uname','name'=>'uname','placeholder'=>'Username','size'=>25));
+	echo form_input(array('id'=>'create-email','name'=>'email','placeholder'=>'Email','size'=>25));
+	echo form_input(array('id'=>'create-passwd','name'=>'passwd','placeholder'=>'Password','size'=>25,'type'=>'password'));
+	echo "<br>";
+	echo "<div id=create-results></div>";
+	echo "</div>";
+	echo form_close(); ?>
 </div>
 </body>
 </html>

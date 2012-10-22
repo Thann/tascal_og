@@ -46,6 +46,10 @@
 	display:inline-block;
 }
 
+.ui-button-text {
+	padding: 0px 0px 0px 0px !important;
+}
+
 #new-task-input {
 	font-size: .85em;
 }

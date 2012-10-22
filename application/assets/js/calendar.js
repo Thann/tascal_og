@@ -125,16 +125,19 @@ $(document).ready( function()
 			//make sure the form is not empty.
 			if ($("#new-task-input").val()=="")
 				return false;
-			var data = $("#new-task-form").formSerialize(); 
+			var data = $("#new-task-form").formSerialize();
+			var url = $("#new-task-form").attr('action');
 			$.ajax({
 				type: "POST",
-				url: "calendar/addTask",
+				url: url,
 				data: data,
 			}).done(function( responseText ) {
 				ret = jQuery.parseJSON( responseText );
 				tasks[ret.task.tid] = ret.task;
-				$("div.tasks:first").before("<div class='tasks'>"+$("#new-task-input").val()+$("#hidden_task").html()+"</div>");
+				$("div.tasks:first").before("<div id='0' class='tasks'>"+$("#new-task-input").val()+$("#hidden_task").html()+"</div>");
 				$("div.tasks:first").attr('id',ret.task.tid);
+				//~ $("#task-toggle-0").attr('id',"task-toggle-"+ret.task.tid);
+				//~ $("#task-button-0").attr('id',"task-button-"+ret.task.tid);
 				$("#new-task-input").val("");
 				conditionTask($("#"+ret.task.tid));
 			});
@@ -148,7 +151,7 @@ $(document).ready( function()
 		height: 300,
 		width: 350,
 		close: function() {
-			//allFields.val("").removeClass("ui-state-error");
+			
 		}
 	});
 });

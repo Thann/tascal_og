@@ -31,13 +31,13 @@
 		else
 			$bgstyle = "";
 		echo "<div id='".$t->tid."' ".$bgstyle." class='tasks' >".$t->title;
-			echo "<div id='task-toggle-".$t->tid."' style='display:none;' class='task-toggle';'>DESC=".$t->desc;
+			echo "<div id='task-toggle-".$t->tid."' style='display:none;' class='task-toggle';'>".$t->desc;
 				echo "<button id='task-button-".$t->tid."' class='task-button'>edit</button>";
 			echo "</div>";
 		echo "</div>";
 	}?>
 	<div id='hidden_task' class='tasks' style='display:none'>
-		<div id='task-toggle-0' style='display:none;' class='task-toggle'>DESC= 
+		<div id='task-toggle-0' style='display:none;' class='task-toggle'> 
 			<button id='task-button-0' class='task-button'>edit</button>
 		</div>
 	</div>
