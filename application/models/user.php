@@ -142,6 +142,15 @@ class User extends CI_Model {
 			return 0;
 	}
 
+	function update_task($data) {
+		$this->db->where('tid', $data['tid']);
+		unset($data['tid']);
+		if ($this->db->update('tasks',$data))
+			return true; 
+		else
+			return false;
+	}
+
 	function get_events($uid) {
 		$query = $this->db->get_where('events',array('uid' => $uid));
 		return $query->result();;

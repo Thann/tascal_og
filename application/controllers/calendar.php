@@ -20,12 +20,15 @@ class Calendar extends CI_Controller {
 			"libs/jquery-ui-1.9.0.custom.min.js",
 			"libs/jquery.form.js",
 			"libs/fullcalendar.min.js",
+			"libs/tiny_mce/jquery.tinymce.js",
+			"libs/jquery.miniColors.min.js",
 			//"libs/gcal.js",
 			"calendar.js"
 		);
 		$data["load_css"] = array(
 			"libs/fullcalendar.css",
 			"libs/ui-lightness/jquery-ui-1.9.0.custom.min.css",
+			"libs/jquery.miniColors.css",
 			"calendar.css"
 		);
 
@@ -64,6 +67,15 @@ class Calendar extends CI_Controller {
 			echo json_encode(array('status'=>true, 'task'=>$task['task']));
 		else
 			echo json_encode(array('status'=>false, 'msg'=>'task addition failed!'));
+	}
+
+	public function updateTask() {
+		$ret = $this->input->post();
+
+		if ($this->user->update_task($ret))
+			echo json_encode(array('status'=>true));
+		else
+			echo json_encode(array('status'=>false));
 	}
 
 	public function addEvent() {

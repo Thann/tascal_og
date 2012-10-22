@@ -104,12 +104,12 @@ $(document).ready( function()
 		});
 		//activate 'edit' button.
 		task.children(".task-toggle").children(".task-button").button({
-			icons: {
-				primary: "ui-icon-gear"
-			},
+			//~ icons: {
+				//~ primary: "ui-icon-gear"
+			//~ },
 		}).click(function( event ) {
 			//~ alert("clicked");
-			$("#task-edit-dialog").dialog("open");
+			$("#task-edit-dialog").data("task",$(this)).dialog("open");
 			return false;
 		});
 	}
@@ -137,7 +137,8 @@ $(document).ready( function()
 				$("div.tasks:first").before("<div id='0' class='tasks'>"+$("#new-task-input").val()+$("#hidden_task").html()+"</div>");
 				$("div.tasks:first").attr('id',ret.task.tid);
 				//~ $("#task-toggle-0").attr('id',"task-toggle-"+ret.task.tid);
-				//~ $("#task-button-0").attr('id',"task-button-"+ret.task.tid);
+				$("#task-button-0").attr('id',"task-button-"+ret.task.tid);
+				$("#task-button-0").attr('tid',ret.task.tid);
 				$("#new-task-input").val("");
 				conditionTask($("#"+ret.task.tid));
 			});
@@ -146,12 +147,61 @@ $(document).ready( function()
 	});
 
 	//Dialog for editing tasks.
-	$( "#task-edit-dialog" ).dialog({
+	$("#task-edit-dialog").dialog({
 		autoOpen: false,
-		height: 300,
-		width: 350,
+		height: 316,
+		width: 371,
+		buttons: {
+			"Save": function() {
+				alert($("#task-edit-desc").html());
+				var data = {
+					desc: $("#task-edit-desc").html(),
+					title: $("#task-edit-title").val(),
+					color: $("#task-edit-color").val(),
+					tid: $(this).data("task").attr('tid'),
+				};
+				console.log(data);
+				$.ajax({
+					type: "POST",
+					url: "calendar/updateTask",
+					data: data,
+				}).done(function( responseText ) {
+					ret = jQuery.parseJSON( responseText );
+					console.log(ret);
+				});
+			},
+			Cancel: function() {
+			},
+		},
+		open: function() {
+			//make the enter button click 'save'.
+			$("#task-edit-dialog").keypress(function(e) {
+			  if (e.keyCode == $.ui.keyCode.ENTER) {
+				$(this).parent().find("button:eq(0)").trigger("click");
+			  }
+			});
+			var tid = $(this).data("task").attr('tid');
+			console.log(tasks[tid]);
+			$("#task-edit-title").val(tasks[tid].title);
+			$("#task-edit-desc").html(tasks[tid].desc);
+			$("#task-edit-color").miniColors('value',tasks[tid].color);
+		},
 		close: function() {
 			
+		}
+	});
+
+	$("#task-edit-desc").tinymce({
+		script_url : base_url+'application/assets/js/libs/tiny_mce/tiny_mce.js',
+		content_css : base_url+'application/assets/css/libs/tinymce-content.css',
+		theme : "advanced",
+		theme_advanced_buttons1 : "bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright, justifyfull,bullist,numlist,undo,redo,link,unlink",
+		theme_advanced_statusbar_location : "",
+	});
+
+	$("#task-edit-color").miniColors({
+		change: function(hex, rgb) {
+			//~ console.log(hex);
 		}
 	});
 });
