@@ -137,6 +137,7 @@ $(document).ready( function()
 				$("div.tasks:first").before("<div id='0' class='tasks'>"+$("#new-task-input").val()+$("#hidden_task").html()+"</div>");
 				$("div.tasks:first").attr('id',ret.task.tid);
 				//~ $("#task-toggle-0").attr('id',"task-toggle-"+ret.task.tid);
+				$("div.tasks:first").css('background-color',$("#new-task").css('background-color'));
 				$("#task-button-0").attr('id',"task-button-"+ret.task.tid);
 				$("#task-button-0").attr('tid',ret.task.tid);
 				$("#new-task-input").val("");
@@ -153,7 +154,6 @@ $(document).ready( function()
 		width: 371,
 		buttons: {
 			"Save": function() {
-				alert($("#task-edit-desc").html());
 				var data = {
 					desc: $("#task-edit-desc").html(),
 					title: $("#task-edit-title").val(),
