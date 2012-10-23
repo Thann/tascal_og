@@ -1,5 +1,10 @@
 $(document).ready( function()
 {
+	function closeDialogs() {
+		$("#event-edit-dialog").dialog("close");
+		$("#task-edit-dialog").dialog("close");
+	}
+
 	function eventMod(event) {
 		var data = new Object();
 		data.eid = event.eid;
@@ -43,14 +48,21 @@ $(document).ready( function()
 			//Other sources eg. GCal
 		],
 		eventClick: function(calEvent, jsEvent, view) {
-			alert('Event: ' + calEvent.title + '\nDesc: ' + calEvent.desc + '\nEid: '+ calEvent.eid);
+			//~ alert('Event: ' + calEvent.title + '\nDesc: ' + calEvent.desc + '\nTid: '+calEvent.tid + '\nEid: '+ calEvent.eid);
+			//make the corresponding task open.
+			if (!$("#"+calEvent.tid).children("div.task-toggle").is(":visible"))
+				$("#"+calEvent.tid).trigger('click');
+			closeDialogs();
+			$("#event-edit-dialog").data("event",calEvent).dialog("open");
 		},
 
 		// this function is called when something is dropped..
 		drop: function(date, allDay) {
 			// retrieve the dropped element's stored Event Object
 			var originalEventObject = $(this).data('eventObject');
-
+			//prevent dropping random things like dialog boxes.
+			if (!originalEventObject)
+				return false;
 			// we need to copy it, so that multiple events don't have a reference to the same object
 			var copiedEventObject = $.extend({}, originalEventObject);
 
@@ -109,6 +121,7 @@ $(document).ready( function()
 			//~ },
 		}).click(function( event ) {
 			//~ alert("clicked");
+			closeDialogs();
 			$("#task-edit-dialog").data("task",$(this)).dialog("open");
 			return false;
 		});
@@ -217,5 +230,56 @@ $(document).ready( function()
 		change: function(hex, rgb) {
 			//~ console.log(hex);
 		}
+	});
+
+	$("#event-edit-dialog").dialog({
+		autoOpen: false,
+		title: "this",
+		width: 371,
+		buttons: {
+			"Save": function() {
+				var data = {
+					desc: $("#event-edit-desc").html(),
+					eid: $(this).data("event").eid,
+				};
+				$(this).data("event").desc = data.desc;
+				$.ajax({
+					type: "POST",
+					url: "calendar/addEvent",
+					data: data,
+				}).done(function( responseText ) {
+					ret = jQuery.parseJSON( responseText );
+					console.log(ret);
+					//#TODO: the events should be updated via JS to reduce server load.
+					//$("#calendar").fullCalendar('refetchEvents');
+				});
+				//Edit event
+				$( this ).dialog( "close" );
+			},
+			Cancel: function() {
+				$( this ).dialog( "close" );
+			},
+		},
+		open: function() {
+			//make the enter button click 'save'.
+			$("#event-edit-dialog").keypress(function(e) {
+				if (e.keyCode == $.ui.keyCode.ENTER) {
+					$(this).parent().find("button:eq(0)").trigger("click");
+				}
+			});
+			$("#event-edit-dialog").dialog("option","title",$(this).data("event").title);
+			$("#event-edit-desc").html($(this).data("event").desc);
+		},
+		close: function() {
+			
+		}
+	});
+
+	$("#event-edit-desc").tinymce({
+		script_url : base_url+'application/assets/js/libs/tiny_mce/tiny_mce.js',
+		content_css : base_url+'application/assets/css/libs/tinymce-content.css',
+		theme : "advanced",
+		theme_advanced_buttons1 : "bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright, justifyfull,bullist,numlist,undo,redo,link,unlink",
+		theme_advanced_statusbar_location : "",
 	});
 });

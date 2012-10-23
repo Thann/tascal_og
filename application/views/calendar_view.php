@@ -52,7 +52,7 @@
 <div id='calendar'></div>
 </div>
 <!-- The following divs will be hidden, and displayed as dialogs. -->
-<div id='task-edit-dialog'>
+<div id='task-edit-dialog' title='Edit Task'>
 	<?php echo "<div id='task-edit-box'>";
 	echo form_input(array('id'=>'task-edit-title','name'=>'title','placeholder'=>'Title','size'=>25));
 	echo "<br>";
@@ -60,6 +60,14 @@
 	echo "<div id='task-color-label'>Change color:";
 	echo "<input id='task-edit-color' type='hidden' size='7' /></div>";
 	echo "<div id=task-edit-results></div>";
+	echo "</div>"; ?>
+</div>
+<div id='event-edit-dialog'>
+	<?php echo "<div id='event-edit-box'>";
+	//~ echo form_input(array('id'=>'event-edit-title','name'=>'title','placeholder'=>'Title','size'=>25));
+	//~ echo "<br>";
+	echo "<textarea id='event-edit-desc'></textarea>";
+	echo "<div id=event-edit-results></div>";
 	echo "</div>"; ?>
 </div>
 <div class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</div>

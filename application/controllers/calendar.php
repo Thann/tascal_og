@@ -46,10 +46,14 @@ class Calendar extends CI_Controller {
 		$events = $this->user->get_events($user_id);
 
 		foreach ($events as $e) {
-			if ($e->desc == NULL)
-				$e->desc = "";
 			$task = $this->user->get_task($e->tid);
 			$e->title = $task->title;
+			if ($e->desc == NULL)
+				$e->desc = "";
+			//~ else {
+				//~ $e->title .= "\n------------\n" ;
+				//~ $e->title .= $e->desc;
+			//~ }
 			if ($e->allDay == 'true')
 				$e->allDay = true;
 			else
@@ -90,9 +94,9 @@ class Calendar extends CI_Controller {
 		}
 		else
 			if ($this->user->update_event($ret))
-				echo json_encode(array('status'=>'success'));
+				echo json_encode(array('status'=>true));
 			else
-				echo json_encode(array('status'=>'fail'));
+				echo json_encode(array('status'=>false));
 	}
 }
 
