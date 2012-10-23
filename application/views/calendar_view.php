@@ -19,23 +19,27 @@
 	<div class='task-title'>My Tasks</div>
 	<div id="new-task" style='background:<?php echo $default_color ?>;'>
 		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));
-		echo form_hidden('desc',"");
+		echo form_hidden('desc',"<p><br></p>"); //
 		echo form_input(array('id'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17));
 		echo form_close(); ?>
 	</div>
 	<?php $js_tasks = array(); ?>
 	<?php foreach (array_reverse($tasks) as $t){
-		$js_tasks[$t->tid] = $t;
 		if (!$t->color)
 			$t->color = $default_color;
-		echo "<div id='".$t->tid."' style='background:".$t->color.";' class='tasks' >".$t->title;
-			echo "<div id='task-toggle-".$t->tid."' style='display:none;' class='task-toggle';'>".$t->desc;
+		$js_tasks[$t->tid] = $t;
+		echo "<div id='".$t->tid."' style='background:".$t->color.";' class='tasks' >";
+			echo "<span id='title'>".$t->title."</span>";
+			echo "<div id='task-toggle-".$t->tid."' style='display:none;' class='task-toggle';'>";
+				echo "<span id='desc'>".$t->desc."</span>";
 				echo "<button id='task-button-".$t->tid."' tid='".$t->tid."' class='task-button'>edit</button>";
 			echo "</div>";
 		echo "</div>";
 	}?>
 	<div id='hidden_task' class='tasks' style='display:none'>
-		<div id='task-toggle-0' style='display:none;' class='task-toggle'> 
+		<span id='title'></span>
+		<div id='task-toggle-0' style='display:none;' class='task-toggle'>
+			<span id='desc'><p><br></p></span>
 			<button id='task-button-0' class='task-button'>edit</button>
 		</div>
 	</div>
@@ -48,16 +52,14 @@
 </div>
 <!-- The following divs will be hidden, and displayed as dialogs. -->
 <div id='task-edit-dialog'>
-	<?php //echo form_open('',array('id'=>'create-form',));
-	echo "<div id='task-edit-box'>";
+	<?php echo "<div id='task-edit-box'>";
 	echo form_input(array('id'=>'task-edit-title','name'=>'title','placeholder'=>'Title','size'=>25));
 	echo "<br>";
 	echo "<textarea id='task-edit-desc'></textarea>";
 	echo "<div id='task-color-label'>Change color:";
 	echo "<input id='task-edit-color' type='hidden' size='7' /></div>";
 	echo "<div id=task-edit-results></div>";
-	echo "</div>";
-	//echo form_close(); ?>
+	echo "</div>"; ?>
 </div>
 <div class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</div>
 </body>

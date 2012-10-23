@@ -112,12 +112,17 @@ $(document).ready( function()
 			$("#task-edit-dialog").data("task",$(this)).dialog("open");
 			return false;
 		});
-	}
+	};
 
 	//Make all tasks draggable, etc.
 	$(".tasks").each(function() {
 		conditionTask($(this));
 	});
+
+	//Set the title & desc for a task div.
+	function populateTask(tid) {
+		
+	};
 
 	//Create a new Task
 	$("#new-task-input").keypress(function(event){
@@ -160,28 +165,28 @@ $(document).ready( function()
 					color: $("#task-edit-color").val(),
 					tid: $(this).data("task").attr('tid'),
 				};
-				console.log(data);
 				$.ajax({
 					type: "POST",
 					url: "calendar/updateTask",
 					data: data,
 				}).done(function( responseText ) {
 					ret = jQuery.parseJSON( responseText );
-					console.log(ret);
 				});
+				
+				$( this ).dialog( "close" );
 			},
 			Cancel: function() {
+				$( this ).dialog( "close" );
 			},
 		},
 		open: function() {
 			//make the enter button click 'save'.
 			$("#task-edit-dialog").keypress(function(e) {
-			  if (e.keyCode == $.ui.keyCode.ENTER) {
-				$(this).parent().find("button:eq(0)").trigger("click");
-			  }
+				if (e.keyCode == $.ui.keyCode.ENTER) {
+					$(this).parent().find("button:eq(0)").trigger("click");
+				}
 			});
 			var tid = $(this).data("task").attr('tid');
-			console.log(tasks[tid]);
 			$("#task-edit-title").val(tasks[tid].title);
 			$("#task-edit-desc").html(tasks[tid].desc);
 			$("#task-edit-color").miniColors('value',tasks[tid].color);
@@ -197,6 +202,12 @@ $(document).ready( function()
 		theme : "advanced",
 		theme_advanced_buttons1 : "bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright, justifyfull,bullist,numlist,undo,redo,link,unlink",
 		theme_advanced_statusbar_location : "",
+		//~ forced_root_block : false,
+		//~ force_p_newlines : false,
+		//~ remove_linebreaks : false,
+		//~ force_br_newlines : true,              //btw, I still get <p> tags if this is false
+		//~ remove_trailing_nbsp : false,   
+		//~ verify_html : false,
 	});
 
 	$("#task-edit-color").miniColors({

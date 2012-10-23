@@ -124,10 +124,10 @@ $(document).ready( function()
 			}
 		},
 		open: function() {
-			$( "#create-account-dialog" ).keypress(function(e) {
-			  if (e.keyCode == $.ui.keyCode.ENTER) {
-				$(this).parent().find("button:eq(0)").trigger("click");
-			  }
+			$("#create-account-dialog").keypress(function(e) {
+				if (e.keyCode == $.ui.keyCode.ENTER) {
+					$(this).parent().find("button:eq(0)").trigger("click");
+				}
 			});
 		},
 		close: function() {
