@@ -1,2 +1,12 @@
 /* this is from: assets/js/libs/tiny_mce/themes/advanced/skins/default */
-body, td, pre {font-size:15px;}
+body, td, pre {
+	font-size:15px;
+}
+p {
+	padding:0 0 0 0;
+	margin:0 0 0 0;
+}
+ol, ul {
+	/*padding:0 0 0 0;*/
+	margin:0 0 0 0;
+}

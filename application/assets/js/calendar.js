@@ -119,9 +119,12 @@ $(document).ready( function()
 		conditionTask($(this));
 	});
 
-	//Set the title & desc for a task div.
+	//Set the title, desc, and color for a task div.
 	function populateTask(tid) {
-		
+		var div = $("#"+tid+".tasks");
+		div.css('background-color', tasks[tid].color);
+		div.children("#task-title").html(tasks[tid].title);
+		div.children("div.task-toggle").children("#task-desc").html(tasks[tid].desc);
 	};
 
 	//Create a new Task
@@ -139,13 +142,13 @@ $(document).ready( function()
 			}).done(function( responseText ) {
 				ret = jQuery.parseJSON( responseText );
 				tasks[ret.task.tid] = ret.task;
-				$("div.tasks:first").before("<div id='0' class='tasks'>"+$("#new-task-input").val()+$("#hidden_task").html()+"</div>");
+				tasks[ret.task.tid].color = default_color;
+				$("div.tasks:first").before("<div id='0' class='tasks'>"+$("#hidden_task").html()+"</div>");
 				$("div.tasks:first").attr('id',ret.task.tid);
-				//~ $("#task-toggle-0").attr('id',"task-toggle-"+ret.task.tid);
-				$("div.tasks:first").css('background-color',$("#new-task").css('background-color'));
-				$("#task-button-0").attr('id',"task-button-"+ret.task.tid);
-				$("#task-button-0").attr('tid',ret.task.tid);
+				$("button.task-button:first").attr('tid',ret.task.tid);
+				//$("#task-button-0").attr('id',"task-button-"+ret.task.tid);
 				$("#new-task-input").val("");
+				populateTask(ret.task.tid);
 				conditionTask($("#"+ret.task.tid));
 			});
 			event.preventDefault();
@@ -155,7 +158,7 @@ $(document).ready( function()
 	//Dialog for editing tasks.
 	$("#task-edit-dialog").dialog({
 		autoOpen: false,
-		height: 316,
+		//height: 317,
 		width: 371,
 		buttons: {
 			"Save": function() {
@@ -165,14 +168,18 @@ $(document).ready( function()
 					color: $("#task-edit-color").val(),
 					tid: $(this).data("task").attr('tid'),
 				};
+				if (!data.desc)
+					data.desc = "<p><br></p>"
 				$.ajax({
 					type: "POST",
 					url: "calendar/updateTask",
 					data: data,
 				}).done(function( responseText ) {
-					ret = jQuery.parseJSON( responseText );
+					//~ ret = jQuery.parseJSON( responseText );
+					//~ console.log(ret);
 				});
-				
+				tasks[data.tid] = data;
+				populateTask(data.tid);
 				$( this ).dialog( "close" );
 			},
 			Cancel: function() {
@@ -202,12 +209,6 @@ $(document).ready( function()
 		theme : "advanced",
 		theme_advanced_buttons1 : "bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright, justifyfull,bullist,numlist,undo,redo,link,unlink",
 		theme_advanced_statusbar_location : "",
-		//~ forced_root_block : false,
-		//~ force_p_newlines : false,
-		//~ remove_linebreaks : false,
-		//~ force_br_newlines : true,              //btw, I still get <p> tags if this is false
-		//~ remove_trailing_nbsp : false,   
-		//~ verify_html : false,
 	});
 
 	$("#task-edit-color").miniColors({

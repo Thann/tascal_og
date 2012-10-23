@@ -19,7 +19,7 @@
 	text-align: left;
 }
 
-.task-title {
+.task-box-title {
 	color:green;
 	font-size: 1.1em;
 	margin-bottom:-8px;
@@ -33,6 +33,10 @@
 	color: #fff;
 	font-size: .85em;
 	cursor: pointer;
+}
+
+#task-title {
+	
 }
 
 .task-toggle {
@@ -50,6 +54,8 @@
 	bottom:21px;
 }
 
+/* override edit button formatting.
+ * this should be done be makeing a new jquery theme*/
 .ui-button-text {
 	padding: 0px 4px 0px 4px !important;
 }
@@ -64,7 +70,8 @@
 	box-sizing: border-box;
 }
 
-/* these are so the task descriptions look better */
+/* these make the task descriptions look better.
+ * changes should be mirrored in ./lib/tinymce-content.css */
 p {
 	padding:0 0 0 0;
 	margin:0 0 0 0;

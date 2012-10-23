@@ -16,7 +16,7 @@
 
 <div id='wrap'>
 <div id='task-box-1' class='task-box'>
-	<div class='task-title'>My Tasks</div>
+	<div class='task-box-title'>My Tasks</div>
 	<div id="new-task" style='background:<?php echo $default_color ?>;'>
 		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));
 		echo form_hidden('desc',"<p><br></p>"); //
@@ -29,23 +29,24 @@
 			$t->color = $default_color;
 		$js_tasks[$t->tid] = $t;
 		echo "<div id='".$t->tid."' style='background:".$t->color.";' class='tasks' >";
-			echo "<span id='title'>".$t->title."</span>";
+			echo "<span id='task-title'>".$t->title."</span>";
 			echo "<div id='task-toggle-".$t->tid."' style='display:none;' class='task-toggle';'>";
-				echo "<span id='desc'>".$t->desc."</span>";
+				echo "<span id='task-desc'>".$t->desc."</span>";
 				echo "<button id='task-button-".$t->tid."' tid='".$t->tid."' class='task-button'>edit</button>";
 			echo "</div>";
 		echo "</div>";
 	}?>
 	<div id='hidden_task' class='tasks' style='display:none'>
-		<span id='title'></span>
+		<span id='task-title'></span>
 		<div id='task-toggle-0' style='display:none;' class='task-toggle'>
-			<span id='desc'><p><br></p></span>
+			<span id='task-desc'><p><br></p></span>
 			<button id='task-button-0' class='task-button'>edit</button>
 		</div>
 	</div>
 	<script type='text/javascript'>
 		var tasks = <?php echo json_encode($js_tasks); ?>;
-		var base_url = "<?php echo base_url(); ?>"
+		var base_url = "<?php echo base_url(); ?>";
+		var default_color = "<?php echo $default_color; ?>";
 	</script>
 </div>
 <div id='calendar'></div>
