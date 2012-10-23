@@ -177,6 +177,8 @@ $(document).ready( function()
 				}).done(function( responseText ) {
 					//~ ret = jQuery.parseJSON( responseText );
 					//~ console.log(ret);
+					//#TODO: the events should be updated via JS to reduce server load.
+					$("#calendar").fullCalendar('refetchEvents');
 				});
 				tasks[data.tid] = data;
 				populateTask(data.tid);
