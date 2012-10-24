@@ -120,7 +120,7 @@ class User extends CI_Model {
 	}
 
 	function get_tasks($uid) {
-		$query = $this->db->get_where('tasks',array('uid' => $uid));
+		$groups = $this->db->get_where('members',array('uid' => $uid));
 		$query = $query->result();
 		return $query;
 	}
