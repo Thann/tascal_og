@@ -1,5 +1,7 @@
 $(document).ready( function()
 {
+	console.log(tasks);
+	
 	function closeDialogs() {
 		$("#event-edit-dialog").dialog("close");
 		$("#task-edit-dialog").dialog("close");

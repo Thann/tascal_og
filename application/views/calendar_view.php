@@ -15,16 +15,18 @@
 <?php echo $header; ?>
 
 <div id='wrap'>
-<div id='task-box-1' class='task-box'>
-	<div class='task-box-title'>My Tasks</div>
+<div id='task-group-wrap'>
+<?php $js_tasks = array(); ?>
+<?php foreach ($tasks as $group) {?>
+<div class='task-box'>
+	<div class='task-box-title'><?php echo $group['group']->name; ?></div>
 	<div id="new-task" style='background:<?php echo $default_color ?>;'>
 		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));
 		echo form_hidden('desc',"<p><br></p>"); //
 		echo form_input(array('id'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17));
 		echo form_close(); ?>
 	</div>
-	<?php $js_tasks = array(); ?>
-	<?php foreach (array_reverse($tasks) as $t){
+	<?php foreach (array_reverse($group['tasks']) as $t){
 		if (!$t->color)
 			$t->color = $default_color;
 		$js_tasks[$t->tid] = $t;
@@ -43,12 +45,15 @@
 			<button id='task-button-0' class='task-button'>edit</button>
 		</div>
 	</div>
-	<script type='text/javascript'>
-		var tasks = <?php echo json_encode($js_tasks); ?>;
-		var base_url = "<?php echo base_url(); ?>";
-		var default_color = "<?php echo $default_color; ?>";
-	</script>
 </div>
+<br>
+<?php } //end: foreach?>
+</div>
+<script type='text/javascript'>
+	var tasks = <?php echo json_encode($js_tasks); ?>;
+	var base_url = "<?php echo base_url(); ?>";
+	var default_color = "<?php echo $default_color; ?>";
+</script>
 <div id='calendar'></div>
 </div>
 <!-- The following divs will be hidden, and displayed as dialogs. -->

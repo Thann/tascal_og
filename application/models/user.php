@@ -135,11 +135,12 @@ class User extends CI_Model {
 		$query = $this->db->get('tasks');
 		$my_tasks = $query->result();
 		$ret = array();
-		$ret[0]['group'] = array('gid'=>0,'owner'=>0,'settings'=>0,'name'=>'My Tasks');
+		$ret[0]['group'] = (object)array('gid'=>0,'owner'=>0,'settings'=>0,'name'=>'My Tasks');
 		$ret[0]['tasks'] = $my_tasks;
 		$index = 1;
 		foreach ($groups as $g) {
-			$ret[$index]['group'] = $g;
+			$gg = $this->db->get_where('groups',array('gid'=>$g->gid));
+			$ret[$index]['group'] = $gg->result()[0];
 			$ret[$index]['tasks'] = array();
 			foreach ($group_tasks as $t) {
 				if ($t->gid == $g->gid)

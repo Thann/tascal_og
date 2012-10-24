@@ -9,11 +9,14 @@
 	width: 760px;
 }
 
-.task-box {
+#task-group-wrap {
 	float: left;
 	width: 210px;
-	padding: 0 10px;
 	/*margin-right: 10px;*/
+}
+
+.task-box {
+	padding: 0 10px;
 	border: 1px solid #ccc;
 	background: #eee;
 	text-align: left;
