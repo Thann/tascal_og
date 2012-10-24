@@ -1,7 +1,5 @@
 $(document).ready( function()
 {
-	console.log(tasks);
-	
 	function closeDialogs() {
 		$("#event-edit-dialog").dialog("close");
 		$("#task-edit-dialog").dialog("close");
@@ -143,13 +141,18 @@ $(document).ready( function()
 	};
 
 	//Create a new Task
-	$("#new-task-input").keypress(function(event){
+	$("#task-group-wrap").find(".new-task-input").keypress(function(event){
 		if(event.keyCode == 13){
-			//make sure the form is not empty.
-			if ($("#new-task-input").val()=="")
+			//~ //make sure the form is not empty.
+			if ($(this).val()=="")
 				return false;
-			var data = $("#new-task-form").formSerialize();
-			var url = $("#new-task-form").attr('action');
+			task_box = $(this).parent().parent();
+			var url = $(this).parent().attr('action');
+			var data = {
+					gid: $(this).attr('gid'),
+					desc: "<p><br></p>",
+					title: $(this).val(),
+				};
 			$.ajax({
 				type: "POST",
 				url: url,
@@ -158,11 +161,10 @@ $(document).ready( function()
 				ret = jQuery.parseJSON( responseText );
 				tasks[ret.task.tid] = ret.task;
 				tasks[ret.task.tid].color = default_color;
-				$("div.tasks:first").before("<div id='0' class='tasks'>"+$("#hidden_task").html()+"</div>");
-				$("div.tasks:first").attr('id',ret.task.tid);
-				$("button.task-button:first").attr('tid',ret.task.tid);
-				//$("#task-button-0").attr('id',"task-button-"+ret.task.tid);
-				$("#new-task-input").val("");
+				task_box.next().before("<div id='0' class='tasks'>"+$("#hidden-task").html()+"</div>");
+				task_box.next().attr('id',ret.task.tid);
+				task_box.next().find(".task-button").attr('tid',ret.task.tid);
+				$(this).val("");
 				populateTask(ret.task.tid);
 				conditionTask($("#"+ret.task.tid));
 			});
@@ -184,7 +186,7 @@ $(document).ready( function()
 					tid: $(this).data("task").attr('tid'),
 				};
 				if (!data.desc)
-					data.desc = "<p><br></p>"
+					data.desc = "<p><br></p>";
 				$.ajax({
 					type: "POST",
 					url: "calendar/updateTask",

@@ -22,8 +22,7 @@
 	<div class='task-box-title'><?php echo $group['group']->name; ?></div>
 	<div id="new-task" style='background:<?php echo $default_color ?>;'>
 		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));
-		echo form_hidden('desc',"<p><br></p>"); //
-		echo form_input(array('id'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17));
+		echo form_input(array('gid'=>$group['group']->gid,'class'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17));
 		echo form_close(); ?>
 	</div>
 	<?php foreach (array_reverse($group['tasks']) as $t){
@@ -38,7 +37,7 @@
 			echo "</div>";
 		echo "</div>";
 	}?>
-	<div id='hidden_task' class='tasks' style='display:none'>
+	<div id='hidden-task' class='tasks' style='display:none'>
 		<span id='task-title'></span>
 		<div id='task-toggle-0' style='display:none;' class='task-toggle'>
 			<span id='task-desc'><p><br></p></span>
@@ -69,8 +68,6 @@
 </div>
 <div id='event-edit-dialog'>
 	<?php echo "<div id='event-edit-box'>";
-	//~ echo form_input(array('id'=>'event-edit-title','name'=>'title','placeholder'=>'Title','size'=>25));
-	//~ echo "<br>";
 	echo "<textarea id='event-edit-desc'></textarea>";
 	echo "<div id=event-edit-results></div>";
 	echo "</div>"; ?>
