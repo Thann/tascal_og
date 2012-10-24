@@ -121,8 +121,43 @@ class User extends CI_Model {
 
 	function get_tasks($uid) {
 		$groups = $this->db->get_where('members',array('uid' => $uid));
-		$query = $query->result();
-		return $query;
+		$groups = $groups->result();
+		$gids = array();
+		foreach ($groups as $g)
+			$gids[] = $g->gid;
+
+		$this->db->where_in('gid',$gids);
+		$query = $this->db->get('tasks');
+		$group_tasks = $query->result();
+
+		$this->db->where('gid',0);
+		$this->db->where('uid',$uid);
+		$query = $this->db->get('tasks');
+		$my_tasks = $query->result();
+		$ret = array();
+		$ret[0]['group'] = array('gid'=>0,'owner'=>0,'settings'=>0,'name'=>'My Tasks');
+		$ret[0]['tasks'] = $my_tasks;
+		$index = 1;
+		foreach ($groups as $g) {
+			$ret[$index]['group'] = $g;
+			$ret[$index]['tasks'] = array();
+			foreach ($group_tasks as $t) {
+				if ($t->gid == $g->gid)
+					$ret[$index]['tasks'][] = $t;
+			}
+			$index ++;
+		}
+		//~ foreach ($group_tasks as $g) {
+			//~ foreach 
+		//~ }
+		
+		//~ foreach ($groups)
+		
+		return $ret;
+		//~ $query = $query->result();
+		//~ return $query;
+		//~ return $gids;
+		//~ return $group_tasks[0]->gid;
 	}
 
 	function get_task($tid){

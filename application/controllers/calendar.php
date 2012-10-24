@@ -41,6 +41,12 @@ class Calendar extends CI_Controller {
 
 		$this->load->view('calendar_view', $data );
 	}
+	
+	public function test() {
+		$data = array();
+		$data["user"] = $this->user->get_row();
+		echo json_encode($this->user->get_tasks($data["user"]->uid));
+	}
 
 	public function fetchCal() {
 		$user_id = $this->session->userdata('uid');
