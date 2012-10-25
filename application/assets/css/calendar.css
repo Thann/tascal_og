@@ -24,11 +24,11 @@
 .task-box-title {
 	color:green;
 	font-size: 1.1em;
-	margin-bottom:-8px;
+	/*margin-bottom:-8px;*/
 }
 
 #new-task, .tasks {
-	margin: 10px 0;
+	margin: 0 0 10px;
 	padding: 2px 4px;
 	/*default color set in calendar.php
 	background: #3366CC;*/

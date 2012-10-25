@@ -20,6 +20,7 @@
 <?php foreach ($tasks as $group) {?>
 <div class='task-box'>
 	<div class='task-box-title'><?php echo $group['group']->name; ?></div>
+	<div class='task-box-toggle'>
 	<div id="new-task" style='background:<?php echo $default_color ?>;'>
 		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));
 		echo form_input(array('gid'=>$group['group']->gid,'class'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17));
@@ -43,6 +44,7 @@
 			<span id='task-desc'><p><br></p></span>
 			<button id='task-button-0' class='task-button'>edit</button>
 		</div>
+	</div>
 	</div>
 </div>
 <br>

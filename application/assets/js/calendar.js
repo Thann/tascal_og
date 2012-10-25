@@ -93,6 +93,25 @@ $(document).ready( function()
 		},
 	} );
 
+	//Make the groups expandable.
+	$(this).find(".task-box-title").bind('click',function(){
+		//~ console.log($(this));
+		if (!$(this).next().is(":visible")){
+			$("div.task-box-toggle").hide("fast");
+			$(this).next().show("fast");
+		}
+		//~ if (!task.children("div.task-toggle").is(":visible")){
+			//~ //only have one expanded at a time.
+			//~ $("div.task-toggle").hide("fast");
+			//~ task.children("div.task-toggle").show("fast");
+		//~ }
+		//~ else
+			//~ task.children("div.task-toggle").hide("fast");
+	});
+	$(this).find(".task-box-toggle").hide();
+	$(".task-box-toggle:first").show();
+	
+
 	//Make a task object draggable, expandable, etc.
 	function conditionTask(task) {
 		var eventObject = {
