@@ -38,6 +38,7 @@ class Calendar extends CI_Controller {
 		$data["tasks"] = $this->user->get_tasks($data["user"]->uid);
 
 		$data["header"] = $this->load->view('header_view', $data, TRUE);
+		$data["footer"] = $this->load->view('footer_view', $data, TRUE);
 
 		$this->load->view('calendar_view', $data );
 	}

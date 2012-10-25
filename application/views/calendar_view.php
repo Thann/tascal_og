@@ -72,6 +72,6 @@
 	echo "<div id=event-edit-results></div>";
 	echo "</div>"; ?>
 </div>
-<div class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</div>
+<?php echo $footer; ?>
 </body>
 </html>
