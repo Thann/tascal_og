@@ -22,7 +22,7 @@
 	<div class='task-box-title'><?php echo $group['group']->name; ?>
 		<span><img class='task-box-icon' src='<?php echo img_url()."eye.png"; ?>'></span>
 	</div>
-	<div class='task-box-toggle'>
+	<div class='task-box-toggle' style='display:none;'>
 	<div id="new-task" style='background:<?php echo $default_color ?>;'>
 		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));
 		echo form_input(array('gid'=>$group['group']->gid,'class'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17));

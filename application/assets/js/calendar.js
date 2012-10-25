@@ -115,7 +115,6 @@ $(document).ready( function()
 			//~ task.children("div.task-toggle").hide("fast");
 	});
 	//Initalize all groups closed except for the top one.
-	$(this).find(".task-box-toggle").hide();
 	$(".task-box-toggle:first").show();
 
 	//Make a task object draggable, expandable, etc.
