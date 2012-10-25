@@ -19,7 +19,9 @@
 <?php $js_tasks = array(); ?>
 <?php foreach ($tasks as $group) {?>
 <div class='task-box'>
-	<div class='task-box-title'><?php echo $group['group']->name; ?></div>
+	<div class='task-box-title'><?php echo $group['group']->name; ?>
+		<span><img class='task-box-icon' src='<?php echo img_url()."eye.png"; ?>'></span>
+	</div>
 	<div class='task-box-toggle'>
 	<div id="new-task" style='background:<?php echo $default_color ?>;'>
 		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));

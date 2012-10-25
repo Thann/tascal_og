@@ -93,7 +93,13 @@ $(document).ready( function()
 		},
 	} );
 
-	//Make the groups expandable.
+	$("img.task-box-icon").bind('click',function(){
+		alert("stub: show/hide events from theis group.");
+		//prevent the task group from expanding.
+		return false;
+	});
+
+	//Make the task groups expandable.
 	$(this).find(".task-box-title").bind('click',function(){
 		//~ console.log($(this));
 		if (!$(this).next().is(":visible")){
@@ -108,9 +114,9 @@ $(document).ready( function()
 		//~ else
 			//~ task.children("div.task-toggle").hide("fast");
 	});
+	//Initalize all groups closed except for the top one.
 	$(this).find(".task-box-toggle").hide();
 	$(".task-box-toggle:first").show();
-	
 
 	//Make a task object draggable, expandable, etc.
 	function conditionTask(task) {
