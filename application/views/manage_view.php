@@ -6,7 +6,7 @@
 </head>
 <body>
 <?php echo $header; ?>
-
+<div>here is where you manage stuff!</div>
 <?php echo $footer; ?>
 </body>
 </html>
