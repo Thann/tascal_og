@@ -12,15 +12,15 @@ $(document).ready( function()
 		data.allDay = event.allDay;
 		data.end = event.end.toString();
 		data.start = event.start.toString();
+		console.log(data)
 		$.ajax({
 			type: "POST",
 			url: "calendar/addEvent",
 			data: data,
 		}).done(function( ret ) {
 			//~ console.log(ret)
-			//update the event eid.
+			//Update the event eid.
 			if (event.eid == 0) {
-				//~ console.log(event)
 				$.grep(events, function(e){
 					return e.eid == 0;
 				})[0].eid = ret;
@@ -298,8 +298,8 @@ $(document).ready( function()
 				}).done(function( responseText ) {
 					//~ ret = jQuery.parseJSON( responseText );
 					//~ console.log(ret);
-					//$("#calendar").fullCalendar('refetchEvents');
 				});
+				//$("#calendar").fullCalendar('refetchEvents');
 				$( this ).dialog( "close" );
 			},
 			Cancel: function() {

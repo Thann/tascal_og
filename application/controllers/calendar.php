@@ -118,7 +118,7 @@ class Calendar extends CI_Controller {
 			unset($ret['eid']);
 			$ret['uid'] = $this->session->userdata('uid');
 			$rid = $this->user->add_event($ret);
-			echo json_encode($rid);
+			echo $rid;
 		}
 		else
 			if ($this->user->update_event($ret))
