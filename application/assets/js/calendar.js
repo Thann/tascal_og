@@ -246,6 +246,10 @@ $(document).ready( function()
 			Cancel: function() {
 				$( this ).dialog( "close" );
 			},
+			Delete: function() {
+				alert("Delete?!");
+				//~ $( this ).dialog( "close" );
+			},
 		},
 		open: function() {
 			//make the enter button click 'save'.
@@ -263,6 +267,7 @@ $(document).ready( function()
 			
 		}
 	});
+	$("#task-edit-dialog").parent().find("button:first").css('color','red');
 
 	$("#task-edit-desc").tinymce({
 		script_url : base_url+'application/assets/js/libs/tiny_mce/tiny_mce.js',
