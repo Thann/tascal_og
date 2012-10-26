@@ -54,6 +54,7 @@
 </div>
 <script type='text/javascript'>
 	var tasks = <?php echo json_encode($js_tasks); ?>;
+	var events = <?php echo json_encode($events); ?>;
 	var base_url = "<?php echo base_url(); ?>";
 	var default_color = "<?php echo $default_color; ?>";
 </script>

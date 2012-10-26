@@ -37,21 +37,7 @@ class Calendar extends CI_Controller {
 		//$data["groups"] = array();
 		$data["tasks"] = $this->user->get_tasks($data["user"]->uid);
 
-		$data["header"] = $this->load->view('header_view', $data, TRUE);
-		$data["footer"] = $this->load->view('footer_view', $data, TRUE);
-
-		$this->load->view('calendar_view', $data );
-	}
-	
-	public function test() {
-		$data = array();
-		$data["user"] = $this->user->get_row();
-		echo print_r($this->user->get_tasks($data["user"]->uid));
-	}
-
-	public function fetchCal() {
-		$user_id = $this->session->userdata('uid');
-		$events = $this->user->get_events($user_id);
+		$events = $this->user->get_events($data["user"]->uid);
 
 		foreach ($events as $e) {
 			$task = $this->user->get_task($e->tid);
@@ -68,8 +54,42 @@ class Calendar extends CI_Controller {
 				$e->allDay = false;
 			$e->color = $task->color;
 		}
-		echo json_encode($events);
+		$data["events"] = $events;
+
+		$data["header"] = $this->load->view('header_view', $data, TRUE);
+		$data["footer"] = $this->load->view('footer_view', $data, TRUE);
+
+		$this->load->view('calendar_view', $data );
 	}
+	
+	public function test() {
+		$data = array();
+		$data["user"] = $this->user->get_row();
+		echo print_r($this->user->get_tasks($data["user"]->uid));
+	}
+
+	//DEPRICATED
+	//~ public function fetchCal() {
+		//~ $user_id = $this->session->userdata('uid');
+		//~ $events = $this->user->get_events($user_id);
+//~ 
+		//~ foreach ($events as $e) {
+			//~ $task = $this->user->get_task($e->tid);
+			//~ $e->title = $task->title;
+			//~ if ($e->desc == NULL)
+				//~ $e->desc = "";
+			//else {
+			//	$e->title .= "\n------------\n" ;
+			//	$e->title .= $e->desc;
+			//}
+			//~ if ($e->allDay == 'true')
+				//~ $e->allDay = true;
+			//~ else
+				//~ $e->allDay = false;
+			//~ $e->color = $task->color;
+		//~ }
+		//~ echo json_encode($events);
+	//~ }
 
 	public function addTask() {
 		$ret = $this->input->post();
@@ -97,8 +117,8 @@ class Calendar extends CI_Controller {
 		if ($ret['eid'] == 0) {
 			unset($ret['eid']);
 			$ret['uid'] = $this->session->userdata('uid');
-			$this->user->add_event($ret);
-			echo json_encode($ret);
+			$rid = $this->user->add_event($ret);
+			echo json_encode($rid);
 		}
 		else
 			if ($this->user->update_event($ret))

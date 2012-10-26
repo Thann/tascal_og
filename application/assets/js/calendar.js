@@ -17,7 +17,14 @@ $(document).ready( function()
 			url: "calendar/addEvent",
 			data: data,
 		}).done(function( ret ) {
-			//console.log(ret)
+			//~ console.log(ret)
+			//update the event eid.
+			if (event.eid == 0) {
+				//~ console.log(event)
+				$.grep(events, function(e){
+					return e.eid == 0;
+				})[0].eid = ret;
+			}
 		});
 	}
 
@@ -32,57 +39,62 @@ $(document).ready( function()
 		editable:true,
 		droppable: true,
 		defaultView: 'agendaWeek',
-		eventSources:
-		[
-			{
-				url:'calendar/fetchCal',
-				data: {
-					//eid: 'some number',
-					//long_title: 'some desctiption',
-					//section: 'true or false',
-				},
-				error: function() {
-					alert('there was an error while fetching events!');
-				},
-			}
+		//~ eventSources:
+		//~ [
+			//~ {
+				//~ url:'calendar/fetchCal',
+				//~ data: {
+					//~ //eid: 'some number',
+					//~ //long_title: 'some desctiption',
+					//~ //section: 'true or false',
+				//~ },
+				//~ error: function() {
+					//~ alert('there was an error while fetching events!');
+				//~ },
+			//~ }
+			
 			//Other sources eg. GCal
-		],
+		//~ ],
+		events: events,
 		eventClick: function(calEvent, jsEvent, view) {
 			//~ alert('Event: ' + calEvent.title + '\nDesc: ' + calEvent.desc + '\nTid: '+calEvent.tid + '\nEid: '+ calEvent.eid);
 			//make the corresponding task open.
 			if (!$("#"+calEvent.tid).children("div.task-toggle").is(":visible"))
 				$("#"+calEvent.tid).trigger('click');
 			closeDialogs();
-			$("#event-edit-dialog").data("event",calEvent).dialog("open");
+			$("#event-edit-dialog").data("eid",calEvent.eid).dialog("open");
 		},
 
 		// this function is called when something is dropped..
 		drop: function(date, allDay) {
 			// retrieve the dropped element's stored Event Object
-			var originalEventObject = $(this).data('eventObject');
+			var eventObject = $(this).data('eventObject');
 			//prevent dropping random things like dialog boxes.
-			if (!originalEventObject)
+			if (!eventObject)
 				return false;
 			// we need to copy it, so that multiple events don't have a reference to the same object
-			var copiedEventObject = $.extend({}, originalEventObject);
-
+			//~ var copiedEventObject = $.extend({}, originalEventObject);
 			// assign it the date that was reported
 			tid = $(this).attr('id');
-			copiedEventObject.eid = 0;
-			copiedEventObject.desc = "";
-			copiedEventObject.tid = tid;
-			copiedEventObject.start = date;
-			copiedEventObject.color = tasks[tid].color;
-			copiedEventObject.title = tasks[tid].title;
-			copiedEventObject.end = new Date;
-			copiedEventObject.end.setTime(date.getTime()+1*3600000); //60*60*1000 = miliseconds in an hour.
-			copiedEventObject.allDay = allDay;
+			eventObject.eid = 0;
+			eventObject.desc = "";
+			eventObject.tid = tid;
+			eventObject.start = date;
+			eventObject.color = tasks[tid].color;
+			eventObject.title = tasks[tid].title;
+			eventObject.end = new Date;
+			eventObject.end.setTime(date.getTime()+1*3600000); //60*60*1000 = miliseconds in an hour.
+			eventObject.allDay = allDay;
+
+			events.push(eventObject);
+			//~ console.log(events);
 
 			// render the event on the calendar
 			// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-			$("#calendar").fullCalendar('renderEvent', copiedEventObject, true);
+			//~ $("#calendar").fullCalendar('renderEvent', copiedEventObject, true);
+			$("#calendar").fullCalendar( 'refetchEvents' );
 
-			eventMod(copiedEventObject);
+			eventMod(eventObject);
 		}, //end: 'drop'
 		//these are set inside functions to prevent them from being run on load.
 		eventDrop: function(event) {
@@ -218,11 +230,17 @@ $(document).ready( function()
 				}).done(function( responseText ) {
 					//~ ret = jQuery.parseJSON( responseText );
 					//~ console.log(ret);
-					//#TODO: the events should be updated via JS to reduce server load.
-					$("#calendar").fullCalendar('refetchEvents');
 				});
+				//Update Task
 				tasks[data.tid] = data;
 				populateTask(data.tid);
+				//Update Local JS Events
+				var needsUpdate = $.grep(events, function(e){return e.tid == data.tid});
+				for (var i in needsUpdate) {
+					needsUpdate[i].color = data.color;
+					needsUpdate[i].title = data.title;
+				}
+				$("#calendar").fullCalendar('refetchEvents');
 				$( this ).dialog( "close" );
 			},
 			Cancel: function() {
@@ -266,22 +284,22 @@ $(document).ready( function()
 		width: 371,
 		buttons: {
 			"Save": function() {
+				var eid = $(this).data("eid");
+				var event = $.grep(events, function(e){return e.eid == eid})[0];
 				var data = {
 					desc: $("#event-edit-desc").html(),
-					eid: $(this).data("event").eid,
+					eid: eid,
 				};
-				$(this).data("event").desc = data.desc;
+				event.desc = data.desc;
 				$.ajax({
 					type: "POST",
 					url: "calendar/addEvent",
 					data: data,
 				}).done(function( responseText ) {
-					ret = jQuery.parseJSON( responseText );
-					console.log(ret);
-					//#TODO: the events should be updated via JS to reduce server load.
+					//~ ret = jQuery.parseJSON( responseText );
+					//~ console.log(ret);
 					//$("#calendar").fullCalendar('refetchEvents');
 				});
-				//Edit event
 				$( this ).dialog( "close" );
 			},
 			Cancel: function() {
@@ -295,8 +313,10 @@ $(document).ready( function()
 					$(this).parent().find("button:eq(0)").trigger("click");
 				}
 			});
-			$("#event-edit-dialog").dialog("option","title",$(this).data("event").title);
-			$("#event-edit-desc").html($(this).data("event").desc);
+			var eid = $(this).data("eid");
+			var event = $.grep(events, function(e){return e.eid == eid})[0];
+			$("#event-edit-dialog").dialog("option","title",event.title);
+			$("#event-edit-desc").html(event.desc);
 		},
 		close: function() {
 			

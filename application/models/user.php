@@ -193,7 +193,7 @@ class User extends CI_Model {
 
 	function add_event($data) {
 		if ($this->db->insert('events',$data))
-			return true; 
+			return $this->db->insert_id(); 
 		else
 			return false;
 	}
