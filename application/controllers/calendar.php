@@ -32,29 +32,31 @@ class Calendar extends CI_Controller {
 			"calendar.css"
 		);
 
-		$data["events"] = "";
 		$data["default_color"] = '#3366CC';
 		//$data["groups"] = array();
 		$data["tasks"] = $this->user->get_tasks($data["user"]->uid);
 
-		$events = $this->user->get_events($data["user"]->uid);
-
-		foreach ($events as $e) {
-			$task = $this->user->get_task($e->tid);
-			$e->title = $task->title;
-			if ($e->desc == NULL)
-				$e->desc = "";
-			//~ else {
-				//~ $e->title .= "\n------------\n" ;
-				//~ $e->title .= $e->desc;
-			//~ }
-			if ($e->allDay == 'true')
-				$e->allDay = true;
-			else
-				$e->allDay = false;
-			$e->color = $task->color;
+		$data["events"] = array();
+		foreach ($data["tasks"] as $group) {
+			foreach ($group['tasks'] as $task) {
+				$events = $this->user->get_task_events($task->tid);
+				foreach ($events as $e) {
+					$e->title = $task->title;
+					if ($e->desc == NULL)
+						$e->desc = "";
+					//else {
+					//	$e->title .= "\n------------\n" ;
+					//	$e->title .= $e->desc;
+					//}
+					if ($e->allDay == 'true')
+						$e->allDay = true;
+					else
+						$e->allDay = false;
+					$e->color = $task->color;
+				}
+				$data["events"] = array_merge($data["events"],$events);
+			}
 		}
-		$data["events"] = $events;
 
 		$data["header"] = $this->load->view('header_view', $data, TRUE);
 		$data["footer"] = $this->load->view('footer_view', $data, TRUE);
@@ -68,7 +70,7 @@ class Calendar extends CI_Controller {
 		echo print_r($this->user->get_tasks($data["user"]->uid));
 	}
 
-	//DEPRICATED
+	//DEPRECATED
 	//~ public function fetchCal() {
 		//~ $user_id = $this->session->userdata('uid');
 		//~ $events = $this->user->get_events($user_id);

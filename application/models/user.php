@@ -186,8 +186,13 @@ class User extends CI_Model {
 			return false;
 	}
 
-	function get_events($uid) {
+	function get_user_events($uid) {
 		$query = $this->db->get_where('events',array('uid' => $uid));
+		return $query->result();;
+	}
+
+	function get_task_events($tid) {
+		$query = $this->db->get_where('events',array('tid' => $tid));
 		return $query->result();;
 	}
 
