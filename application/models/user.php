@@ -148,17 +148,7 @@ class User extends CI_Model {
 			}
 			$index ++;
 		}
-		//~ foreach ($group_tasks as $g) {
-			//~ foreach 
-		//~ }
-		
-		//~ foreach ($groups)
-		
 		return $ret;
-		//~ $query = $query->result();
-		//~ return $query;
-		//~ return $gids;
-		//~ return $group_tasks[0]->gid;
 	}
 
 	function get_task($tid){
