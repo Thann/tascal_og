@@ -5,6 +5,14 @@
 	clear:both;
 }
 
+#header-uname {
+	margin-right:10px;
+}
+
+.header-link {
+	margin-left:20px;
+}
+
 #header-logout-icon {
 	/*margin-right:10%;*/
 	float:right;

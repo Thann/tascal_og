@@ -12,6 +12,7 @@ class Calendar extends CI_Controller {
 
 	public function index() {
 		$data = array();
+		$data["location"] = 'calendar';
 		$data["title"] = "Tascal";
 		$data["user"] = $this->user->get_row();
 		$data["load_js"] = array(
@@ -60,7 +61,7 @@ class Calendar extends CI_Controller {
 		}
 
 		$data["header"] = $this->load->view('header_view', $data, TRUE);
-		$data["footer"] = $this->load->view('footer_view', $data, TRUE);
+		$data["footer"] = $this->load->view('footer_view', NULL, TRUE);
 
 		$this->load->view('calendar_view', $data );
 	}
