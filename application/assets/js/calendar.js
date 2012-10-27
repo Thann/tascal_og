@@ -12,7 +12,6 @@ $(document).ready( function()
 		data.allDay = event.allDay;
 		data.end = event.end.toString();
 		data.start = event.start.toString();
-		console.log(data)
 		$.ajax({
 			type: "POST",
 			url: "calendar/addEvent",
