@@ -53,6 +53,7 @@ class Calendar extends CI_Controller {
 					else
 						$e->allDay = false;
 					$e->color = $task->color;
+					$e->gid = $task->gid;
 				}
 				$data["events"] = array_merge($data["events"],$events);
 			}

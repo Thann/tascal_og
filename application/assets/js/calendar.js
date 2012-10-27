@@ -105,8 +105,20 @@ $(document).ready( function()
 		},
 	} );
 
+	//Eye button to hide groups of events
 	$("img.task-box-icon").bind('click',function(){
-		alert("stub: show/hide events from theis group.");
+		//alert("stub: show/hide events from theis group.");
+		var gid = $(this).attr('gid');
+		var ee = $.grep(events, function(e){return e.gid == gid});
+		for (var i in ee) {
+			if ($(this).hasClass("greyed-out"))
+				ee[i].className =  null;
+			else 
+				ee[i].className = "hide-element";
+		}
+		$("#calendar").fullCalendar('refetchEvents');
+		//Greyout when events are hidden.
+		$(this).toggleClass("greyed-out");
 		//prevent the task group from expanding.
 		return false;
 	});
@@ -267,7 +279,7 @@ $(document).ready( function()
 			
 		}
 	});
-	$("#task-edit-dialog").parent().find("button:first").css('color','red');
+	$("#task-edit-dialog").parent().find("button:first").css('float','left');
 
 	$("#task-edit-desc").tinymce({
 		script_url : base_url+'application/assets/js/libs/tiny_mce/tiny_mce.js',
