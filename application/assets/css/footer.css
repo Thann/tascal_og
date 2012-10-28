@@ -12,8 +12,9 @@ div.footer {
 	
 }
 
-#about {
-	margin-left:40%
+#about-link {
+	margin-left:40%;
+	text-decoration:underline;
 }
 
 #render-time {
