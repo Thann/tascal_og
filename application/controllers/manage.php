@@ -32,11 +32,21 @@ class Manage extends CI_Controller {
 			"libs/jquery.miniColors.css",
 			"manage.css"
 		);
-		
+
+		$data["groups"] = $this->user->get_groups($data["user"]->uid);
+
 		$data["header"] = $this->load->view('header_view', $data, TRUE);
 		$data["footer"] = $this->load->view('footer_view', NULL, TRUE);
 		
 		$this->load->view('manage_view', $data );
+	}
+
+	public function test() {
+		$data = array();
+		$data["user"] = $this->user->get_row();
+		$data["groups"] = $this->user->get_groups($data["user"]->uid);
+		
+		echo json_encode($data["groups"]);
 	}
 
 }

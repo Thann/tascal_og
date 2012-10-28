@@ -119,6 +119,31 @@ class User extends CI_Model {
 		return $query[0];
 	}
 
+	function get_groups($uid) {
+		$groups = $this->db->get_where('members',array('uid' => $uid));
+		$groups = $groups->result();
+		
+		$gids = array();
+		foreach ($groups as $g)
+			$gids[] = $g->gid;
+
+		$this->db->where_in('gid',$gids);
+		$groups = $this->db->get('groups');
+		$groups = $groups->result();
+		foreach ($groups as $g) {
+			$query = $this->db->get_where('members',array('gid' => $g->gid));
+			$g->members = $query->result();
+			foreach ($g->members as $m) {
+				$query = $this->db->get_where('users',array('uid' => $m->uid));
+				$query = $query->result()[0];
+				unset($query->passwd);
+				unset($query->token);
+				$m->user = $query;
+			}
+		}
+		return $groups;
+	}
+
 	function get_tasks($uid) {
 		$groups = $this->db->get_where('members',array('uid' => $uid));
 		$groups = $groups->result();

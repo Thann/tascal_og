@@ -13,7 +13,27 @@
 </head>
 <body>
 <?php echo $header; ?>
-<div>here is where you manage stuff!</div>
+<div id='wrap'>
+<div id='group-wrap'>
+<div id='group-wrap-title'>Group Settings</div>
+<?php foreach ($groups as $g) {
+	echo "<div class='group-box'>";
+		echo "<div class='group-title'>".$g->name."</div>";
+			foreach ($g->members as $m) {
+				echo "<div class='member-box'>";
+					echo "<span class='member-title'>".$m->user->rname."</span>";
+					echo "<span class='member-perms'>PERMISSIONS</span>";
+				echo "</div>";
+			}
+		echo "</div>";
+	echo "</div>";
+}?>
+</div>
+</div>
 <?php echo $footer; ?>
 </body>
+<script type='text/javascript'>
+	//Set Javascript variables
+	var groups = <?php echo json_encode($groups); ?>;
+</script>
 </html>

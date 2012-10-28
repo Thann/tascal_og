@@ -1,0 +1,36 @@
+#wrap {
+	width: 1000px;
+	margin: 0 auto;
+}
+
+#group-wrap {
+	float: left;
+	width: 330px;
+}
+
+.group-box {
+	padding: 0 10px;
+	border: 1px solid #ccc;
+	background: #eee;
+	text-align: left;
+}
+
+.group-title {
+	color:green;
+	font-size: 1.1em;
+	/*margin-bottom:-8px;*/
+}
+
+.member-box {
+	margin: 0 0 10px;
+	padding: 2px 4px;
+	/*default color set in calendar.php*/
+	background: #3366CC;
+	color: #fff;
+	font-size: .85em;
+	cursor: pointer;
+}
+
+.member-perms {
+	float:right;
+}
