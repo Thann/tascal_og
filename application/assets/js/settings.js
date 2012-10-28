@@ -53,10 +53,12 @@ $(document).ready( function()
 				ret = jQuery.parseJSON( responseText );
 				updateTips( ret.msg );
 				if (ret.status)
-					//Update the users color in groups.
+					//Update the users info in the groups.
 					$(".member-box").each(function(){
-						if ($(this).attr('uid')==user_id)
+						if ($(this).attr('uid')==user_id) {
 							$(this).css('background-color',data.color);
+							$(this).children('.member-title').html(data.rname);
+						}
 					});
 			});
 		}
