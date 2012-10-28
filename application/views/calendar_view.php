@@ -52,12 +52,6 @@
 <br>
 <?php } //end: foreach?>
 </div>
-<script type='text/javascript'>
-	var tasks = <?php echo json_encode($js_tasks); ?>;
-	var events = <?php echo json_encode($events); ?>;
-	var base_url = "<?php echo base_url(); ?>";
-	var default_color = "<?php echo $default_color; ?>";
-</script>
 <div id='calendar'></div>
 </div>
 <!-- The following divs will be hidden, and displayed as dialogs. -->
@@ -79,4 +73,11 @@
 </div>
 <?php echo $footer; ?>
 </body>
+<script type='text/javascript'>
+	//Set Javascript variables
+	var tasks = <?php echo json_encode($js_tasks); ?>;
+	var events = <?php echo json_encode($events); ?>;
+	var base_url = "<?php echo base_url(); ?>";
+	var default_color = "<?php echo $default_color; ?>";
+</script>
 </html>
