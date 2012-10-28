@@ -24,9 +24,7 @@
 	</div>
 	<div class='group-toggle' style='display:none;'>
 	<div id="new-task" style='background:<?php echo $default_color ?>;'>
-		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));
-		echo form_input(array('gid'=>$group['group']->gid,'class'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17));
-		echo form_close(); ?>
+		<?php echo form_input(array('gid'=>$group['group']->gid,'class'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17)); ?>
 	</div>
 	<?php foreach (array_reverse($group['tasks']) as $t){
 		if (!$t->color)

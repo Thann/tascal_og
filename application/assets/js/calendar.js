@@ -184,11 +184,10 @@ $(document).ready( function()
 	//Create a new Task
 	$("#task-group-wrap").find(".new-task-input").keypress(function(event){
 		if(event.keyCode == 13){
-			//~ //make sure the form is not empty.
+			//~ //make sure the input is not empty.
 			if ($(this).val()=="")
 				return false;
-			task_box = $(this).parent().parent();
-			var url = $(this).parent().attr('action');
+			task_box = $(this).parent();
 			var data = {
 				gid: $(this).attr('gid'),
 				desc: "<p><br></p>",
@@ -196,7 +195,7 @@ $(document).ready( function()
 			};
 			$.ajax({
 				type: "POST",
-				url: url,
+				url: "calendar/addTask",
 				data: data,
 			}).done(function( responseText ) {
 				ret = jQuery.parseJSON( responseText );
