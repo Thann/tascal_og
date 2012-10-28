@@ -17,7 +17,6 @@ class Calendar extends CI_Controller {
 		$data["user"] = $this->user->get_row();
 		$data["load_js"] = array(
 			"libs/jquery-1.8.1.min.js", //1.8.2 causes problems with fullcal
-			//"libs/jquery-ui-1.8.23.custom.min.js",
 			"libs/jquery-ui-1.9.0.custom.min.js",
 			"libs/jquery.form.js",
 			"libs/fullcalendar.min.js",
@@ -34,7 +33,6 @@ class Calendar extends CI_Controller {
 		);
 
 		$data["default_color"] = '#3366CC';
-		//$data["groups"] = array();
 		$data["tasks"] = $this->user->get_tasks($data["user"]->uid);
 
 		$data["events"] = array();
@@ -71,29 +69,6 @@ class Calendar extends CI_Controller {
 		$data["user"] = $this->user->get_row();
 		echo print_r($this->user->get_tasks($data["user"]->uid));
 	}
-
-	//DEPRECATED
-	//~ public function fetchCal() {
-		//~ $user_id = $this->session->userdata('uid');
-		//~ $events = $this->user->get_events($user_id);
-//~ 
-		//~ foreach ($events as $e) {
-			//~ $task = $this->user->get_task($e->tid);
-			//~ $e->title = $task->title;
-			//~ if ($e->desc == NULL)
-				//~ $e->desc = "";
-			//else {
-			//	$e->title .= "\n------------\n" ;
-			//	$e->title .= $e->desc;
-			//}
-			//~ if ($e->allDay == 'true')
-				//~ $e->allDay = true;
-			//~ else
-				//~ $e->allDay = false;
-			//~ $e->color = $task->color;
-		//~ }
-		//~ echo json_encode($events);
-	//~ }
 
 	public function addTask() {
 		$ret = $this->input->post();
