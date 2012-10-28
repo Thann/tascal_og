@@ -1,6 +1,6 @@
-tascal
+Tascal
 ================
-A simple task and time managment system.
+A simple task and time management system.
 
 Installation
 ----------------
