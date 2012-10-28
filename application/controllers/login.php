@@ -33,6 +33,7 @@ class Login extends CI_Controller {
 				"libs/jquery-1.8.1.min.js", //1.8.2 causes problems with fullcal
 				"libs/jquery-ui-1.9.0.custom.min.js",
 				"libs/jquery.form.js",
+				"common.js",
 				"login.js"
 			);
 			$data["load_css"] = array(
@@ -47,20 +48,10 @@ class Login extends CI_Controller {
 	public function validate() {
 		$data = $this->input->post();
 
-		if (!isset($data['remember']))
-			$data['remember'] = false;
-		
 		if( $this->user->login($data))
-			//~ echo site_url('calendar');
-			////~ redirect('calendar');
 			echo json_encode(array('status'=>true,'url'=>site_url('calendar')));
-			////~ echo 1;
 		else
-			//~ echo "fail";
-			////~ redirect('');
-			////~ echo 0;
 			echo json_encode(array('status'=>false,'msg'=>'Bad Username or Password!'));
-			////~ return "fail";
 	}
 
 	public function logout() {
@@ -75,6 +66,16 @@ class Login extends CI_Controller {
 			$data['remember'] = false;
 			$this->user->login($data);
 			echo json_encode(array('status'=>true,'url'=>site_url('calendar')));
+		}
+		else
+			echo json_encode(array('status'=>false,'msg'=>'username taken!'));
+	}
+
+	public function update() {
+		$data = $this->input->post();
+
+		if ($this->user->update_info($data)){
+			echo json_encode(array('status'=>true,'msg'=>'successfully updated!'));
 		}
 		else
 			echo json_encode(array('status'=>false,'msg'=>'username taken!'));

@@ -4,44 +4,16 @@ $(document).ready( function()
 	//~ email = $( "#email" ),
 	//~ password = $( "#password" ),
 	//~ allFields = $( [] ).add( name ).add( email ).add( password ),
-		
-	function updateTips( t ) {
-		$("#create-results")
-			.text( t )
-			.addClass( "ui-state-highlight" );
-		setTimeout(function() {
-			$("#create-results").removeClass( "ui-state-highlight", 1500 );
-		}, 500 );
-	}
-
-	function checkLength( o, n, min, max ) {
-		if ( o.val().length > max || o.val().length < min ) {
-			o.focus();
-			o.select();
-			o.addClass( "ui-state-error" );
-			updateTips( "Length of " + n + " must be between " +
-				min + " and " + max + "." );
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	function checkRegexp( o, regexp, n ) {
-		if ( !( regexp.test( o.val() ) ) ) {
-			o.focus();
-			o.select();
-			o.addClass( "ui-state-error" );
-			updateTips( n );
-			return false;
-		} else {
-			return true;
-		}
-	}
 
 	$("#login-form").submit(function() {
-		var data = $("#login-form").formSerialize(); 
-		var url = $("#login-form").attr('action'); 
+		var data = {
+			uname: $("#login-uname").val(),
+			passwd: $("#login-passwd").val(),
+			remember: false
+		};
+		if ($("#login-remember").is(':checked'))
+			data.remember = true;
+		var url = $("#login-form").attr('action');
 		$.ajax({
 			type: "POST",
 			url: url,
@@ -59,28 +31,15 @@ $(document).ready( function()
 	});
 	
 
-	//~ $("#login-form").ajaxForm({
-		//~ success: function(responseText) {
-			//~ if( responseText != "fail" )
-				//~ window.location.href = responseText;
-			//~ else{
-				//~ $("#login-results").html('Bad username or password.');
-				//~ $("#login-passwd").val("");
-			//~ }
-		//~ }
-	//~ });
 	$("#login-button").button();
 
 	$("#create-account-button").button({
-		//~ icons: {
-			//~ primary: "ui-icon-gear"
-		//~ },
+		
 	}).click(function( event ) {
-		//~ alert("clicked");
 		$("#create-account-dialog").dialog("open");
 		return false;
 	});
-	
+
 	$( "#create-account-dialog" ).dialog({
 		autoOpen: false,
 		height: 350,
@@ -101,13 +60,26 @@ $(document).ready( function()
 				// From jquery.validate.js (by joern), contributed by Scott Gonzalez: http://projects.scottsplayground.com/email_address_validation/
 				bValid = bValid && checkRegexp( $("#create-email"), /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i, "eg. ui@jquery.com" );
 				bValid = bValid && checkRegexp( $("#create-passwd"), /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+				
+				if (bValid && $("#create-passwd").val() != $("#create-rpasswd").val()){
+					$("#create-rpasswd").addClass("ui-state-error");
+					$("#create-rpasswd").focus();
+					$("#create-rpasswd").select();
+					updateTips("Passwords dont match!");
+					bValid = false;
+				}
 
 				if ( bValid ) {
-					//alert("valid!");
-					var data = $("#create-form").formSerialize(); 
+					var data = {
+						rname: $("#create-rname").val(),
+						uname: $("#create-uname").val(),
+						email: $("#create-email").val(),
+						passwd: $("#create-passwd").val()
+					}
+					var url = $("#create-form").attr('action');
 					$.ajax({
 						type: "POST",
-						url: "login/create",
+						url: url,
 						data: data,
 					}).done(function( responseText ) {
 						ret = jQuery.parseJSON( responseText );

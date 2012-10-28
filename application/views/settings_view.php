@@ -30,13 +30,28 @@
 </div>
 <div id='personal-wrap'>
 	<div id='personal-wrap-title'>Personal Settings</div>
-	
+	<?php echo form_open('',array('id'=>'settings-form',));
+	echo form_input(array('id'=>'settings-rname','name'=>'rname','placeholder'=>'Full Name','size'=>25),$user->rname);
+	echo "<br>";
+	echo form_input(array('id'=>'settings-uname','name'=>'uname','placeholder'=>'Username','size'=>25),$user->uname);
+	echo "<br>";
+	echo form_input(array('id'=>'settings-email','name'=>'email','placeholder'=>'Email','size'=>25),$user->email);
+	echo "<br>";
+	echo form_input(array('id'=>'settings-passwd','name'=>'passwd','placeholder'=>'New Password','size'=>25,'type'=>'password'));
+	echo "<br>";
+	echo form_input(array('id'=>'settings-rpasswd','name'=>'rpasswd','placeholder'=>'Repeat Password','size'=>25,'type'=>'password'));
+	echo "<br>";
+	echo "<div id=create-results></div>";
+	echo form_button(array('id'=>'settings-save-button','content'=>'Save','type'=>'submit'));
+	echo form_close(); ?>
 </div>
+
 </div> <!-- End Wrap -->
 <?php echo $footer; ?>
 </body>
 <script type='text/javascript'>
 	//Set Javascript variables
 	var groups = <?php echo json_encode($groups); ?>;
+	var user_id = <?php echo json_encode($user->uid); ?>;
 </script>
 </html>

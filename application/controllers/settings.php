@@ -24,6 +24,7 @@ class Settings extends CI_Controller {
 			"libs/tiny_mce/jquery.tinymce.js",
 			"libs/jquery.miniColors.min.js",
 			//"libs/gcal.js",
+			"common.js",
 			"settings.js"
 		);
 		$data["load_css"] = array(
