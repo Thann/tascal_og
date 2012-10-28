@@ -18,11 +18,11 @@
 <div id='task-group-wrap'>
 <?php $js_tasks = array(); ?>
 <?php foreach ($tasks as $group) {?>
-<div class='task-box'>
-	<div class='task-box-title'><?php echo $group['group']->name; ?>
-		<span><img gid='<?php echo $group['group']->gid; ?>' class='task-box-icon' src='<?php echo img_url()."eye2.png"; ?>'></span>
+<div class='group-box'>
+	<div id='group-<?php echo $group['group']->gid; ?>' class='group-title'><?php echo $group['group']->name; ?>
+		<span><img gid='<?php echo $group['group']->gid; ?>' class='group-vis-icon' src='<?php echo img_url()."eye2.png"; ?>'></span>
 	</div>
-	<div class='task-box-toggle' style='display:none;'>
+	<div class='group-toggle' style='display:none;'>
 	<div id="new-task" style='background:<?php echo $default_color ?>;'>
 		<?php echo form_open('calendar/addTask',array('id'=>'new-task-form'));
 		echo form_input(array('gid'=>$group['group']->gid,'class'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17));

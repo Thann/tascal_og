@@ -14,20 +14,20 @@
 	width: 230px;
 }
 
-.task-box {
+.group-box {
 	padding: 0 10px;
 	border: 1px solid #ccc;
 	background: #eee;
 	text-align: left;
 }
 
-.task-box-title {
+.group-title {
 	color:green;
 	font-size: 1.1em;
 	/*margin-bottom:-8px;*/
 }
 
-.task-box-icon {
+.group-vis-icon {
 	float:right;
 	height:20px;
 }

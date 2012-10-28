@@ -57,11 +57,14 @@ $(document).ready( function()
 		events: events,
 		eventClick: function(calEvent, jsEvent, view) {
 			//~ alert('Event: ' + calEvent.title + '\nDesc: ' + calEvent.desc + '\nTid: '+calEvent.tid + '\nEid: '+ calEvent.eid);
+			if (!$("#group-"+calEvent.gid).children("div.group-box-toggle").is(":visible"))
+				$("#group-"+calEvent.gid).trigger('click');
 			//make the corresponding task open.
 			if (!$("#"+calEvent.tid).children("div.task-toggle").is(":visible"))
 				$("#"+calEvent.tid).trigger('click');
 			closeDialogs();
 			$("#event-edit-dialog").data("eid",calEvent.eid).dialog("open");
+			console.log(calEvent);
 		},
 
 		// this function is called when something is dropped..
@@ -71,9 +74,7 @@ $(document).ready( function()
 			//prevent dropping random things like dialog boxes.
 			if (!eventObject)
 				return false;
-			// we need to copy it, so that multiple events don't have a reference to the same object
-			//~ var copiedEventObject = $.extend({}, originalEventObject);
-			// assign it the date that was reported
+
 			tid = $(this).attr('id');
 			eventObject.eid = 0;
 			eventObject.desc = "";
@@ -106,7 +107,7 @@ $(document).ready( function()
 	} );
 
 	//Eye button to hide groups of events
-	$("img.task-box-icon").bind('click',function(){
+	$("img.group-vis-icon").bind('click',function(){
 		//alert("stub: show/hide events from theis group.");
 		var gid = $(this).attr('gid');
 		var ee = $.grep(events, function(e){return e.gid == gid});
@@ -124,22 +125,15 @@ $(document).ready( function()
 	});
 
 	//Make the task groups expandable.
-	$(this).find(".task-box-title").bind('click',function(){
+	$(this).find(".group-title").bind('click',function(){
 		//~ console.log($(this));
 		if (!$(this).next().is(":visible")){
-			$("div.task-box-toggle").hide("fast");
+			$("div.group-toggle").hide("fast");
 			$(this).next().show("fast");
 		}
-		//~ if (!task.children("div.task-toggle").is(":visible")){
-			//~ //only have one expanded at a time.
-			//~ $("div.task-toggle").hide("fast");
-			//~ task.children("div.task-toggle").show("fast");
-		//~ }
-		//~ else
-			//~ task.children("div.task-toggle").hide("fast");
 	});
 	//Initalize all groups closed except for the top one.
-	$(".task-box-toggle:first").show();
+	$(".group-toggle:first").show();
 
 	//Make a task object draggable, expandable, etc.
 	function conditionTask(task) {
@@ -197,10 +191,10 @@ $(document).ready( function()
 			task_box = $(this).parent().parent();
 			var url = $(this).parent().attr('action');
 			var data = {
-					gid: $(this).attr('gid'),
-					desc: "<p><br></p>",
-					title: $(this).val(),
-				};
+				gid: $(this).attr('gid'),
+				desc: "<p><br></p>",
+				title: $(this).val(),
+			};
 			$.ajax({
 				type: "POST",
 				url: url,
@@ -212,10 +206,10 @@ $(document).ready( function()
 				task_box.next().before("<div id='0' class='tasks'>"+$("#hidden-task").html()+"</div>");
 				task_box.next().attr('id',ret.task.tid);
 				task_box.next().find(".task-button").attr('tid',ret.task.tid);
-				$(this).val("");
 				populateTask(ret.task.tid);
 				conditionTask($("#"+ret.task.tid));
 			});
+			$(this).val("");
 			event.preventDefault();
 		}
 	});
