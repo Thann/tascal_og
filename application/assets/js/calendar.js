@@ -56,15 +56,14 @@ $(document).ready( function()
 		//~ ],
 		events: events,
 		eventClick: function(calEvent, jsEvent, view) {
-			//~ alert('Event: ' + calEvent.title + '\nDesc: ' + calEvent.desc + '\nTid: '+calEvent.tid + '\nEid: '+ calEvent.eid);
 			if (!$("#group-"+calEvent.gid).children("div.group-box-toggle").is(":visible"))
 				$("#group-"+calEvent.gid).trigger('click');
 			//make the corresponding task open.
 			if (!$("#"+calEvent.tid).children("div.task-toggle").is(":visible"))
 				$("#"+calEvent.tid).trigger('click');
+			//open dialog to view/edit event description.
 			closeDialogs();
 			$("#event-edit-dialog").data("eid",calEvent.eid).dialog("open");
-			console.log(calEvent);
 		},
 
 		// this function is called when something is dropped..
