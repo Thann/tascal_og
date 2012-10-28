@@ -33,6 +33,8 @@ class Settings extends CI_Controller {
 			"settings.css"
 		);
 
+		$data["default_color"] = '#3366CC';
+
 		$data["groups"] = $this->user->get_groups($data["user"]->uid);
 
 		$data["header"] = $this->load->view('header_view', $data, TRUE);

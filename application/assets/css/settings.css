@@ -11,11 +11,12 @@
 	display:block;
 }
 
-.group-box {
+.group-box, #add-group {
 	padding: 0 10px;
 	border: 1px solid #ccc;
 	background: #eee;
 	text-align: left;
+	margin-bottom:10px;
 }
 
 .group-title {
@@ -24,11 +25,11 @@
 	/*margin-bottom:-8px;*/
 }
 
-.member-box {
+.member-box, #add-member {
 	margin: 0 0 10px;
 	padding: 2px 4px;
-	/*default color set in calendar.php*/
-	background: #3366CC;
+	/*default color set in settings.php
+	background: #3366CC;*/
 	color: #fff;
 	font-size: .85em;
 	cursor: pointer;
@@ -37,7 +38,6 @@
 .member-perms {
 	float:right;
 }
-
 
 #personal-wrap {
 	float:right;

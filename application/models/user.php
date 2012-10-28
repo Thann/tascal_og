@@ -30,7 +30,7 @@ class User extends CI_Model {
 
 				//update the table
 				$this->db->where('uid', $user->uid);
-				$this->db->update('users', array( "token" => $token )); 
+				$this->db->update('users', array( "token" => $token ));
 
 				//set a cookie with the remember me token and the user id
 				$this->input->set_cookie( "token", $token, 60*60*24*15 );
@@ -169,7 +169,7 @@ class User extends CI_Model {
 		$query = $this->db->get('tasks');
 		$my_tasks = $query->result();
 		$ret = array();
-		$ret[0]['group'] = (object)array('gid'=>0,'owner'=>0,'settings'=>0,'name'=>'My Tasks');
+		$ret[0]['group'] = (object)array('gid'=>0,'owner'=>0,'settings'=>0,'title'=>'My Tasks');
 		$ret[0]['tasks'] = $my_tasks;
 		$index = 1;
 		foreach ($groups as $g) {

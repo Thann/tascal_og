@@ -19,7 +19,7 @@
 <?php $js_tasks = array(); ?>
 <?php foreach ($tasks as $group) {?>
 <div class='group-box'>
-	<div id='group-<?php echo $group['group']->gid; ?>' class='group-title'><?php echo $group['group']->name; ?>
+	<div id='group-<?php echo $group['group']->gid; ?>' class='group-title'><?php echo $group['group']->title; ?>
 		<span><img gid='<?php echo $group['group']->gid; ?>' class='group-vis-icon' src='<?php echo img_url()."eye2.png"; ?>'></span>
 	</div>
 	<div class='group-toggle' style='display:none;'>

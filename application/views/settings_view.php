@@ -16,11 +16,21 @@
 <div id='wrap'>
 <div id='group-wrap'>
 	<div id='group-wrap-title'>Group Settings</div>
+	<div id="add-group">
+		<?php echo form_open('settings/addGroup',array('id'=>'add-group-form'));
+		echo form_input(array('class'=>'add-group-input','name'=>'title','placeholder'=>'Add Group','size'=>25));
+		echo form_close(); ?>
+	</div>
 	<?php foreach ($groups as $g) {
 		echo "<div class='group-box'>";
-			echo "<div class='group-title'>".$g->name."</div>";
+			echo "<div class='group-title'>".$g->title."</div>";
+			echo "<div id='add-member' style='background:".$default_color.";'>";
+				echo form_open('settings/addMemeber',array('id'=>'add-member-form'));
+				echo form_input(array('gid'=>$g->gid,'class'=>'add-member-input','name'=>'name','placeholder'=>'Add Member','size'=>25));
+				echo form_close();
+			echo "</div>";
 			foreach ($g->members as $m) {
-				echo "<div class='member-box'>";
+				echo "<div class='member-box' style='background:".$default_color.";'>";
 					echo "<span class='member-title'>".$m->user->rname."</span>";
 					echo "<span class='member-perms'>PERMISSIONS</span>";
 				echo "</div>";
