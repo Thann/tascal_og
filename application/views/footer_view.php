@@ -15,3 +15,6 @@
 		$("#about-view").dialog("open")
 	});
 </script>
+<style>
+	a {outline:none;}
+</style>
