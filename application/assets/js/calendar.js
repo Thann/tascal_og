@@ -79,6 +79,7 @@ $(document).ready( function()
 			eventObject.desc = "";
 			eventObject.tid = tid;
 			eventObject.start = date;
+			eventObject.gid = tasks[tid].gid;
 			eventObject.color = tasks[tid].color;
 			eventObject.title = tasks[tid].title;
 			eventObject.end = new Date;
