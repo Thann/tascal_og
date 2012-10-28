@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Manage extends CI_Controller {
+class Settings extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
@@ -12,7 +12,7 @@ class Manage extends CI_Controller {
 
 	public function index() {
 		$data = array();
-		$data["location"] = 'manage';
+		$data["location"] = 'settings';
 		$data["title"] = "Tascal";
 		$data["user"] = $this->user->get_row();
 		$data["load_js"] = array(
@@ -24,13 +24,13 @@ class Manage extends CI_Controller {
 			"libs/tiny_mce/jquery.tinymce.js",
 			"libs/jquery.miniColors.min.js",
 			//"libs/gcal.js",
-			"manage.js"
+			"settings.js"
 		);
 		$data["load_css"] = array(
 			"libs/fullcalendar.css",
 			"libs/ui-lightness/jquery-ui-1.9.0.custom.min.css",
 			"libs/jquery.miniColors.css",
-			"manage.css"
+			"settings.css"
 		);
 
 		$data["groups"] = $this->user->get_groups($data["user"]->uid);
@@ -38,7 +38,7 @@ class Manage extends CI_Controller {
 		$data["header"] = $this->load->view('header_view', $data, TRUE);
 		$data["footer"] = $this->load->view('footer_view', NULL, TRUE);
 		
-		$this->load->view('manage_view', $data );
+		$this->load->view('settings_view', $data );
 	}
 
 	public function test() {
@@ -51,5 +51,5 @@ class Manage extends CI_Controller {
 
 }
 
-/* End of file manage.php */
-/* Location: ./application/controllers/manage.php */
+/* End of file settings.php */
+/* Location: ./application/controllers/settings.php */
