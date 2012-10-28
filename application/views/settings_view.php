@@ -30,7 +30,7 @@
 				echo form_close();
 			echo "</div>";
 			foreach ($g->members as $m) {
-				echo "<div class='member-box' style='background:".$default_color.";'>";
+				echo "<div class='member-box' uid='".$m->user->uid."' style='background:".(($user->color)?$user->color:$default_color).";'>";
 					echo "<span class='member-title'>".$m->user->rname."</span>";
 					echo "<span class='member-perms'>PERMISSIONS</span>";
 				echo "</div>";
@@ -41,16 +41,12 @@
 <div id='personal-wrap'>
 	<div id='personal-wrap-title'>Personal Settings</div>
 	<?php echo form_open('',array('id'=>'settings-form',));
-	echo form_input(array('id'=>'settings-rname','name'=>'rname','placeholder'=>'Full Name','size'=>25),$user->rname);
-	echo "<br>";
-	echo form_input(array('id'=>'settings-uname','name'=>'uname','placeholder'=>'Username','size'=>25),$user->uname);
-	echo "<br>";
-	echo form_input(array('id'=>'settings-email','name'=>'email','placeholder'=>'Email','size'=>25),$user->email);
-	echo "<br>";
-	echo form_input(array('id'=>'settings-passwd','name'=>'passwd','placeholder'=>'New Password','size'=>25,'type'=>'password'));
-	echo "<br>";
-	echo form_input(array('id'=>'settings-rpasswd','name'=>'rpasswd','placeholder'=>'Repeat Password','size'=>25,'type'=>'password'));
-	echo "<br>";
+	echo form_input(array('id'=>'settings-rname','name'=>'rname','placeholder'=>'Full Name','size'=>25),$user->rname)."<br>";
+	echo form_input(array('id'=>'settings-uname','name'=>'uname','placeholder'=>'Username','size'=>25),$user->uname)."<br>";
+	echo form_input(array('id'=>'settings-email','name'=>'email','placeholder'=>'Email','size'=>25),$user->email)."<br>";
+	echo form_input(array('id'=>'settings-passwd','name'=>'passwd','placeholder'=>'New Password','size'=>25,'type'=>'password'))."<br>";
+	echo form_input(array('id'=>'settings-rpasswd','name'=>'rpasswd','placeholder'=>'Repeat Password','size'=>25,'type'=>'password'))."<br>";
+	echo form_input(array('id'=>'user-edit-color','name'=>'color','placeholder'=>'Color','size'=>20),($user->color)?$user->color:$default_color)."<br>";
 	echo "<div id=create-results></div>";
 	echo form_button(array('id'=>'settings-save-button','content'=>'Save','type'=>'submit'));
 	echo form_close(); ?>

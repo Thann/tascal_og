@@ -1,5 +1,11 @@
 $(document).ready( function()
 {
+	$("#user-edit-color").miniColors({
+		change: function(hex, rgb) {
+			//~ console.log(hex);
+		}
+	});
+
 	$("#settings-save-button").button({
 		
 	}).click(function() {
@@ -35,6 +41,7 @@ $(document).ready( function()
 				rname: $("#settings-rname").val(),
 				uname: $("#settings-uname").val(),
 				email: $("#settings-email").val(),
+				color: $("#user-edit-color").val()
 			};
 			if ($("#settings-passwd").val())
 				data.passwd = $("#settings-passwd").val();
@@ -45,6 +52,12 @@ $(document).ready( function()
 			}).done(function( responseText ) {
 				ret = jQuery.parseJSON( responseText );
 				updateTips( ret.msg );
+				if (ret.status)
+					//Update the users color in groups.
+					$(".member-box").each(function(){
+						if ($(this).attr('uid')==user_id)
+							$(this).css('background-color',data.color);
+					});
 			});
 		}
 		return false;
