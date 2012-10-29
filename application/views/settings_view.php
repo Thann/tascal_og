@@ -28,7 +28,7 @@
 				//echo form_close();
 			echo "</div>";
 			foreach ($g->members as $m) {
-				echo "<div class='member-box' uid='".$m->user->uid."' style='background:".(($user->color)?$user->color:$default_color).";'>";
+				echo "<div class='member-box' uid='".$m->user->uid."' style='background:".(($m->user->color)?$m->user->color:$default_color).";'>";
 					echo "<span class='member-title'>".$m->user->rname."</span>";
 					echo "<span class='member-perms'>PERMISSIONS</span>";
 				echo "</div>";

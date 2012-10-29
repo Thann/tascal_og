@@ -55,7 +55,17 @@ class Settings extends CI_Controller {
 	public function addMember() {
 		$ret = $this->input->post();
 		//~ $data = array();
-		echo json_encode($ret);
+		$query = $this->user->get_user($ret["uname"]);
+		if ($query["status"]) {
+			$data = array('gid'=>$ret["gid"],'uid'=>$query["user"]->uid,'perms'=>0);
+			$member = $this->user->add_member($data);
+			unset($query["user"]->passwd);
+			unset($query["user"]->token);
+			$member["member"]->user = $query["user"];
+			echo json_encode($member);
+			return;
+		}
+		echo json_encode(array('status'=>false));
 	}
 
 	public function test() {

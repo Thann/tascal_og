@@ -119,23 +119,35 @@ class User extends CI_Model {
 			return false;
 	}
 
-	function get_row($uname = NULL) {
-		if ($uname == NULL)
-			$uname = $this->session->userdata('uname');
+	function get_row($uid = NULL) {
+		if ($uid == NULL)
+			$uid = $this->session->userdata('uid');
 
-		$query = $this->db->get_where('users',array('uname' => $uname));
+		$query = $this->db->get_where('users',array('uid' => $uid));
 		$query = $query->result();
 		return $query[0];
 	}
 
+	function get_user($uname) {
+		$query = $this->db->get_where('users',array('uname'=>$uname));
+		if( $query->num_rows() > 0 )
+			return array('status'=>true,'user'=>$query->result()[0]);
+		return array('status'=>false);
+	}
+
 	function add_member($data) {
+		//check for membership
+		$query = $this->db->get_where('members',array('gid'=>$data["gid"],'uid'=>$data["uid"]));
+		if( $query->num_rows() > 0 )
+			return array('status'=>false,'msg'=>"User is already a member of the group");
+
 		if ($this->db->insert('members',$data)) {
 			$mid = $this->db->insert_id();
 			$member = $this->db->get_where('members',array('mid'=>$mid));
 			$member = $member->result()[0];
 			return array('status'=>true, 'member'=>$member);
 		}
-		return array('status'=>false);
+		return array('status'=>false,'msg'=>"Unknown Error");
 	}
 
 	function get_groups($uid) {

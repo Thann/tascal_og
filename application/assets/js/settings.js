@@ -13,7 +13,6 @@ $(document).ready( function()
 			if ($(this).val()=="")
 				return false;
 			group_box = $(this).parent();
-			//~ var url = $(this).parent().attr('action');
 			var data = {
 				title: $(this).val(),
 			};
@@ -23,18 +22,11 @@ $(document).ready( function()
 				data: data,
 			}).done(function( responseText ) {
 				ret = jQuery.parseJSON( responseText );
-				console.log(ret);
+				//~ console.log(ret);
 				groups.push(ret.group);
 				
 				group_box.next().before("<div class='group-box'>"+$("#hidden-group").html()+"</div>");
 				group_box.next().find(".group-title").html(ret.group.title);
-				//~ tasks[ret.task.tid] = ret.task;
-				//~ tasks[ret.task.tid].color = default_color;
-				//~ task_box.next().before("<div id='0' class='tasks'>"+$("#hidden-task").html()+"</div>");
-				//~ task_box.next().attr('id',ret.task.tid);
-				//~ task_box.next().find(".task-button").attr('tid',ret.task.tid);
-				//~ populateTask(ret.task.tid);
-				//~ conditionTask($("#"+ret.task.tid));
 			});
 			$(this).val("");
 			event.preventDefault();
@@ -50,6 +42,7 @@ $(document).ready( function()
 			task_box = $(this).parent().parent();
 			var data = {
 				gid: $(this).attr('gid'),
+				uname: $(this).val()
 			};
 			$.ajax({
 				type: "POST",
@@ -58,6 +51,7 @@ $(document).ready( function()
 			}).done(function( responseText ) {
 				ret = jQuery.parseJSON( responseText );
 				console.log(ret);
+				//~ console.log(responseText);
 				//~ tasks[ret.task.tid] = ret.task;
 				//~ tasks[ret.task.tid].color = default_color;
 				//~ task_box.next().before("<div id='0' class='tasks'>"+$("#hidden-task").html()+"</div>");
