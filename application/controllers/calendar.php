@@ -63,22 +63,13 @@ class Calendar extends CI_Controller {
 
 		$this->load->view('calendar_view', $data );
 	}
-	
-	public function test() {
-		$data = array();
-		$data["user"] = $this->user->get_row();
-		echo print_r($this->user->get_tasks($data["user"]->uid));
-	}
 
 	public function addTask() {
 		$ret = $this->input->post();
 		$ret["uid"] = $this->session->userdata('uid');
 
 		$task = $this->user->add_task($ret);
-		if ($task['status'])
-			echo json_encode(array('status'=>true, 'task'=>$task['task']));
-		else
-			echo json_encode(array('status'=>false, 'msg'=>'task addition failed!'));
+		echo json_encode($task);
 	}
 
 	public function updateTask() {

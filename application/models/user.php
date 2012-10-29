@@ -128,6 +128,16 @@ class User extends CI_Model {
 		return $query[0];
 	}
 
+	function add_member($data) {
+		if ($this->db->insert('members',$data)) {
+			$mid = $this->db->insert_id();
+			$member = $this->db->get_where('members',array('mid'=>$mid));
+			$member = $member->result()[0];
+			return array('status'=>true, 'member'=>$member);
+		}
+		return array('status'=>false);
+	}
+
 	function get_groups($uid) {
 		$groups = $this->db->get_where('members',array('uid' => $uid));
 		$groups = $groups->result();
@@ -151,6 +161,24 @@ class User extends CI_Model {
 			}
 		}
 		return $groups;
+	}
+
+	function add_group($data) {
+		if ($this->db->insert('groups',$data)) {
+			$gid = $this->db->insert_id();
+			$group = $this->db->get_where('groups',array('gid' => $gid));
+			$group = $group->result()[0];
+			$memData = array('gid'=>$gid,'uid'=>$group->owner,'perms'=>0);
+			$member = $this->add_member($memData)["member"];
+			$user = $this->db->get_where('users',array('uid'=>$group->owner));
+			$user = $user->result()[0];
+			unset($user->passwd);
+			unset($user->token);
+			$member->user = $user;
+			$group->members = array($member);
+			return array('status'=>true, 'group'=>$group);
+		}
+		return array('status'=>false);
 	}
 
 	function get_tasks($uid) {
@@ -198,7 +226,7 @@ class User extends CI_Model {
 			return array('status'=>true, 'task'=>$task);
 		}
 		else
-			return 0;
+			return array('status'=>false);
 	}
 
 	function update_task($data) {

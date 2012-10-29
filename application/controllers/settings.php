@@ -43,6 +43,21 @@ class Settings extends CI_Controller {
 		$this->load->view('settings_view', $data );
 	}
 
+	public function addGroup() {
+		$ret = $this->input->post();
+		$ret["owner"] = $this->session->userdata('uid');
+		$ret["settings"] = 0;
+		
+		$group = $this->user->add_group($ret);
+		echo json_encode($group);
+	}
+
+	public function addMember() {
+		$ret = $this->input->post();
+		//~ $data = array();
+		echo json_encode($ret);
+	}
+
 	public function test() {
 		$data = array();
 		$data["user"] = $this->user->get_row();

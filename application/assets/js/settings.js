@@ -6,6 +6,71 @@ $(document).ready( function()
 		}
 	});
 
+	//Create a new group
+	$("#add-group-input").keypress(function(event){
+		if(event.keyCode == 13){
+			//make sure the input is not empty.
+			if ($(this).val()=="")
+				return false;
+			group_box = $(this).parent();
+			//~ var url = $(this).parent().attr('action');
+			var data = {
+				title: $(this).val(),
+			};
+			$.ajax({
+				type: "POST",
+				url: "settings/AddGroup",
+				data: data,
+			}).done(function( responseText ) {
+				ret = jQuery.parseJSON( responseText );
+				console.log(ret);
+				groups.push(ret.group);
+				
+				group_box.next().before("<div class='group-box'>"+$("#hidden-group").html()+"</div>");
+				group_box.next().find(".group-title").html(ret.group.title);
+				//~ tasks[ret.task.tid] = ret.task;
+				//~ tasks[ret.task.tid].color = default_color;
+				//~ task_box.next().before("<div id='0' class='tasks'>"+$("#hidden-task").html()+"</div>");
+				//~ task_box.next().attr('id',ret.task.tid);
+				//~ task_box.next().find(".task-button").attr('tid',ret.task.tid);
+				//~ populateTask(ret.task.tid);
+				//~ conditionTask($("#"+ret.task.tid));
+			});
+			$(this).val("");
+			event.preventDefault();
+		}
+	});
+
+	//Add a member to the group
+	$("#group-wrap").find(".add-member-input").keypress(function(event){
+		if(event.keyCode == 13){
+			//make sure the input is not empty.
+			if ($(this).val()=="")
+				return false;
+			task_box = $(this).parent().parent();
+			var data = {
+				gid: $(this).attr('gid'),
+			};
+			$.ajax({
+				type: "POST",
+				url: "settings/addMember",
+				data: data,
+			}).done(function( responseText ) {
+				ret = jQuery.parseJSON( responseText );
+				console.log(ret);
+				//~ tasks[ret.task.tid] = ret.task;
+				//~ tasks[ret.task.tid].color = default_color;
+				//~ task_box.next().before("<div id='0' class='tasks'>"+$("#hidden-task").html()+"</div>");
+				//~ task_box.next().attr('id',ret.task.tid);
+				//~ task_box.next().find(".task-button").attr('tid',ret.task.tid);
+				//~ populateTask(ret.task.tid);
+				//~ conditionTask($("#"+ret.task.tid));
+			});
+			$(this).val("");
+			event.preventDefault();
+		}
+	});
+
 	$("#settings-save-button").button({
 		
 	}).click(function() {

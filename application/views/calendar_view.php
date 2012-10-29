@@ -38,6 +38,7 @@
 			echo "</div>";
 		echo "</div>";
 	}?>
+	<!-- The following is a template for new tasks that will be added with JS. -->
 	<div id='hidden-task' class='tasks' style='display:none'>
 		<span id='task-title'></span>
 		<div id='task-toggle-0' style='display:none;' class='task-toggle'>
