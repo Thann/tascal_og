@@ -39,7 +39,7 @@ $(document).ready( function()
 			//make sure the input is not empty.
 			if ($(this).val()=="")
 				return false;
-			task_box = $(this).parent().parent();
+			member_box = $(this).parent();
 			var data = {
 				gid: $(this).attr('gid'),
 				uname: $(this).val()
@@ -50,15 +50,28 @@ $(document).ready( function()
 				data: data,
 			}).done(function( responseText ) {
 				ret = jQuery.parseJSON( responseText );
-				console.log(ret);
-				//~ console.log(responseText);
-				//~ tasks[ret.task.tid] = ret.task;
-				//~ tasks[ret.task.tid].color = default_color;
-				//~ task_box.next().before("<div id='0' class='tasks'>"+$("#hidden-task").html()+"</div>");
-				//~ task_box.next().attr('id',ret.task.tid);
-				//~ task_box.next().find(".task-button").attr('tid',ret.task.tid);
-				//~ populateTask(ret.task.tid);
-				//~ conditionTask($("#"+ret.task.tid));
+				//~ console.log(ret);
+				if (ret.status) {
+					//add member to group
+					$.grep(groups, function(e){return e.gid == data.gid})[0].members.push(ret.member);
+					console.log(groups)
+
+					member_box.next().before("<div class='member-box'>"+$("#hidden-member").html()+"</div>");
+					member_box.next().css('background-color',((ret.member.user.color)?ret.member.user.color:default_color));
+					member_box.next().find(".member-title").html(ret.member.user.rname);
+					member_box.next().attr('uid',ret.member.uid);
+					
+					
+					
+					//~ console.log(responseText);
+					//~ tasks[ret.task.tid] = ret.task;
+					//~ tasks[ret.task.tid].color = default_color;
+					//~ task_box.next().before("<div id='0' class='tasks'>"+$("#hidden-task").html()+"</div>");
+					//~ task_box.next().attr('id',ret.task.tid);
+					//~ task_box.next().find(".task-button").attr('tid',ret.task.tid);
+					//~ populateTask(ret.task.tid);
+					//~ conditionTask($("#"+ret.task.tid));
+				}
 			});
 			$(this).val("");
 			event.preventDefault();

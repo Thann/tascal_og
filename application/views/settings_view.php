@@ -23,11 +23,9 @@
 		echo "<div class='group-box'>";
 			echo "<div class='group-title'>".$g->title."</div>";
 			echo "<div id='add-member' style='background:".$default_color.";'>";
-				//echo form_open('settings/addMemeber',array('id'=>'add-member-form'));
 				echo form_input(array('gid'=>$g->gid,'class'=>'add-member-input','name'=>'name','placeholder'=>'Add Member','size'=>25));
-				//echo form_close();
 			echo "</div>";
-			foreach ($g->members as $m) {
+			foreach (array_reverse($g->members) as $m) {
 				echo "<div class='member-box' uid='".$m->user->uid."' style='background:".(($m->user->color)?$m->user->color:$default_color).";'>";
 					echo "<span class='member-title'>".$m->user->rname."</span>";
 					echo "<span class='member-perms'>PERMISSIONS</span>";
@@ -35,13 +33,13 @@
 			}
 		echo "</div>";
 	}?>
-	<!-- The following is a template for new groups that will be added with JS. -->
+	<!-- The following is a template for new groups and members that will be added with JS. -->
 	<div id='hidden-group' class='group-box' style='display:none'>
 		<div class='group-title'>THIS SHOULD BE HIDDEN</div>
 		<?php echo "<div id='add-member' style='background:".$default_color.";'>";
 			echo form_input(array('gid'=>0,'class'=>'add-member-input','name'=>'name','placeholder'=>'Add Member','size'=>25));
 		echo "</div>";
-		echo "<div class='member-box' uid='".$user->uid."' style='background:".(($user->color)?$user->color:$default_color).";'>"; 
+		echo "<div id='hidden-member' class='member-box' uid='".$user->uid."' style='background:".(($user->color)?$user->color:$default_color).";'>"; 
 			echo "<span class='member-title'>".$user->rname."</span>";
 			echo "<span class='member-perms'>PERMISSIONS</span>"; 
 		echo "</div>"; ?>
@@ -68,5 +66,6 @@
 	//Set Javascript variables
 	var groups = <?php echo json_encode($groups); ?>;
 	var user_id = <?php echo json_encode($user->uid); ?>;
+	var default_color = "<?php echo $default_color ?>";
 </script>
 </html>
