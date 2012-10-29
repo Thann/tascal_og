@@ -54,7 +54,7 @@
 <div id='calendar'></div>
 </div>
 <!-- The following divs will be hidden, and displayed as dialogs. -->
-<div id='task-edit-dialog' title='Edit Task'>
+<div id='task-edit-dialog' title='Edit Task' style='display:none;'>
 	<?php echo "<div id='task-edit-box'>";
 	echo form_input(array('id'=>'task-edit-title','name'=>'title','placeholder'=>'Title','size'=>25));
 	echo "<br>";
@@ -64,7 +64,7 @@
 	echo "<div id=task-edit-results></div>";
 	echo "</div>"; ?>
 </div>
-<div id='event-edit-dialog'>
+<div id='event-edit-dialog' style='display:none;'>
 	<?php echo "<div id='event-edit-box'>";
 	echo "<textarea id='event-edit-desc'></textarea>";
 	echo "<div id=event-edit-results></div>";
