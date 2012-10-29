@@ -70,6 +70,9 @@
 	echo "<div id=event-edit-results></div>";
 	echo "</div>"; ?>
 </div>
+<div id='delete-dialog' style='display:none;'>
+	<div id='delete-dialog-contents'>Are you sure you want to delete this event?</div>
+</div>
 <?php echo $footer; ?>
 </body>
 <script type='text/javascript'>

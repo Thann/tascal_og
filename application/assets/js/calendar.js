@@ -272,6 +272,7 @@ $(document).ready( function()
 				$( this ).dialog( "close" );
 			},
 			Delete: function() {
+				//TODO: implement
 				alert("Delete?!");
 				$( this ).dialog( "close" );
 			},
@@ -336,6 +337,11 @@ $(document).ready( function()
 			Cancel: function() {
 				$( this ).dialog( "close" );
 			},
+			Delete: function() {
+				//alert("Delete?!");
+				$("#delete-dialog").dialog("open");
+				$( this ).dialog( "close" );
+			},
 		},
 		open: function() {
 			//make the enter button click 'save'.
@@ -360,5 +366,20 @@ $(document).ready( function()
 		theme : "advanced",
 		theme_advanced_buttons1 : "bold,italic,underline,separator,strikethrough,justifyleft,justifycenter,justifyright, justifyfull,bullist,numlist,undo,redo,link,unlink",
 		theme_advanced_statusbar_location : "",
+	});
+
+	$("#delete-dialog").dialog({
+		autoOpen: false,
+		title: "Permanently Delete?",
+		width: 371,
+		buttons: {
+			Delete: function() {
+				//#TODO: implement
+				$( this ).dialog( "close" );
+			},
+			Cancel: function() {
+				$( this ).dialog( "close" );
+			},
+		},
 	});
 });
