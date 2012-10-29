@@ -1,5 +1,13 @@
 $(document).ready( function()
 {
+	//Takes in html and spits out plaintext.
+	function stripHTML(html)
+	{
+		var tmp = document.createElement("DIV");
+		tmp.innerHTML = html;
+		return tmp.textContent||tmp.innerText;
+	}
+
 	function closeDialogs() {
 		$("#event-edit-dialog").dialog("close");
 		$("#task-edit-dialog").dialog("close");
@@ -25,6 +33,19 @@ $(document).ready( function()
 				})[0].eid = ret;
 			}
 		});
+	}
+
+	//This is up here so it gets ran before the calendar fetches.
+	function applyTaskSettings(event) {
+		if (tasks[event.tid].settings & mask.showEventDesc) {
+			event.taskTitle = event.title;
+			event.title = stripHTML(event.desc);
+			
+		}
+	};
+	//apply to all events
+	for (i in events) {
+		applyTaskSettings(events[i]);
 	}
 
 	$("#calendar").fullCalendar(
@@ -90,8 +111,6 @@ $(document).ready( function()
 			//~ console.log(events);
 
 			// render the event on the calendar
-			// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-			//~ $("#calendar").fullCalendar('renderEvent', copiedEventObject, true);
 			$("#calendar").fullCalendar( 'refetchEvents' );
 
 			eventMod(eventObject);
@@ -224,6 +243,8 @@ $(document).ready( function()
 					color: $("#task-edit-color").val(),
 					tid: $(this).data("task").attr('tid'),
 				};
+				//#TODO:implement updating settings.
+				data.settings = tasks[data.tid].settings
 				if (!data.desc)
 					data.desc = "<p><br></p>";
 				$.ajax({
@@ -242,6 +263,7 @@ $(document).ready( function()
 				for (var i in needsUpdate) {
 					needsUpdate[i].color = data.color;
 					needsUpdate[i].title = data.title;
+					applyTaskSettings(needsUpdate[i]);
 				}
 				$("#calendar").fullCalendar('refetchEvents');
 				$( this ).dialog( "close" );
@@ -251,7 +273,7 @@ $(document).ready( function()
 			},
 			Delete: function() {
 				alert("Delete?!");
-				//~ $( this ).dialog( "close" );
+				$( this ).dialog( "close" );
 			},
 		},
 		open: function() {
@@ -307,7 +329,8 @@ $(document).ready( function()
 					//~ ret = jQuery.parseJSON( responseText );
 					//~ console.log(ret);
 				});
-				//$("#calendar").fullCalendar('refetchEvents');
+				applyTaskSettings(event);
+				$("#calendar").fullCalendar('refetchEvents');
 				$( this ).dialog( "close" );
 			},
 			Cancel: function() {
@@ -323,7 +346,7 @@ $(document).ready( function()
 			});
 			var eid = $(this).data("eid");
 			var event = $.grep(events, function(e){return e.eid == eid})[0];
-			$("#event-edit-dialog").dialog("option","title",event.title);
+			$("#event-edit-dialog").dialog("option","title",tasks[event.tid].title);
 			$("#event-edit-desc").html(event.desc);
 		},
 		close: function() {

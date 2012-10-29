@@ -35,6 +35,10 @@ class Calendar extends CI_Controller {
 		$data["default_color"] = '#3366CC';
 		$data["tasks"] = $this->user->get_tasks($data["user"]->uid);
 
+		$data["mask"] = array(
+			'showEventDesc' => 1,
+		);
+
 		$data["events"] = array();
 		foreach ($data["tasks"] as $group) {
 			foreach ($group['tasks'] as $task) {
