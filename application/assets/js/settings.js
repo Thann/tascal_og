@@ -6,6 +6,43 @@ $(document).ready( function()
 		}
 	});
 
+	//Used below to add members to groups.
+	function add_member(event,object) {
+		if(event.keyCode == 13){
+			//make sure the input is not empty.
+			if (object.val()=="")
+				return false;
+			member_box = object.parent();
+			var data = {
+				gid: object.attr('gid'),
+				uname: object.val()
+			};
+			$.ajax({
+				type: "POST",
+				url: "settings/addMember",
+				data: data,
+			}).done(function( responseText ) {
+				ret = jQuery.parseJSON( responseText );
+				//~ console.log(ret);
+				if (ret.status) {
+					//add member to group
+					$.grep(groups, function(e){return e.gid == data.gid})[0].members.push(ret.member);
+					member_box.next().before("<div class='member-box'>"+$("#hidden-member").html()+"</div>");
+					member_box.next().css('background-color',((ret.member.user.color)?ret.member.user.color:default_color));
+					member_box.next().find(".member-title").html(ret.member.user.rname);
+					member_box.next().attr('uid',ret.member.uid);
+				}
+				else 
+					member_box.find("#error-msg").html(ret.msg);
+			});
+			object.val("");
+			event.preventDefault();
+		}
+	}
+
+	//Bind keypress event to each add-member-input box
+	$("#group-wrap").find(".add-member-input").keypress(function(event){add_member(event,$(this))});
+
 	//Create a new group
 	$("#add-group-input").keypress(function(event){
 		if(event.keyCode == 13){
@@ -23,54 +60,13 @@ $(document).ready( function()
 			}).done(function( responseText ) {
 				ret = jQuery.parseJSON( responseText );
 				//~ console.log(ret);
-				groups.push(ret.group);
-				
-				group_box.next().before("<div class='group-box'>"+$("#hidden-group").html()+"</div>");
-				group_box.next().find(".group-title").html(ret.group.title);
-			});
-			$(this).val("");
-			event.preventDefault();
-		}
-	});
-
-	//Add a member to the group
-	$("#group-wrap").find(".add-member-input").keypress(function(event){
-		if(event.keyCode == 13){
-			//make sure the input is not empty.
-			if ($(this).val()=="")
-				return false;
-			member_box = $(this).parent();
-			var data = {
-				gid: $(this).attr('gid'),
-				uname: $(this).val()
-			};
-			$.ajax({
-				type: "POST",
-				url: "settings/addMember",
-				data: data,
-			}).done(function( responseText ) {
-				ret = jQuery.parseJSON( responseText );
-				//~ console.log(ret);
-				if (ret.status) {
-					//add member to group
-					$.grep(groups, function(e){return e.gid == data.gid})[0].members.push(ret.member);
-					console.log(groups)
-
-					member_box.next().before("<div class='member-box'>"+$("#hidden-member").html()+"</div>");
-					member_box.next().css('background-color',((ret.member.user.color)?ret.member.user.color:default_color));
-					member_box.next().find(".member-title").html(ret.member.user.rname);
-					member_box.next().attr('uid',ret.member.uid);
-					
-					
-					
-					//~ console.log(responseText);
-					//~ tasks[ret.task.tid] = ret.task;
-					//~ tasks[ret.task.tid].color = default_color;
-					//~ task_box.next().before("<div id='0' class='tasks'>"+$("#hidden-task").html()+"</div>");
-					//~ task_box.next().attr('id',ret.task.tid);
-					//~ task_box.next().find(".task-button").attr('tid',ret.task.tid);
-					//~ populateTask(ret.task.tid);
-					//~ conditionTask($("#"+ret.task.tid));
+				if (ret.status){
+					groups.push(ret.group);
+					console.log(groups);
+					group_box.next().before("<div class='group-box'>"+$("#hidden-group").html()+"</div>");
+					group_box.next().find(".add-member-input").keypress(function(event){add_member(event,$(this))});
+					group_box.next().find(".add-member-input").attr('gid',ret.group.gid);
+					group_box.next().find(".group-title").html(ret.group.title);
 				}
 			});
 			$(this).val("");

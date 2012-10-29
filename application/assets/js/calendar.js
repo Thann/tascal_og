@@ -190,7 +190,6 @@ $(document).ready( function()
 			task_box = $(this).parent();
 			var data = {
 				gid: $(this).attr('gid'),
-				desc: "<p><br></p>",
 				title: $(this).val(),
 			};
 			$.ajax({

@@ -24,7 +24,7 @@
 	</div>
 	<div class='group-toggle' style='display:none;'>
 	<div id="new-task" style='background:<?php echo $default_color ?>;'>
-		<?php echo form_input(array('gid'=>$group['group']->gid,'class'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17)); ?>
+		<?php echo form_input(array('gid'=>$group['group']->gid,'class'=>'new-task-input','name'=>'title','placeholder'=>'New Task','size'=>17,'autocomplete'=>'off')); ?>
 	</div>
 	<?php foreach (array_reverse($group['tasks']) as $t){
 		if (!$t->color)

@@ -67,6 +67,8 @@ class Calendar extends CI_Controller {
 	public function addTask() {
 		$ret = $this->input->post();
 		$ret["uid"] = $this->session->userdata('uid');
+		$ret["desc"] = "<p><br></p>";
+		$ret["settings"] = 0;
 
 		$task = $this->user->add_task($ret);
 		echo json_encode($task);

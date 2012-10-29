@@ -47,33 +47,25 @@ class Settings extends CI_Controller {
 		$ret = $this->input->post();
 		$ret["owner"] = $this->session->userdata('uid');
 		$ret["settings"] = 0;
-		
 		$group = $this->user->add_group($ret);
 		echo json_encode($group);
 	}
 
 	public function addMember() {
 		$ret = $this->input->post();
-		//~ $data = array();
 		$query = $this->user->get_user($ret["uname"]);
 		if ($query["status"]) {
 			$data = array('gid'=>$ret["gid"],'uid'=>$query["user"]->uid,'perms'=>0);
 			$member = $this->user->add_member($data);
-			unset($query["user"]->passwd);
-			unset($query["user"]->token);
-			$member["member"]->user = $query["user"];
+			if ($member["status"]) {
+				unset($query["user"]->passwd);
+				unset($query["user"]->token);
+				$member["member"]->user = $query["user"];
+			}
 			echo json_encode($member);
 			return;
 		}
-		echo json_encode(array('status'=>false));
-	}
-
-	public function test() {
-		$data = array();
-		$data["user"] = $this->user->get_row();
-		$data["groups"] = $this->user->get_groups($data["user"]->uid);
-		
-		echo json_encode($data["groups"]);
+		echo json_encode(array('status'=>false,'msg'=>"Invalid Username"));
 	}
 }
 

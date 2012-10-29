@@ -17,13 +17,14 @@
 <div id='group-wrap'>
 	<div id='group-wrap-title'>Group Settings</div>
 	<div id="add-group">
-		<?php echo form_input(array('id'=>'add-group-input','name'=>'title','placeholder'=>'Create New Group','size'=>25)); ?>
+		<?php echo form_input(array('id'=>'add-group-input','name'=>'title','placeholder'=>'Create New Group','size'=>25,'autocomplete'=>'off')); ?>
 	</div>
 	<?php foreach (array_reverse($groups) as $g) {
 		echo "<div class='group-box'>";
 			echo "<div class='group-title'>".$g->title."</div>";
 			echo "<div id='add-member' style='background:".$default_color.";'>";
 				echo form_input(array('gid'=>$g->gid,'class'=>'add-member-input','name'=>'name','placeholder'=>'Add Member','size'=>25));
+				echo "<span id='error-msg'></span>";
 			echo "</div>";
 			foreach (array_reverse($g->members) as $m) {
 				echo "<div class='member-box' uid='".$m->user->uid."' style='background:".(($m->user->color)?$m->user->color:$default_color).";'>";
@@ -38,6 +39,7 @@
 		<div class='group-title'>THIS SHOULD BE HIDDEN</div>
 		<?php echo "<div id='add-member' style='background:".$default_color.";'>";
 			echo form_input(array('gid'=>0,'class'=>'add-member-input','name'=>'name','placeholder'=>'Add Member','size'=>25));
+			echo "<span id='error-msg'></span>";
 		echo "</div>";
 		echo "<div id='hidden-member' class='member-box' uid='".$user->uid."' style='background:".(($user->color)?$user->color:$default_color).";'>"; 
 			echo "<span class='member-title'>".$user->rname."</span>";

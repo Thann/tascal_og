@@ -138,8 +138,8 @@ class User extends CI_Model {
 	function add_member($data) {
 		//check for membership
 		$query = $this->db->get_where('members',array('gid'=>$data["gid"],'uid'=>$data["uid"]));
-		if( $query->num_rows() > 0 )
-			return array('status'=>false,'msg'=>"User is already a member of the group");
+		if( count($query->result()) > 0 )
+			return array('status'=>false,'msg'=>"User Is Already a Member",'result'=>count($query->result()));
 
 		if ($this->db->insert('members',$data)) {
 			$mid = $this->db->insert_id();
@@ -181,14 +181,18 @@ class User extends CI_Model {
 			$group = $this->db->get_where('groups',array('gid' => $gid));
 			$group = $group->result()[0];
 			$memData = array('gid'=>$gid,'uid'=>$group->owner,'perms'=>0);
-			$member = $this->add_member($memData)["member"];
-			$user = $this->db->get_where('users',array('uid'=>$group->owner));
-			$user = $user->result()[0];
-			unset($user->passwd);
-			unset($user->token);
-			$member->user = $user;
-			$group->members = array($member);
-			return array('status'=>true, 'group'=>$group);
+			$member = $this->add_member($memData);
+			//~ return array('status'=>false, $member);
+			if ($member["status"]) {
+				$member = $member["member"];
+				$user = $this->db->get_where('users',array('uid'=>$group->owner));
+				$user = $user->result()[0];
+				unset($user->passwd);
+				unset($user->token);
+				$member->user = $user;
+				$group->members = array($member);
+				return array('status'=>true, 'group'=>$group);
+			}
 		}
 		return array('status'=>false);
 	}
