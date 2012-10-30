@@ -93,14 +93,20 @@ class Calendar extends CI_Controller {
 		if ($ret['eid'] == 0) {
 			unset($ret['eid']);
 			$ret['uid'] = $this->session->userdata('uid');
-			$rid = $this->user->add_event($ret);
-			echo $rid;
+			$ret = $this->user->add_event($ret);
+			echo json_encode($ret);
 		}
 		else
 			if ($this->user->update_event($ret))
 				echo json_encode(array('status'=>true));
 			else
 				echo json_encode(array('status'=>false));
+	}
+
+	public function rmTask() {
+		$tid = $this->input->post();
+		$ret = $this->user->rm_task($tid);
+		echo json_encode($ret);
 	}
 
 	public function rmEvent() {

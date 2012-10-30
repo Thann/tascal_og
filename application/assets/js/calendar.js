@@ -25,12 +25,15 @@ $(document).ready( function()
 			url: "calendar/addEvent",
 			data: data,
 		}).done(function( ret ) {
+			ret = jQuery.parseJSON(ret);
 			//~ console.log(ret)
 			//Update the event eid.
 			if (event.eid == 0) {
-				$.grep(events, function(e){
+				var ee = $.grep(events, function(e){
 					return e.eid == 0;
-				})[0].eid = ret;
+				})[0];
+				ee.eid = ret.eid;
+				ee.uid = ret.uid;
 			}
 		});
 	}
@@ -40,7 +43,6 @@ $(document).ready( function()
 		if (tasks[event.tid].settings & mask.showEventDesc) {
 			event.taskTitle = event.title;
 			event.title = stripHTML(event.desc);
-			
 		}
 	};
 	//apply to all events
@@ -90,10 +92,12 @@ $(document).ready( function()
 		// this function is called when something is dropped..
 		drop: function(date, allDay) {
 			// retrieve the dropped element's stored Event Object
-			var eventObject = $(this).data('eventObject');
+			var originalEventObject = $(this).data('eventObject');
 			//prevent dropping random things like dialog boxes.
-			if (!eventObject)
+			if (!originalEventObject)
 				return false;
+
+			var eventObject = $.extend({}, originalEventObject);
 
 			tid = $(this).attr('id');
 			eventObject.eid = 0;
@@ -106,9 +110,8 @@ $(document).ready( function()
 			eventObject.end = new Date;
 			eventObject.end.setTime(date.getTime()+1*3600000); //60*60*1000 = miliseconds in an hour.
 			eventObject.allDay = allDay;
-
+			
 			events.push(eventObject);
-			//~ console.log(events);
 
 			// render the event on the calendar
 			$("#calendar").fullCalendar( 'refetchEvents' );
@@ -272,8 +275,7 @@ $(document).ready( function()
 				$( this ).dialog( "close" );
 			},
 			Delete: function() {
-				//TODO: implement
-				alert("Delete?!");
+				$("#delete-dialog").data("tid",$(this).data("task").attr('tid')).dialog("open");
 				$( this ).dialog( "close" );
 			},
 		},
@@ -373,12 +375,12 @@ $(document).ready( function()
 		width: 435,
 		buttons: {
 			Delete: function() {
-				//#TODO: implement
 				var eid = $(this).data("eid");
 				if (eid){
 					for (i in events) {
 						if (events[i].eid == eid){
 							events.splice(i,1);
+							break;
 						}
 					}
 					$.ajax({
@@ -392,6 +394,18 @@ $(document).ready( function()
 				}
 				else {
 					var tid = $(this).data("tid");
+					for (i in events)
+						if (events[i].tid == tid)
+							events[i].className = "hide-element";
+					$("#"+tid).css('display','none');
+					$.ajax({
+						type: "POST",
+						url: "calendar/rmTask",
+						data: {tid: tid},
+					}).done(function( responseText ) {
+						//~ ret = jQuery.parseJSON( responseText );
+						//~ console.log(ret);
+					});
 				}
 				$("#calendar").fullCalendar('refetchEvents');
 				$( this ).dialog( "close" );

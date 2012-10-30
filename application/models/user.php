@@ -245,9 +245,11 @@ class User extends CI_Model {
 			return array('status'=>false);
 	}
 
-	function rm_task() {
-		
-		
+	function rm_task($tid) {
+		if ($this->db->delete('tasks',$tid))
+			if ($this->db->delete('events',$tid))
+				return array('status'=>true);
+		return array('status'=>false);
 	}
 
 	function update_task($data) {
@@ -270,8 +272,12 @@ class User extends CI_Model {
 	}
 
 	function add_event($data) {
-		if ($this->db->insert('events',$data))
-			return $this->db->insert_id(); 
+		if ($this->db->insert('events',$data)){
+			$eid = $this->db->insert_id();
+			$event = $this->db->get_where('events',array('eid'=>$eid));
+			$event = $event->result()[0];
+			return $event;
+		}
 		else
 			return false;
 	}
