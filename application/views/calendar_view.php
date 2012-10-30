@@ -71,7 +71,7 @@
 	echo "</div>"; ?>
 </div>
 <div id='delete-dialog' style='display:none;'>
-	<div id='delete-dialog-contents'>Are you sure you want to delete this event?</div>
+	<div id='delete-dialog-contents'>Are you sure you want to delete this <span id='delete-dialog-type'>ERROR</span>?</div>
 </div>
 <?php echo $footer; ?>
 </body>

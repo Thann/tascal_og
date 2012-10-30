@@ -245,6 +245,11 @@ class User extends CI_Model {
 			return array('status'=>false);
 	}
 
+	function rm_task() {
+		
+		
+	}
+
 	function update_task($data) {
 		$this->db->where('tid', $data['tid']);
 		unset($data['tid']);
@@ -270,7 +275,14 @@ class User extends CI_Model {
 		else
 			return false;
 	}
-	
+
+	function rm_event($eid) {
+		if ($this->db->delete('events',$eid))
+			return array('status'=>true);
+		else
+			return array('status'=>false);
+	}
+
 	function update_event($data) {
 		$this->db->where('eid', $data['eid']);
 		if ($this->db->update('events',$data))

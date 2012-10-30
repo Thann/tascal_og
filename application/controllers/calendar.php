@@ -102,6 +102,12 @@ class Calendar extends CI_Controller {
 			else
 				echo json_encode(array('status'=>false));
 	}
+
+	public function rmEvent() {
+		$eid = $this->input->post();
+		$ret = $this->user->rm_event($eid);
+		echo json_encode($ret);
+	}
 }
 
 /* End of file calendar.php */

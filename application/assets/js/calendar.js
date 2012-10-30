@@ -338,8 +338,7 @@ $(document).ready( function()
 				$( this ).dialog( "close" );
 			},
 			Delete: function() {
-				//alert("Delete?!");
-				$("#delete-dialog").dialog("open");
+				$("#delete-dialog").data("eid",$(this).data("eid")).dialog("open");
 				$( this ).dialog( "close" );
 			},
 		},
@@ -371,15 +370,41 @@ $(document).ready( function()
 	$("#delete-dialog").dialog({
 		autoOpen: false,
 		title: "Permanently Delete?",
-		width: 371,
+		width: 435,
 		buttons: {
 			Delete: function() {
 				//#TODO: implement
+				var eid = $(this).data("eid");
+				if (eid){
+					for (i in events) {
+						if (events[i].eid == eid){
+							events.splice(i,1);
+						}
+					}
+					$.ajax({
+						type: "POST",
+						url: "calendar/rmEvent",
+						data: {eid: eid},
+					}).done(function( responseText ) {
+						//~ ret = jQuery.parseJSON( responseText );
+						//~ console.log(ret);
+					});
+				}
+				else {
+					var tid = $(this).data("tid");
+				}
+				$("#calendar").fullCalendar('refetchEvents');
 				$( this ).dialog( "close" );
 			},
 			Cancel: function() {
 				$( this ).dialog( "close" );
 			},
+		},
+		open: function() {
+			if ($(this).data("eid"))
+				$("#delete-dialog-type").html("event");
+			else
+				$("#delete-dialog-type").html("task");
 		},
 	});
 });
