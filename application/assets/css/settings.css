@@ -22,7 +22,16 @@
 .group-title {
 	color:green;
 	font-size: 1.1em;
-	/*margin-bottom:-8px;*/
+	display:inline-block;
+}
+
+.group-edit-button {
+	float:right;
+}
+
+.group-edit-button-text {
+	line-height: 1.0 !important;
+	padding: 1px 4px 0px 4px !important;
 }
 
 .member-box, #add-member {

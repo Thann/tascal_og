@@ -22,6 +22,7 @@
 	<?php foreach (array_reverse($groups) as $g) {
 		echo "<div class='group-box'>";
 			echo "<div class='group-title'>".$g->title."</div>";
+				echo "<span class='group-edit-button'>edit</span>";
 			echo "<div id='add-member' style='background:".$default_color.";'>";
 				echo form_input(array('gid'=>$g->gid,'class'=>'add-member-input','name'=>'name','placeholder'=>'Add Member','size'=>25));
 				echo "<span id='error-msg'></span>";
@@ -37,6 +38,7 @@
 	<!-- The following is a template for new groups and members that will be added with JS. -->
 	<div id='hidden-group' class='group-box' style='display:none'>
 		<div class='group-title'>THIS SHOULD BE HIDDEN</div>
+			<span class='group-edit-button'>edit</span>
 		<?php echo "<div id='add-member' style='background:".$default_color.";'>";
 			echo form_input(array('gid'=>0,'class'=>'add-member-input','name'=>'name','placeholder'=>'Add Member','size'=>25));
 			echo "<span id='error-msg'></span>";

@@ -70,7 +70,7 @@
 }
 
 /* override edit button formatting.
- * this should be done be makeing a new jquery theme*/
+ * this should be done by making a new jquery theme*/
 .ui-button-text {
 	padding: 0px 4px 0px 4px !important;
 }

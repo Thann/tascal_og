@@ -74,6 +74,17 @@ $(document).ready( function()
 		}
 	});
 
+	function conditionButton(button){
+		button.button();
+		button.children(".ui-button-text").addClass("group-edit-button-text");
+		button.click(function(){
+			console.log($(this).parent().find(".add-member-input").attr('gid'));
+		});
+		
+	}
+	$(".group-edit-button").each(function(){conditionButton($(this));});
+	//~ $(".group-edit-button").children(".ui-button-text").addClass("group-edit-button-text");
+
 	$("#settings-save-button").button({
 		
 	}).click(function() {
