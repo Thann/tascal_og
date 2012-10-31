@@ -112,6 +112,8 @@ class User extends CI_Model {
 
 	function update_info($data) {
 		$this->db->where('uid', $data['uid']);
+		if (isset($data["passwd"]))
+			$data["passwd"] = sha1($data["passwd"]);
 		unset($data['uid']);
 		if ($this->db->update('users',$data))
 			return true; 
