@@ -283,8 +283,8 @@ class User extends CI_Model {
 		if ($this->db->insert('events',$data)){
 			$eid = $this->db->insert_id();
 			$event = $this->db->get_where('events',array('eid'=>$eid));
-			$event = $event->result()[0];
-			return $event;
+			$event = $event->result();
+			return $event[0];
 		}
 		else
 			return false;
