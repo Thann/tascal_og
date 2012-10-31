@@ -130,8 +130,10 @@ class User extends CI_Model {
 
 	function get_user($uname) {
 		$query = $this->db->get_where('users',array('uname'=>$uname));
-		if( $query->num_rows() > 0 )
-			return array('status'=>true,'user'=>$query->result()[0]);
+		if( $query->num_rows() > 0 ) {
+			$query = $query->result();
+			return array('status'=>true,'user'=>$query[0]);
+		}
 		return array('status'=>false);
 	}
 
@@ -144,8 +146,8 @@ class User extends CI_Model {
 		if ($this->db->insert('members',$data)) {
 			$mid = $this->db->insert_id();
 			$member = $this->db->get_where('members',array('mid'=>$mid));
-			$member = $member->result()[0];
-			return array('status'=>true, 'member'=>$member);
+			$member = $member->result();
+			return array('status'=>true, 'member'=>$member[0]);
 		}
 		return array('status'=>false,'msg'=>"Unknown Error");
 	}
@@ -158,7 +160,8 @@ class User extends CI_Model {
 		foreach ($groups as $g)
 			$gids[] = $g->gid;
 
-		$this->db->where_in('gid',$gids);
+		if (isset($gids[0]))
+			$this->db->where_in('gid',$gids);
 		$groups = $this->db->get('groups');
 		$groups = $groups->result();
 		foreach ($groups as $g) {
@@ -166,7 +169,8 @@ class User extends CI_Model {
 			$g->members = $query->result();
 			foreach ($g->members as $m) {
 				$query = $this->db->get_where('users',array('uid' => $m->uid));
-				$query = $query->result()[0];
+				$query = $query->result();
+				$query = $query[0];
 				unset($query->passwd);
 				unset($query->token);
 				$m->user = $query;
@@ -179,14 +183,16 @@ class User extends CI_Model {
 		if ($this->db->insert('groups',$data)) {
 			$gid = $this->db->insert_id();
 			$group = $this->db->get_where('groups',array('gid' => $gid));
-			$group = $group->result()[0];
+			$group = $group->result();
+			$group = $group[0];
 			$memData = array('gid'=>$gid,'uid'=>$group->owner,'perms'=>0);
 			$member = $this->add_member($memData);
 			//~ return array('status'=>false, $member);
 			if ($member["status"]) {
 				$member = $member["member"];
 				$user = $this->db->get_where('users',array('uid'=>$group->owner));
-				$user = $user->result()[0];
+				$user = $user->result();
+				$user = $user[0];
 				unset($user->passwd);
 				unset($user->token);
 				$member->user = $user;
@@ -204,7 +210,8 @@ class User extends CI_Model {
 		foreach ($groups as $g)
 			$gids[] = $g->gid;
 
-		$this->db->where_in('gid',$gids);
+		if (isset($gids[0]))
+			$this->db->where_in('gid',$gids);
 		$query = $this->db->get('tasks');
 		$group_tasks = $query->result();
 
@@ -218,7 +225,8 @@ class User extends CI_Model {
 		$index = 1;
 		foreach ($groups as $g) {
 			$gg = $this->db->get_where('groups',array('gid'=>$g->gid));
-			$ret[$index]['group'] = $gg->result()[0];
+			$gg = $gg->result();
+			$ret[$index]['group'] = $gg[0];
 			$ret[$index]['tasks'] = array();
 			foreach ($group_tasks as $t) {
 				if ($t->gid == $g->gid)
