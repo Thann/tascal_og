@@ -88,12 +88,12 @@ class User extends CI_Model {
 			$token = random_string('unique');
 
 			//update table
-			$this->db->where('uid', $user->id);
-			$this->db->update('user', array( "token" => $token )); 
+			$this->db->where('uid', $user->uid);
+			$this->db->update('users', array( "token" => $token )); 
 
 			//set new cookie data to reflect new rmember me token
 			$this->input->set_cookie( "token", $token, 60*60*24*15 );
-			$this->input->set_cookie( "uid", $user->id, 60*60*24*15 );
+			$this->input->set_cookie( "uid", $user->uid, 60*60*24*15 );
 
 			//setup session data to reflect logged in
 			$sesh = array
