@@ -27,10 +27,11 @@ $(document).ready( function()
 				if (ret.status) {
 					//add member to group
 					$.grep(groups, function(e){return e.gid == data.gid})[0].members.push(ret.member);
-					member_box.next().before("<div class='member-box'>"+$("#hidden-member").html()+"</div>");
+					member_box.next().before("<div class='member-box' style='display:none;'>"+$("#hidden-member").html()+"</div>");
 					member_box.next().css('background-color',((ret.member.user.color)?ret.member.user.color:default_color));
 					member_box.next().find(".member-title").html(ret.member.user.rname);
 					member_box.next().attr('uid',ret.member.uid);
+					member_box.next().show("slow");
 				}
 				else 
 					member_box.find("#error-msg").html(ret.msg);
@@ -68,7 +69,7 @@ $(document).ready( function()
 					group_box.next().find(".add-member-input").attr('gid',ret.group.gid);
 					group_box.next().find(".group-title").html(ret.group.title);
 					group_box.next().show("slow");
-					conditionButton(group_box.next().find(".group-edit-button"));
+					conditionEditButton(group_box.next().find(".group-edit-button"));
 				}
 			});
 			$(this).val("");
@@ -76,7 +77,7 @@ $(document).ready( function()
 		}
 	});
 
-	function conditionButton(button){
+	function conditionEditButton(button){
 		button.button();
 		//make the button easily theme-able
 		button.children(".ui-button-text").addClass("group-edit-button-text");
@@ -85,8 +86,15 @@ $(document).ready( function()
 			$("#group-edit-dialog").data("gid",gid).dialog("open");
 		});
 		
-	}
-	$(".group-edit-button").each(function(){conditionButton($(this));});
+	};
+	$(".group-edit-button").each(function(){conditionEditButton($(this));});
+
+	function conditionLeaveButton(button){
+		button.button();
+		button.click(function(){
+			
+		});
+	};
 
 	$("#settings-save-button").button({
 		

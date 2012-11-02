@@ -55,6 +55,12 @@
 	float:right;
 }
 
+.member-quit-icon {
+	float:right;
+	height:16px;
+	padding-left:4px;
+}
+
 #error-msg {
 	/*color:#bf061c; /* Dark Red */
 	color:#FFD7D8;

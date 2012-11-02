@@ -30,7 +30,9 @@
 			foreach (array_reverse($g->members) as $m) {
 				echo "<div class='member-box' uid='".$m->user->uid."' style='background:".(($m->user->color)?$m->user->color:$default_color).";'>";
 					echo "<span class='member-title'>".$m->user->rname."</span>";
-					echo "<span class='member-perms'>[PERMISSIONS]</span>";
+					echo "<span class='member-perms'>[PERMISSIONS]";
+						echo "<img src='".img_url()."leave-group.png' alt='Leave Group' class='member-quit-icon' />";
+					echo "</span>";
 				echo "</div>";
 			}
 		echo "</div>";
@@ -45,7 +47,9 @@
 		echo "</div>";
 		echo "<div id='hidden-member' class='member-box' uid='".$user->uid."' style='background:".(($user->color)?$user->color:$default_color).";'>"; 
 			echo "<span class='member-title'>".$user->rname."</span>";
-			echo "<span class='member-perms'>[PERMISSIONS]</span>"; 
+			echo "<span class='member-perms'>[PERMISSIONS]";
+				echo "<img src='".img_url()."leave-group.png' alt='Leave Group' class='member-quit-icon' />";
+			echo "</span>";
 		echo "</div>"; ?>
 	</div>
 </div>
