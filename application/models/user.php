@@ -5,6 +5,7 @@ class User extends CI_Model {
 	function __construct() {
 		// Call the Model constructor
 		parent::__construct();
+		$this->expiration_duration = 60*60*24*15; //15 days
 	}
 
 	function login($data){
@@ -33,8 +34,8 @@ class User extends CI_Model {
 				$this->db->update('users', array( "token" => $token ));
 
 				//set a cookie with the remember me token and the user id
-				$this->input->set_cookie( "token", $token, 60*60*24*15 );
-				$this->input->set_cookie( "uid", $user->uid, 60*60*24*15 );
+				$this->input->set_cookie( "token", $token, $this->expiration_duration );
+				$this->input->set_cookie( "uid", $user->uid, $this->expiration_duration );
 			}
 
 			return true;
@@ -92,8 +93,8 @@ class User extends CI_Model {
 			$this->db->update('users', array( "token" => $token )); 
 
 			//set new cookie data to reflect new rmember me token
-			$this->input->set_cookie( "token", $token, 60*60*24*15 );
-			$this->input->set_cookie( "uid", $user->uid, 60*60*24*15 );
+			$this->input->set_cookie( "token", $token,$this->expiration_duration );
+			$this->input->set_cookie( "uid", $user->uid, $this->expiration_duration );
 
 			//setup session data to reflect logged in
 			$sesh = array
@@ -203,6 +204,15 @@ class User extends CI_Model {
 			}
 		}
 		return array('status'=>false);
+	}
+
+	function update_group($data) {
+		$this->db->where('gid', $data['gid']);
+		unset($data["gid"]);
+		if ($this->db->update('groups',$data))
+			return array('status'=>true); 
+		else
+			return array('status'=>false, 'msg'=>"Error Updating Group");
 	}
 
 	function rm_group($gid) {

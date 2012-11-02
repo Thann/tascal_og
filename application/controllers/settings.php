@@ -65,7 +65,8 @@ class Settings extends CI_Controller {
 	}
 
 	public function updateGroup() {
-		$ret = $this->input->post();
+		$data = $this->input->post();
+		$ret = $this->user->update_group($data);
 		echo json_encode($ret);
 	}
 

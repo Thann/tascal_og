@@ -164,14 +164,18 @@ $(document).ready( function()
 					data: data,
 				}).done(function( responseText ) {
 					ret = jQuery.parseJSON( responseText );
-					console.log(ret);
-				});
-				//Update Local JS Group
-				$.grep(groups, function(e){return e.gid == data.gid})[0].title = data.title;;
-				//Update Group-Box Title
-				$("input.add-member-input").each(function(){
-					if ($(this).attr('gid') == data.gid)
-						$(this).parent().parent().children(".group-title").html(data.title);
+					//~ console.log(ret);
+					if (ret.status) {
+						//Update Local JS Group
+						$.grep(groups, function(e){return e.gid == data.gid})[0].title = data.title;;
+						//Update Group-Box Title
+						$("input.add-member-input").each(function(){
+							if ($(this).attr('gid') == data.gid)
+								$(this).parent().parent().children(".group-title").html(data.title);
+						});
+					}
+					else 
+						alert(ret.msg);
 				});
 				$( this ).dialog( "close" );
 			},
