@@ -247,7 +247,13 @@ $(document).ready( function()
 					color: $("#task-edit-color").val(),
 					tid: $(this).data("task").attr('tid'),
 				};
-				//#TODO:implement updating settings.
+				//#TODO:implement more settings.
+				if ($("#settings-event-desc").is(":checked"))
+					//~ console.log("settings: event desc = true");
+					tasks[data.tid].settings |= mask.showEventDesc;
+				else 
+					tasks[data.tid].settings &= ~mask.showEventDesc;
+				
 				data.settings = tasks[data.tid].settings
 				if (!data.desc)
 					data.desc = "<p><br></p>";
@@ -291,12 +297,19 @@ $(document).ready( function()
 			$("#task-edit-title").val(tasks[tid].title);
 			$("#task-edit-desc").html(tasks[tid].desc);
 			$("#task-edit-color").miniColors('value',tasks[tid].color);
+			//Set Setting buttons to the correct value
+			$("#settings-event-desc").prop('checked', (tasks[tid].settings & mask.showEventDesc));
+			//Refresh all of the settings buttons so the display the correct state.
+			$(".task-edit-settings-cb").button("refresh");
+			console.log((tasks[tid].settings & mask.showEventDesc));
 		},
 		close: function() {
 			
 		}
 	});
+	//#TODO: fix the following line, so that the delete button is visually seperated.
 	$("#task-edit-dialog").parent().find("button:first").css('float','left');
+	$(".task-edit-settings-cb").button();
 
 	$("#task-edit-desc").tinymce({
 		script_url : base_url+'application/assets/js/libs/tiny_mce/tiny_mce.js',

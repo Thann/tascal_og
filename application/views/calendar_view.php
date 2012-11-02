@@ -61,6 +61,8 @@
 	echo "<textarea id='task-edit-desc'></textarea>";
 	echo "<div id='task-color-label'>Change color:";
 	echo "<input id='task-edit-color' type='hidden' size='7' /></div>";
+	echo "<br>";
+	echo "<input id='settings-event-desc' type='checkbox' class='task-edit-settings-cb' /><label for='settings-event-desc'>Events Display Description</label>";
 	echo "<div id=task-edit-results></div>";
 	echo "</div>"; ?>
 </div>
