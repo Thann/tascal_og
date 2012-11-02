@@ -18,7 +18,6 @@ class Calendar extends CI_Controller {
 		$data["load_js"] = array(
 			"libs/jquery-1.8.1.min.js", //1.8.2 causes problems with fullcal
 			"libs/jquery-ui-1.9.0.custom.min.js",
-			"libs/jquery.form.js",
 			"libs/fullcalendar.min.js",
 			"libs/tiny_mce/jquery.tinymce.js",
 			"libs/jquery.miniColors.min.js",

@@ -397,7 +397,7 @@ $(document).ready( function()
 					for (i in events)
 						if (events[i].tid == tid)
 							events[i].className = "hide-element";
-					$("#"+tid).css('display','none');
+					$("#"+tid).hide("slow");
 					$.ajax({
 						type: "POST",
 						url: "calendar/rmTask",
