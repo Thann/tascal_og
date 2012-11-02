@@ -63,10 +63,11 @@ $(document).ready( function()
 				if (ret.status){
 					groups.push(ret.group);
 					console.log(groups);
-					group_box.next().before("<div class='group-box'>"+$("#hidden-group").html()+"</div>");
+					group_box.next().before("<div class='group-box' style='display:none;'>"+$("#hidden-group").html()+"</div>");
 					group_box.next().find(".add-member-input").keypress(function(event){add_member(event,$(this))});
 					group_box.next().find(".add-member-input").attr('gid',ret.group.gid);
 					group_box.next().find(".group-title").html(ret.group.title);
+					group_box.next().show("slow");
 					conditionButton(group_box.next().find(".group-edit-button"));
 				}
 			});

@@ -222,11 +222,12 @@ $(document).ready( function()
 				ret = jQuery.parseJSON( responseText );
 				tasks[ret.task.tid] = ret.task;
 				tasks[ret.task.tid].color = default_color;
-				task_box.next().before("<div id='0' class='tasks'>"+$("#hidden-task").html()+"</div>");
+				task_box.next().before("<div id='0' class='tasks' style='display:none;'>"+$("#hidden-task").html()+"</div>");
 				task_box.next().attr('id',ret.task.tid);
 				task_box.next().find(".task-button").attr('tid',ret.task.tid);
 				populateTask(ret.task.tid);
 				conditionTask($("#"+ret.task.tid));
+				task_box.next().show("slow");
 			});
 			$(this).val("");
 			event.preventDefault();
