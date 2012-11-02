@@ -197,9 +197,11 @@ $(document).ready( function()
 			var gid = $(this).data("gid");
 			var group = $.grep(groups, function(e){return e.gid == gid})[0];
 			$("#group-edit-title").val(group.title);
+			//Hide delete button, because only the owner can delete a group
 			if (group.owner != user_id)
-				//Hide delete button, because only the owner can delete a group
 				$(this).parent().find("button:eq(2)").css("display","none");
+			else 
+				$(this).parent().find("button:eq(2)").css("display","");
 		},
 		close: function() {
 			
