@@ -4,6 +4,12 @@
 	overflow:hidden;
 }
 
+/* override edit button formatting.
+ * this should be done by making a new jquery theme*/
+.ui-button-text {
+	padding: 0px 4px 0px 4px !important;
+}
+
 #group-wrap {
 	float: left;
 	width: 400px;
@@ -29,6 +35,7 @@
 	float:right;
 }
 
+/* Style these buttons uniquely*/
 .group-edit-button-text {
 	line-height: 1.0 !important;
 	padding: 1px 4px 0px 4px !important;

@@ -67,6 +67,7 @@ $(document).ready( function()
 					group_box.next().find(".add-member-input").keypress(function(event){add_member(event,$(this))});
 					group_box.next().find(".add-member-input").attr('gid',ret.group.gid);
 					group_box.next().find(".group-title").html(ret.group.title);
+					conditionButton(group_box.next().find(".group-edit-button"));
 				}
 			});
 			$(this).val("");
@@ -76,14 +77,15 @@ $(document).ready( function()
 
 	function conditionButton(button){
 		button.button();
+		//make the button easily theme-able
 		button.children(".ui-button-text").addClass("group-edit-button-text");
 		button.click(function(){
-			console.log($(this).parent().find(".add-member-input").attr('gid'));
+			var gid = $(this).parent().find(".add-member-input").attr('gid');
+			$("#group-edit-dialog").data("gid",gid).dialog("open");
 		});
 		
 	}
 	$(".group-edit-button").each(function(){conditionButton($(this));});
-	//~ $(".group-edit-button").children(".ui-button-text").addClass("group-edit-button-text");
 
 	$("#settings-save-button").button({
 		
@@ -142,5 +144,102 @@ $(document).ready( function()
 			});
 		}
 		return false;
+	});
+
+	//Dialog for editing tasks.
+	$("#group-edit-dialog").dialog({
+		autoOpen: false,
+		width: 371,
+		buttons: {
+			"Save": function() {
+				var data = {
+					title: $("#group-edit-title").val(),
+					gid: $(this).data("gid"),
+				};
+				//#TODO:implement updating settings.
+				$.ajax({
+					type: "POST",
+					url: "settings/updateGroup",
+					data: data,
+				}).done(function( responseText ) {
+					ret = jQuery.parseJSON( responseText );
+					console.log(ret);
+				});
+				//Update Local JS Group
+				$.grep(groups, function(e){return e.gid == data.gid})[0].title = data.title;;
+				//Update Group-Box Title
+				$("input.add-member-input").each(function(){
+					if ($(this).attr('gid') == data.gid)
+						$(this).parent().parent().children(".group-title").html(data.title);
+				});
+				$( this ).dialog( "close" );
+			},
+			Cancel: function() {
+				$( this ).dialog( "close" );
+			},
+			Delete: function() {
+				$("#delete-dialog").data("gid",$(this).data("gid")).dialog("open");
+				$( this ).dialog( "close" );
+			},
+		},
+		open: function() {
+			//make the enter button click 'save'.
+			$("#task-edit-dialog").keypress(function(e) {
+				if (e.keyCode == $.ui.keyCode.ENTER) {
+					$(this).parent().find("button:eq(0)").trigger("click");
+				}
+			});
+			var gid = $(this).data("gid");
+			var group = $.grep(groups, function(e){return e.gid == gid})[0];
+			$("#group-edit-title").val(group.title);
+			if (group.owner != user_id)
+				//Hide delete button, because only the owner can delete a group
+				$(this).parent().find("button:eq(2)").css("display","none");
+		},
+		close: function() {
+			
+		}
+	});
+
+	$("#delete-dialog").dialog({
+		autoOpen: false,
+		title: "Permanently Delete?",
+		width: 435,
+		buttons: {
+			Delete: function() {
+				var gid = $(this).data("gid");
+				$.ajax({
+					type: "POST",
+					url: "settings/rmGroup",
+					data: {gid: gid},
+				}).done(function( responseText ) {
+					ret = jQuery.parseJSON( responseText );
+					//~ console.log(ret);
+					if (ret.status) {
+						for (i in groups) {
+							if (groups[i].gid == gid){
+								groups.splice(i,1);
+								break;
+							}
+						}
+						$("input.add-member-input").each(function(){
+							if ($(this).attr('gid') == gid) {
+								$(this).parent().parent().hide("slow");
+								$(this).attr('gid', "NULL");
+							}
+						});
+					}
+					else
+						alert(ret.msg)
+				});
+				$( this ).dialog( "close" );
+			},
+			Cancel: function() {
+				$( this ).dialog( "close" );
+			},
+		},
+		open: function() {
+			$("#delete-dialog-type").html("group");
+		},
 	});
 });

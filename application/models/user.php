@@ -205,6 +205,26 @@ class User extends CI_Model {
 		return array('status'=>false);
 	}
 
+	function rm_group($gid) {
+		$group = $this->db->get_where('groups',array('gid' => $gid));
+		$group = $group->result();
+		$uid = $this->session->userdata('uid');
+		if ($uid == $group[0]->owner) {
+			$tasks = $this->db->get_where('tasks',array('gid' => $gid));
+			foreach ($tasks->result() as $t) {
+				$ret = $this->rm_task(array('tid'=>$t->tid));
+				if (!$ret["status"])
+					return $ret;
+			}
+			if ($this->db->delete('groups',array('gid'=>$gid)))
+				if ($this->db->delete('members',array('gid'=>$gid)))
+					return array('status'=>true);
+		}
+		else 
+			return array('status'=>false,'msg'=>"Only the owner can delete a group.");
+		return array('status'=>false, 'msg'=>"error deleting group");
+	}
+
 	function get_tasks($uid) {
 		$groups = $this->db->get_where('members',array('uid' => $uid));
 		$groups = $groups->result();
@@ -245,6 +265,7 @@ class User extends CI_Model {
 		return $query[0];
 	}
 
+	//#TODO: make it so the (members) group perms are checked before completing 'add_task' or 'rm_task'
 	function add_task($data) {
 		if ($this->db->insert('tasks',$data)) {
 			$tid = $this->db->insert_id();
@@ -259,7 +280,7 @@ class User extends CI_Model {
 		if ($this->db->delete('tasks',$tid))
 			if ($this->db->delete('events',$tid))
 				return array('status'=>true);
-		return array('status'=>false);
+		return array('status'=>false,'msg'=>"error deleting task");
 	}
 
 	function update_task($data) {

@@ -30,7 +30,7 @@
 			foreach (array_reverse($g->members) as $m) {
 				echo "<div class='member-box' uid='".$m->user->uid."' style='background:".(($m->user->color)?$m->user->color:$default_color).";'>";
 					echo "<span class='member-title'>".$m->user->rname."</span>";
-					echo "<span class='member-perms'>PERMISSIONS</span>";
+					echo "<span class='member-perms'>[PERMISSIONS]</span>";
 				echo "</div>";
 			}
 		echo "</div>";
@@ -45,7 +45,7 @@
 		echo "</div>";
 		echo "<div id='hidden-member' class='member-box' uid='".$user->uid."' style='background:".(($user->color)?$user->color:$default_color).";'>"; 
 			echo "<span class='member-title'>".$user->rname."</span>";
-			echo "<span class='member-perms'>PERMISSIONS</span>"; 
+			echo "<span class='member-perms'>[PERMISSIONS]</span>"; 
 		echo "</div>"; ?>
 	</div>
 </div>
@@ -62,8 +62,22 @@
 	echo form_button(array('id'=>'settings-save-button','content'=>'Save','type'=>'submit'));
 	echo form_close(); ?>
 </div>
-
 </div> <!-- End Wrap -->
+
+<!-- The following divs will be hidden, and displayed as dialogs. -->
+<div id='group-edit-dialog' title='Edit Task Group' style='display:none;'>
+	<?php echo "<div id='group-edit-box'>";
+	echo form_input(array('id'=>'group-edit-title','name'=>'title','placeholder'=>'Title','size'=>25));
+	echo "<br>";
+	//#TODO: add group settings.
+	echo "[SETTINGS]";
+	echo "<div id=group-edit-results></div>";
+	echo "</div>"; ?>
+</div>
+<div id='delete-dialog' style='display:none;'>
+	<div id='delete-dialog-contents'>Are you sure you want to delete this <span id='delete-dialog-type'>ERROR</span>?</div>
+</div>
+
 <?php echo $footer; ?>
 </body>
 <script type='text/javascript'>
