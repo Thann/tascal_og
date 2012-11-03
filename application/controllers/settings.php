@@ -75,6 +75,12 @@ class Settings extends CI_Controller {
 		$ret = $this->user->rm_group($ret["gid"]);
 		echo json_encode($ret);
 	}
+
+	public function rmMember() {
+		$data = $this->input->post();
+		$ret = $this->user->rm_member($data);
+		echo json_encode($ret);
+	}
 }
 
 /* End of file settings.php */

@@ -155,6 +155,18 @@ class User extends CI_Model {
 		return array('status'=>false,'msg'=>"Unknown Error");
 	}
 
+	function rm_member($data) {
+		$user = $this->db->get_where('members',array('gid'=>$data["gid"],'mid'=>$data["mid"]));
+		$user = $user->result();
+		$group = $this->db->get_where('groups',array('gid'=>$data["gid"]));
+		$group = $group->result();
+		if ($group[0]->owner == $user[0]->uid)
+			return array('status'=>false, 'msg'=>"The owner cant leave the group");
+		if ($this->db->delete('members',array('mid'=>$data["mid"])))
+			return array('status'=>true);
+		return array('status'=>false, 'msg'=>"Error while removing member.");
+	}
+
 	function get_groups($uid) {
 		$groups = $this->db->get_where('members',array('uid' => $uid));
 		$groups = $groups->result();

@@ -31,6 +31,7 @@ $(document).ready( function()
 					member_box.next().css('background-color',((ret.member.user.color)?ret.member.user.color:default_color));
 					member_box.next().find(".member-title").html(ret.member.user.rname);
 					member_box.next().attr('uid',ret.member.uid);
+					conditionMember(member_box.next());
 					member_box.next().show("slow");
 				}
 				else 
@@ -85,16 +86,19 @@ $(document).ready( function()
 			var gid = $(this).parent().find(".add-member-input").attr('gid');
 			$("#group-edit-dialog").data("gid",gid).dialog("open");
 		});
-		
 	};
 	$(".group-edit-button").each(function(){conditionEditButton($(this));});
 
-	function conditionLeaveButton(button){
-		button.button();
-		button.click(function(){
-			
+	function conditionMember(object){
+		object.find(".member-quit-icon").click(function(){
+			var uid = object.attr('uid');
+			var gid = object.parent().find(".add-member-input").attr('gid');
+			var group = $.grep(groups, function(e){return e.gid == gid})[0];
+			var member = $.grep(group.members, function(e){return e.uid == uid})[0];
+			$("#confirm-dialog").data("member",member).dialog("open");
 		});
 	};
+	$(".member-box").each(function(){conditionMember($(this))});
 
 	$("#settings-save-button").button({
 		
@@ -255,6 +259,65 @@ $(document).ready( function()
 		},
 		open: function() {
 			$("#delete-dialog-type").html("group");
+		},
+	});
+
+	$("#confirm-dialog").dialog({
+		autoOpen: false,
+		title: "Remove User?",
+		width: 325,
+		buttons: {
+			Remove: function() {
+				var uid = $(this).data("member").uid;
+				var data = {
+					gid: $(this).data("member").gid,
+					mid: $(this).data("member").mid,
+				};
+				$.ajax({
+					type: "POST",
+					url: "settings/rmMember",
+					data: data,
+				}).done(function( responseText ) {
+					ret = jQuery.parseJSON( responseText );
+					console.log(ret);
+					if (ret.status) {
+						for (i in groups) {
+							if (groups[i].gid == data.gid){
+								for (j in groups[i].members){
+									if (groups[i].members[j].mid == data.mid) {
+										groups[i].members.splice(j,1);
+										break;
+									}
+								}
+								break;
+							}
+						}
+						$("input.add-member-input").each(function(){
+							if ($(this).attr('gid') == data.gid) {
+								$(this).parent().parent().children(".member-box").each(function(){
+									if ($(this).attr('uid') == uid) {
+										$(this).attr('uid', "NULL");
+										$(this).hide("slow");
+									}
+								});
+							}
+						});
+					}
+					else
+						alert(ret.msg)
+				});
+				$( this ).dialog( "close" );
+			},
+			Cancel: function() {
+				$( this ).dialog( "close" );
+			},
+		},
+		open: function() {
+			var member = $(this).data("member");
+			if (member.uid == user_id)
+				$("#confirm-dialog-msg").html("Are you sure you want to leave the group?");
+			else
+				$("#confirm-dialog-msg").html("Are you sure you want to remove '"+member.user.rname+"' from the group?");
 		},
 	});
 });
