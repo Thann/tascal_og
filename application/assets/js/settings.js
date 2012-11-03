@@ -64,13 +64,14 @@ $(document).ready( function()
 				//~ console.log(ret);
 				if (ret.status){
 					groups.push(ret.group);
-					console.log(groups);
 					group_box.next().before("<div class='group-box' style='display:none;'>"+$("#hidden-group").html()+"</div>");
 					group_box.next().find(".add-member-input").keypress(function(event){add_member(event,$(this))});
 					group_box.next().find(".add-member-input").attr('gid',ret.group.gid);
 					group_box.next().find(".group-title").html(ret.group.title);
-					group_box.next().show("slow");
+					group_box.next().find(".member-box").attr('id',"");
+					conditionMember(group_box.next().find(".member-box"));
 					conditionEditButton(group_box.next().find(".group-edit-button"));
+					group_box.next().show("slow");
 				}
 			});
 			$(this).val("");
@@ -80,10 +81,17 @@ $(document).ready( function()
 
 	function conditionEditButton(button){
 		button.button();
+		var gid = button.parent().find(".add-member-input").attr('gid');
+		if (gid == 0) //this is the hidden (dummy) group.
+			return;
+		var group = $.grep(groups, function(e){return e.gid == gid})[0];
+		if (group.owner != user_id) {
+			button.hide();
+			return;
+		}
 		//make the button easily theme-able
 		button.children(".ui-button-text").addClass("group-edit-button-text");
 		button.click(function(){
-			var gid = $(this).parent().find(".add-member-input").attr('gid');
 			$("#group-edit-dialog").data("gid",gid).dialog("open");
 		});
 	};
@@ -97,14 +105,14 @@ $(document).ready( function()
 		var group = $.grep(groups, function(e){return e.gid == gid})[0];
 		if (group.owner == uid) {
 			object.find(".member-perms").html("OWNER");
-			object.find(".member-quit-icon").css("display","none");
+			object.find(".member-quit-icon").hide();
 			return;
 		}
 		if (user_id == uid) {
 			object.find(".member-perms").html("SELF");
 		}
 		else if (group.owner != user_id){
-			object.find(".member-quit-icon").css("display","none");
+			object.find(".member-quit-icon").hide();
 			return;
 		}
 		var member = $.grep(group.members, function(e){return e.uid == uid})[0];
@@ -219,7 +227,7 @@ $(document).ready( function()
 		},
 		open: function() {
 			//make the enter button click 'save'.
-			$("#task-edit-dialog").keypress(function(e) {
+			$("#group-edit-dialog").keypress(function(e) {
 				if (e.keyCode == $.ui.keyCode.ENTER) {
 					$(this).parent().find("button:eq(0)").trigger("click");
 				}
@@ -229,9 +237,9 @@ $(document).ready( function()
 			$("#group-edit-title").val(group.title);
 			//Hide delete button, because only the owner can delete a group
 			if (group.owner != user_id)
-				$(this).parent().find("button:eq(2)").css("display","none");
+				$(this).parent().find("button:eq(2)").hide();
 			else 
-				$(this).parent().find("button:eq(2)").css("display","");
+				$(this).parent().find("button:eq(2)").show();
 		},
 		close: function() {
 			
