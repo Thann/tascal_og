@@ -158,10 +158,15 @@ class User extends CI_Model {
 	function rm_member($data) {
 		$user = $this->db->get_where('members',array('gid'=>$data["gid"],'mid'=>$data["mid"]));
 		$user = $user->result();
+		$user = $user[0];
 		$group = $this->db->get_where('groups',array('gid'=>$data["gid"]));
 		$group = $group->result();
-		if ($group[0]->owner == $user[0]->uid)
-			return array('status'=>false, 'msg'=>"The owner cant leave the group");
+		$group = $group[0];
+		$current_user = $this->session->userdata('uid');
+		if ($group->owner == $user->uid)
+			return array('status'=>false, 'msg'=>"The owner cant leave the group.");
+		if ($current_user != $group->owner && $current_user != $user->uid)
+			return array('status'=>false, 'msg'=>"Only the owner can kick other users.");
 		if ($this->db->delete('members',array('mid'=>$data["mid"])))
 			return array('status'=>true);
 		return array('status'=>false, 'msg'=>"Error while removing member.");

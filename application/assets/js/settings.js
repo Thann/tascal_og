@@ -90,11 +90,25 @@ $(document).ready( function()
 	$(".group-edit-button").each(function(){conditionEditButton($(this));});
 
 	function conditionMember(object){
+		var uid = object.attr('uid');
+		var gid = object.parent().find(".add-member-input").attr('gid');
+		if (gid == 0) //this is the hidden (dummy) group.
+			return;
+		var group = $.grep(groups, function(e){return e.gid == gid})[0];
+		if (group.owner == uid) {
+			object.find(".member-perms").html("OWNER");
+			object.find(".member-quit-icon").css("display","none");
+			return;
+		}
+		if (user_id == uid) {
+			object.find(".member-perms").html("SELF");
+		}
+		else if (group.owner != user_id){
+			object.find(".member-quit-icon").css("display","none");
+			return;
+		}
+		var member = $.grep(group.members, function(e){return e.uid == uid})[0];
 		object.find(".member-quit-icon").click(function(){
-			var uid = object.attr('uid');
-			var gid = object.parent().find(".add-member-input").attr('gid');
-			var group = $.grep(groups, function(e){return e.gid == gid})[0];
-			var member = $.grep(group.members, function(e){return e.uid == uid})[0];
 			$("#confirm-dialog").data("member",member).dialog("open");
 		});
 	};
@@ -198,6 +212,10 @@ $(document).ready( function()
 				$("#delete-dialog").data("gid",$(this).data("gid")).dialog("open");
 				$( this ).dialog( "close" );
 			},
+			//~ Leave: function() {
+				//$("#delete-dialog").data("gid",$(this).data("gid")).dialog("open");
+				//~ $( this ).dialog( "close" );
+			//~ },
 		},
 		open: function() {
 			//make the enter button click 'save'.
@@ -279,7 +297,7 @@ $(document).ready( function()
 					data: data,
 				}).done(function( responseText ) {
 					ret = jQuery.parseJSON( responseText );
-					console.log(ret);
+					//~ console.log(ret);
 					if (ret.status) {
 						for (i in groups) {
 							if (groups[i].gid == data.gid){
@@ -294,12 +312,16 @@ $(document).ready( function()
 						}
 						$("input.add-member-input").each(function(){
 							if ($(this).attr('gid') == data.gid) {
-								$(this).parent().parent().children(".member-box").each(function(){
-									if ($(this).attr('uid') == uid) {
-										$(this).attr('uid', "NULL");
-										$(this).hide("slow");
-									}
-								});
+								if (uid == user_id) //removed self from group
+									$(this).parent().parent().hide("slow");
+								else {
+									$(this).parent().parent().children(".member-box").each(function(){
+										if ($(this).attr('uid') == uid) {
+											$(this).attr('uid', "NULL");
+											$(this).hide("slow");
+										}
+									});
+								}
 							}
 						});
 					}
