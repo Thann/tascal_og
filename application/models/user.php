@@ -333,11 +333,14 @@ class User extends CI_Model {
 		if ($this->db->insert('events',$data)){
 			$eid = $this->db->insert_id();
 			$event = $this->db->get_where('events',array('eid'=>$eid));
-			$event = $event->result();
-			return $event[0];
+			if( $event->num_rows() != 0 ) {
+				$event = $event->result();
+				return array('status'=>true, 'event'=>$event[0]);
+			}
+			return array('status'=>false, 'msg'=>"Error retrieving added event.");
 		}
 		else
-			return false;
+			return array('status'=>false, 'msg'=>"Error adding event.");
 	}
 
 	function rm_event($eid) {

@@ -28,12 +28,16 @@ $(document).ready( function()
 			ret = jQuery.parseJSON(ret);
 			//~ console.log(ret)
 			//Update the event eid.
+			if (!ret.status) {
+				alert(ret.msg)
+				return;
+			}
 			if (event.eid == 0) {
 				var ee = $.grep(events, function(e){
 					return e.eid == 0;
 				})[0];
-				ee.eid = ret.eid;
-				ee.uid = ret.uid;
+				ee.eid = ret.event.eid;
+				ee.uid = ret.event.uid;
 			}
 		});
 	}
