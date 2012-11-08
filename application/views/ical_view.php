@@ -26,10 +26,9 @@ foreach ($group->tasks as $t) {
 			"END:VEVENT\n";
 	}
 }
- 
+
 // close calendar
 $output .= "END:VCALENDAR";
- 
+
 echo $output;
- 
 ?>

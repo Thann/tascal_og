@@ -20,6 +20,8 @@ class xApi extends CI_Controller {
 		$ret = $this->user->get_group_tasks($id);
 		//~ echo json_encode(array('status'=>true,'type'=>$type,'id'=>$id,'hash'=>$hash,'group'=>$ret));
 		//~ echo json_encode(array('status'=>false,'msg'=>"Invalid URI"));
+		$this->output->set_header("Connection:close");
+		$this->output->set_content_type('text/plain');
 		$this->load->view('ical_view', array('group'=>$ret) );
 	}
 }
