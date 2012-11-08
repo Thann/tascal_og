@@ -62,7 +62,10 @@
 	echo "<div id='task-color-label'>Change color:";
 	echo "<input id='task-edit-color' type='hidden' size='7' /></div>";
 	echo "<br>";
-	echo "<input id='settings-event-desc' type='checkbox' class='task-edit-settings-cb' /><label for='settings-event-desc'>Events Display Description</label>";
+	echo "<div id='settings-event-radio'>Events Display: ";
+		echo "<input id='settings-event-title' type='radio' name='settings-event-radio' class='task-edit-settings-cb' /><label for='settings-event-title'>Title</label>";
+		echo "<input id='settings-event-desc' type='radio' name='settings-event-radio' class='task-edit-settings-cb' /><label for='settings-event-desc'>Description</label>";
+	echo "</div>";
 	echo "<div id=task-edit-results></div>";
 	echo "</div>"; ?>
 </div>

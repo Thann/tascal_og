@@ -302,6 +302,7 @@ $(document).ready( function()
 			$("#task-edit-desc").html(tasks[tid].desc);
 			$("#task-edit-color").miniColors('value',tasks[tid].color);
 			//Set Setting buttons to the correct value
+			$("#settings-event-title").prop('checked', true);
 			$("#settings-event-desc").prop('checked', (tasks[tid].settings & mask.showEventDesc));
 			//Refresh all of the settings buttons so the display the correct state.
 			$(".task-edit-settings-cb").button("refresh");
@@ -312,8 +313,8 @@ $(document).ready( function()
 		}
 	});
 	//#TODO: fix the following line, so that the delete button is visually seperated.
-	$("#task-edit-dialog").parent().find("button:first").css('float','left');
-	$(".task-edit-settings-cb").button();
+	$("#task-edit-dialog").parent().find("button:eq(2)").addClass('ui-state-error');
+	$("#settings-event-radio").buttonset();
 
 	$("#task-edit-desc").tinymce({
 		script_url : base_url+'application/assets/js/libs/tiny_mce/tiny_mce.js',
