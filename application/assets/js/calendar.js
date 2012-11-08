@@ -115,6 +115,7 @@ $(document).ready( function()
 			eventObject.end.setTime(date.getTime()+1*3600000); //60*60*1000 = miliseconds in an hour.
 			eventObject.allDay = allDay;
 			
+			applyTaskSettings(eventObject);
 			events.push(eventObject);
 
 			// render the event on the calendar
@@ -306,7 +307,6 @@ $(document).ready( function()
 			$("#settings-event-desc").prop('checked', (tasks[tid].settings & mask.showEventDesc));
 			//Refresh all of the settings buttons so the display the correct state.
 			$(".task-edit-settings-cb").button("refresh");
-			console.log((tasks[tid].settings & mask.showEventDesc));
 		},
 		close: function() {
 			
