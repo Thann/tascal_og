@@ -8,9 +8,7 @@ class xApi extends CI_Controller {
 	}
 
 	function index() {
-		$ret = $this->input->post();
-		echo json_encode(array('status'=>false,'msg'=>"LAME"));
-		//~ log_message('debug',"wooters: ".json_encode($ret));
+		echo json_encode(array('status'=>false,'msg'=>"Invalid URL"));
 	}
 
 	function ical() {
@@ -18,10 +16,10 @@ class xApi extends CI_Controller {
 		$id = $this->uri->segment(4);
 		$hash = $this->uri->segment(5);
 		$ret = $this->user->get_group_tasks($id);
-		//~ echo json_encode(array('status'=>true,'type'=>$type,'id'=>$id,'hash'=>$hash,'group'=>$ret));
-		//~ echo json_encode(array('status'=>false,'msg'=>"Invalid URI"));
+
 		$this->output->set_header("Connection:close");
 		$this->output->set_content_type('text/plain');
 		$this->load->view('ical_view', array('group'=>$ret) );
+		//~ echo json_encode(array('status'=>false,'msg'=>"Invalid URL params"));
 	}
 }
