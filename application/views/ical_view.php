@@ -8,7 +8,9 @@ define('DATE_ICAL', 'Ymd\THis\Z');
 $output = "BEGIN:VCALENDAR
 METHOD:PUBLISH
 VERSION:2.0
-PRODID:-//Jonathan Knapp//Tascal//EN\n";
+PRODID:-//Jonathan Knapp//Tascal//EN
+X-WR-CALNAME:".$group->title."
+CALSCALE:GREGORIAN\n";
 
 //loop over tasks
 foreach ($group->tasks as $t) {
@@ -21,8 +23,8 @@ foreach ($group->tasks as $t) {
 			"STATUS:" . "TRUE" . "\n".
 			"DTSTART:" . date(DATE_ICAL, strtotime($event->start)) . "\n".
 			"DTEND:" . date(DATE_ICAL, strtotime($event->end)) . "\n".
-			"LAST-MODIFIED:" . date(DATE_ICAL) . "\n".
-			"LOCATION:" . "locationString" ."\n".
+			//"LAST-MODIFIED:" . date(DATE_ICAL) . "\n".
+			//"LOCATION:" . "locationString" ."\n".
 			"END:VEVENT\n";
 	}
 }
