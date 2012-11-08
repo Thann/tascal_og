@@ -252,6 +252,25 @@ class User extends CI_Model {
 		return array('status'=>false, 'msg'=>"error deleting group");
 	}
 
+	function get_group_tasks($gid) {
+		//#TODO: remove unsets
+		$group = $this->db->get_where('groups',array('gid' => $gid));
+		$group = $group->result();
+		$group = $group[0];
+		$query = $this->db->get_where('tasks',array('gid' => $gid));
+		$group->tasks = $query->result();
+		$events = array();
+		foreach ($group->tasks as $t) {
+			unset($t->desc);
+			$query = $this->db->get_where('events',array('tid' => $t->tid));
+			$t->events = $query->result();
+			foreach ($t->events as $e) {
+				unset($e->desc);
+			}
+		}
+		return $group;
+	}
+
 	function get_tasks($uid) {
 		$groups = $this->db->get_where('members',array('uid' => $uid));
 		$groups = $groups->result();

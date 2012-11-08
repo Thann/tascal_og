@@ -75,6 +75,8 @@
 	<?php echo "<div id='group-edit-box'>";
 	echo form_input(array('id'=>'group-edit-title','name'=>'title','placeholder'=>'Title','size'=>25));
 	echo "<br>";
+	echo "<div id='group-ical-url'></div>";
+	echo "<br>";
 	//#TODO: add group settings.
 	echo "[SETTINGS]";
 	echo "<div id=group-edit-results></div>";
@@ -94,5 +96,6 @@
 	var groups = <?php echo json_encode($groups); ?>;
 	var user_id = <?php echo json_encode($user->uid); ?>;
 	var default_color = "<?php echo $default_color ?>";
+	var base_ical_url = "<?php echo base_url()."index.php/xapi/ical/group/"; ?>";
 </script>
 </html>

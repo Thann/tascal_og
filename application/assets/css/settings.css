@@ -61,6 +61,10 @@
 	padding-left:4px;
 }
 
+#group-ical-url {
+	font-size:.8em;
+}
+
 #error-msg {
 	/*color:#bf061c; /* Dark Red */
 	color:#FFD7D8;

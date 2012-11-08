@@ -114,7 +114,7 @@ $(document).ready( function()
 			eventObject.end = new Date;
 			eventObject.end.setTime(date.getTime()+1*3600000); //60*60*1000 = miliseconds in an hour.
 			eventObject.allDay = allDay;
-			
+
 			applyTaskSettings(eventObject);
 			events.push(eventObject);
 

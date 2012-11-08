@@ -235,6 +235,7 @@ $(document).ready( function()
 			var gid = $(this).data("gid");
 			var group = $.grep(groups, function(e){return e.gid == gid})[0];
 			$("#group-edit-title").val(group.title);
+			$("#group-ical-url").html(base_ical_url+group.gid);
 			//Hide delete button, because only the owner can delete a group
 			if (group.owner != user_id)
 				$(this).parent().find("button:eq(2)").hide();
@@ -245,6 +246,7 @@ $(document).ready( function()
 			
 		}
 	});
+	$("#group-edit-dialog").parent().find("button:eq(2)").addClass('ui-state-error');
 
 	$("#delete-dialog").dialog({
 		autoOpen: false,
