@@ -9,6 +9,7 @@ class External_Api extends CI_Controller {
 
 	function index() {
 		$ret = $this->input->post();
-		echo json_encode(array('msg'=>"LAME"));
+		//~ echo json_encode(array('msg'=>"LAME"));
+		log_message('debug',"wooters: ".json_encode($ret));
 	}
 }
