@@ -6,8 +6,8 @@ define('DATE_ICAL', 'Ymd\THis\Z');
 // max line length is 75 chars. New line is \\n
 
 $output = "BEGIN:VCALENDAR\r\n".
-	"METHOD:PUBLISH\r\n".
 	"VERSION:2.0\r\n".
+	"METHOD:PUBLISH\r\n".
 	"PRODID:-//Jonathan Knapp//Tascal//EN\r\n".
 	"X-WR-CALNAME:".$group->title."\r\n".
 	"CALSCALE:GREGORIAN\r\n";
@@ -17,7 +17,7 @@ foreach ($group->tasks as $t) {
 	// loop over events
 	foreach ($t->events as $event) {
 		$output .=
-			"BEGIN:VEVENT\n" .
+			"BEGIN:VEVENT\r\n" .
 			"SUMMARY:" . $t->title . "\r\n".
 			"UID:" . $event->eid ."\r\n".
 			//"STATUS:" . "Confirmed" . "\r\n".
