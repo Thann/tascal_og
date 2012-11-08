@@ -256,6 +256,8 @@ class User extends CI_Model {
 		//#TODO: remove unsets
 		$group = $this->db->get_where('groups',array('gid' => $gid));
 		$group = $group->result();
+		if (!sizeof($group))
+			return false;
 		$group = $group[0];
 		$query = $this->db->get_where('tasks',array('gid' => $gid));
 		$group->tasks = $query->result();

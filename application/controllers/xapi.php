@@ -16,6 +16,11 @@ class xApi extends CI_Controller {
 		$id = $this->uri->segment(4);
 		$hash = $this->uri->segment(5);
 		$ret = $this->user->get_group_tasks($id);
+		//~ echo json_encode($ret);
+		if (!$ret) {
+			echo json_encode(array('status'=>false,'msg'=>"Invalid URL params"));
+			return false;
+		}
 
 		$this->output->set_header("Connection:close");
 		$this->output->set_content_type('text/plain');
