@@ -21,8 +21,8 @@ foreach ($group->tasks as $t) {
 			"STATUS:" . "TRUE" . "\n".
 			"DTSTART:" . date(DATE_ICAL, strtotime($event->start)) . "\n".
 			"DTEND:" . date(DATE_ICAL, strtotime($event->end)) . "\n".
-			//"LAST-MODIFIED:" . date(DATE_ICAL, strtotime($event->last_update)) . "\n"
-			//"LOCATION:" . $event->location_name $event->name ."\n"
+			"LAST-MODIFIED:" . date(DATE_ICAL) . "\n".
+			"LOCATION:" . "locationString" ."\n".
 			"END:VEVENT\n";
 	}
 }
