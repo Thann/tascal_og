@@ -379,6 +379,8 @@ $(document).ready( function()
 			
 		}
 	});
+	//#TODO: fix the following line, so that the delete button is visually seperated.
+	$("#event-edit-dialog").parent().find("button:eq(2)").addClass('ui-state-error');
 
 	$("#event-edit-desc").tinymce({
 		script_url : base_url+'application/assets/js/libs/tiny_mce/tiny_mce.js',
