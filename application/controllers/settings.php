@@ -11,20 +11,21 @@ class Settings extends CI_Controller {
 	}
 
 	public function index() {
+		$this->config->load('branding');
 		$data = array();
 		$data["location"] = 'settings';
 		$data["title"] = "Tascal";
 		$data["user"] = $this->user->get_row();
 		$data["load_js"] = array(
-			"libs/jquery-1.8.1.min.js", //1.8.2 causes problems with fullcal
-			"libs/jquery-ui-1.9.0.custom.min.js",
+			$this->config->item('js_jquery'),
+			$this->config->item('js_jquery-ui'),
 			"libs/jquery.miniColors.min.js",
 			//"libs/gcal.js",
 			"common.js",
 			"settings.js"
 		);
 		$data["load_css"] = array(
-			"libs/ui-lightness/jquery-ui-1.9.0.custom.min.css",
+			$this->config->item('css_jquery-ui'),
 			"libs/jquery.miniColors.css",
 			"settings.css"
 		);

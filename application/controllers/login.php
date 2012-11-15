@@ -27,19 +27,24 @@ class Login extends CI_Controller {
 			redirect( "calendar" );
 		else
 		{
+			$this->config->load('branding');
 			$data = array();
 			$data["title"] = "Tascal Login";
 			$data["load_js"] = array(
-				"libs/jquery-1.8.1.min.js", //1.8.2 causes problems with fullcal
-				"libs/jquery-ui-1.9.0.custom.min.js",
+				$this->config->item('js_jquery'),
+				$this->config->item('js_jquery-ui'),
 				"libs/jquery.form.js",
 				"common.js",
 				"login.js"
 			);
 			$data["load_css"] = array(
-				"libs/ui-lightness/jquery-ui-1.9.0.custom.min.css",
+				$this->config->item('css_jquery-ui'),
 				"login.css"
 			);
+			//~ $blog_config = $this->config->item('branding');
+			//~ echo $this->config->item('js_jquery');
+			//~ echo $blog_config['what'];
+			//~ $data['echo'] = "epopt";
 
 			$this->load->view('login_view', $data);
 		}
