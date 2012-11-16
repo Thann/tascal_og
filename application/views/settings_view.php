@@ -12,6 +12,7 @@
 	<link rel='shortcut icon' type='image/png' href='<?php echo img_url() . "favicon.png"; ?>' >
 </head>
 <body>
+<div id='bgimage'></div>
 <?php echo $header; ?>
 <div id='wrap'>
 <div id='group-wrap'>

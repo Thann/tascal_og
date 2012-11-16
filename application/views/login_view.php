@@ -12,7 +12,9 @@
 	<link rel='shortcut icon' type='image/png' href='<?php echo img_url() . "favicon.png"; ?>' >
 </head>
 <body>
+<div id='bgimage'></div>
 <?php echo $title; ?>
+<div id='content'>
 <div id="login-container">
 	<?php echo form_open('login/validate',array('id'=>'login-form',));
 	echo "<div id='input-container'>";
@@ -27,6 +29,7 @@
 	echo form_close(); ?>
 </div>
 <button id='create-account-button'>Create Account</button>
+</div>
 <!-- The following divs will be hidden, and displayed as dialogs. -->
 <div id='create-account-dialog' title="Create new user">
 	<?php echo form_open('login/create',array('id'=>'create-form',));
