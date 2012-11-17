@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href='<?php echo css_url()."footer.css"; ?>'/>
 <div class="footer">
-	<span id='copyright'> &copy; <?=date('Y')?> Jonathan Knapp</span>
+	<span id='copyright'> &copy; <?=date('Y')." ".$this->config->item('author')?></span>
 	<span id='about-link'>about</span>
 	<span id='render-time'>Page rendered in <strong>{elapsed_time}</strong> seconds.</span>
 </div>
