@@ -10,6 +10,10 @@
 	padding: 0px 4px 0px 4px !important;
 }
 
+.ui-autocomplete-loading {
+	background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat;
+}
+
 #group-wrap {
 	float: left;
 	width: 400px;

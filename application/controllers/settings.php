@@ -48,6 +48,12 @@ class Settings extends CI_Controller {
 		echo json_encode($group);
 	}
 
+	public function searchMembers() {
+		$ret = $this->input->post();
+		//~ sleep(3);
+		echo json_encode(array("status"=>true, "ret"=>$ret, "values"=>array(array("id"=>1,"uname"=>"uname1","rname"=>"rname1"),array("id"=>2,"uname"=>"uname2","rname"=>"rname1"))));
+	}
+
 	public function addMember() {
 		$ret = $this->input->post();
 		$query = $this->user->get_user($ret["uname"]);

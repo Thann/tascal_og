@@ -41,9 +41,37 @@ $(document).ready( function()
 			event.preventDefault();
 		}
 	}
-
 	//Bind keypress event to each add-member-input box
 	$("#group-wrap").find(".add-member-input").keypress(function(event){add_member(event,$(this))});
+
+	$("#group-wrap").find(".add-member-input").autocomplete({
+			source: function( request, response ) {
+				$.ajax({
+					url: "settings/searchMembers",
+					dataType: "json",
+					type: "POST",
+					data: request,
+					success: function( data ) {
+						if (!data.status)
+							return;
+						response( $.map( data.values, function( item ) {
+							return {
+								blah: item.blah,
+								id: item.id,
+								label: item.uname,
+								value: item.uname
+							}
+						}));
+					}
+				});
+			},
+			minLength: 2,
+			select: function( event, ui ) {
+				console.log( ui.item ?
+					"Selected: " + ui.item.value + " aka " + ui.item.blah :
+					"Nothing selected, input was " + this.value );
+			}
+		});
 
 	//Create a new group
 	$("#add-group-input").keypress(function(event){
