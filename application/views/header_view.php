@@ -2,7 +2,7 @@
 <div id='header'>
 <?php echo "<span id='header-uname'>user: ".$user->uname."</span>" ?>
 <?php if ($location != 'calendar')
-		echo anchor('calendar', "Calendar", array('class'=>'header-link')); 
+		echo " ".anchor('calendar', "Calendar", array('class'=>'header-link')); 
 	else
 		echo "<span class='header-link'>[<u>Calendar</u>]</span>"?>
 <?php if ($location != 'settings')
