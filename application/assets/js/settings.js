@@ -8,7 +8,6 @@ $(document).ready( function()
 
 	//Used below to add members to groups.
 	function add_member(object) {
-		
 			//make sure the input is not empty.
 			if (object.val()=="")
 				return false;
@@ -46,6 +45,7 @@ $(document).ready( function()
 
 	$("#group-wrap").find(".add-member-input").autocomplete({
 		source: function( request, response ) {
+			var gid = this.element[0].attributes.gid.value;
 			$.ajax({
 				url: "settings/searchMembers",
 				dataType: "json",
@@ -54,9 +54,13 @@ $(document).ready( function()
 				success: function( data ) {
 					if (!data.status)
 						return;
+					var members = $.grep(groups, function(e){return e.gid == gid;})[0].members;
 					response( $.map( data.values, function( item ) {
+						var already = $.grep(members, function(e){return e.uid == item.uid;});
+						if (already.length)
+							return null;
 						return {
-							id: item.id,
+							uid: item.uid,
 							email: item.email,
 							label: item.rname,
 							value: item.uname
