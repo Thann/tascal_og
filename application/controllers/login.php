@@ -41,10 +41,6 @@ class Login extends CI_Controller {
 				$this->config->item('css_jquery-ui'),
 				"login.css"
 			);
-			//~ $blog_config = $this->config->item('branding');
-			//~ echo $this->config->item('js_jquery');
-			//~ echo $blog_config['what'];
-			//~ $data['echo'] = "epopt";
 
 			$this->load->view('login_view', $data);
 		}
