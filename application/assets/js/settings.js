@@ -40,42 +40,6 @@ $(document).ready( function()
 			event.preventDefault();
 		//}
 	}
-	//Bind keypress event to each add-member-input box
-	$("#group-wrap").find(".add-member-input").keypress(function(event){ if(event.keyCode == 13){add_member($(this))} });
-
-	$("#group-wrap").find(".add-member-input").autocomplete({
-		source: function( request, response ) {
-			var gid = this.element[0].attributes.gid.value;
-			$.ajax({
-				url: "settings/searchMembers",
-				dataType: "json",
-				type: "POST",
-				data: request,
-				success: function( data ) {
-					if (!data.status)
-						return;
-					var members = $.grep(groups, function(e){return e.gid == gid;})[0].members;
-					response( $.map( data.values, function( item ) {
-						var already = $.grep(members, function(e){return e.uid == item.uid;});
-						if (already.length)
-							return null;
-						return {
-							uid: item.uid,
-							email: item.email,
-							label: item.rname,
-							value: item.uname
-						}
-					}));
-				}
-			});
-		},
-		minLength: 2,
-		select: function( event, ui ) {
-			$(this).val(ui.item.value);
-			add_member($(this));
-			return false;
-		}
-	});
 
 	//Create a new group
 	$("#add-group-input").keypress(function(event){
@@ -97,12 +61,11 @@ $(document).ready( function()
 				if (ret.status){
 					groups.push(ret.group);
 					group_box.next().before("<div class='group-box' style='display:none;'>"+$("#hidden-group").html()+"</div>");
-					group_box.next().find(".add-member-input").keypress(function(event){add_member(event,$(this))});
 					group_box.next().find(".add-member-input").attr('gid',ret.group.gid);
 					group_box.next().find(".group-title").html(ret.group.title);
 					group_box.next().find(".member-box").attr('id',"");
+					conditionGroup(group_box.next());
 					conditionMember(group_box.next().find(".member-box"));
-					conditionEditButton(group_box.next().find(".group-edit-button"));
 					group_box.next().show("slow");
 				}
 			});
@@ -111,23 +74,64 @@ $(document).ready( function()
 		}
 	});
 
-	function conditionEditButton(button){
-		button.button();
-		var gid = button.parent().find(".add-member-input").attr('gid');
-		if (gid == 0) //this is the hidden (dummy) group.
-			return;
-		var group = $.grep(groups, function(e){return e.gid == gid})[0];
-		if (group.owner != user_id) {
-			button.hide();
-			return;
-		}
-		//make the button easily theme-able
-		button.children(".ui-button-text").addClass("group-edit-button-text");
-		button.click(function(){
-			$("#group-edit-dialog").data("gid",gid).dialog("open");
+	function conditionGroup(group){
+		var input = group.find(".add-member-input");
+		var button = group.find(".group-edit-button");
+		
+		//Input Field
+		input.autocomplete({
+			source: function( request, response ) {
+				var gid = this.element[0].attributes.gid.value;
+				$.ajax({
+					url: "settings/searchMembers",
+					dataType: "json",
+					type: "POST",
+					data: request,
+					success: function( data ) {
+						if (!data.status)
+							return;
+						var members = $.grep(groups, function(e){return e.gid == gid;})[0].members;
+						response( $.map( data.values, function( item ) {
+							var already = $.grep(members, function(e){return e.uid == item.uid;});
+							if (already.length)
+								return null;
+							return {
+								uid: item.uid,
+								email: item.email,
+								label: item.rname,
+								value: item.uname
+							}
+						}));
+					}
+				});
+			},
+			minLength: 2,
+			select: function( event, ui ) {
+				$(this).val(ui.item.value);
+				add_member($(this));
+				return false;
+			}
 		});
+		//Bind keypress event to each add-member-input box
+		input.keypress(function(event){ if(event.keyCode == 13){add_member($(this))} });
+		
+		//Edit Button
+		button.button();
+		var gid = input.attr('gid');
+		if (gid != 0) { //gid[0] is the hidden (dummy) group.
+			var group = $.grep(groups, function(e){return e.gid == gid})[0];
+			if (group.owner != user_id) {
+				button.hide();
+				return;
+			}
+			//make the button easily theme-able
+			button.children(".ui-button-text").addClass("group-edit-button-text");
+			button.click(function(){
+				$("#group-edit-dialog").data("gid",gid).dialog("open");
+			});
+		}
 	};
-	$(".group-edit-button").each(function(){conditionEditButton($(this));});
+	$(".group-box").each(function(){conditionGroup($(this));});
 
 	function conditionMember(object){
 		var uid = object.attr('uid');
