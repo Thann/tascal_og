@@ -140,8 +140,9 @@ class User extends CI_Model {
 		return array('status'=>false);
 	}
 
-	function search_users($uname) {
-		$this->db->like('uname', $uname, 'after');
+	function search_users($term) {
+		$this->db->like('rname', $term, 'both');
+		$this->db->or_like('uname', $term, 'after');
 		$query = $this->db->get('users');
 		$query = $query->result();
 		return $query;
