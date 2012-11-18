@@ -50,9 +50,7 @@ class Settings extends CI_Controller {
 
 	public function searchMembers() {
 		$ret = $this->input->post();
-		//~ sleep(3);
 		$users = $this->user->search_users($ret['term']);
-		//~ echo json_encode(array("status"=>true, "ret"=>$ret, "users"=>$users, "values"=>array(array("id"=>1,"uname"=>"uname1","rname"=>"rname1"),array("id"=>2,"uname"=>"uname2","rname"=>"rname1"))));
 		echo json_encode(array("status"=>true, "ret"=>$ret, "users"=>$users, "values"=>$users));
 	}
 
