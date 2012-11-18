@@ -140,6 +140,13 @@ class User extends CI_Model {
 		return array('status'=>false);
 	}
 
+	function search_users($uname) {
+		$this->db->like('uname', $uname, 'after');
+		$query = $this->db->get('users');
+		$query = $query->result();
+		return $query;
+	}
+
 	function add_member($data) {
 		//check for membership
 		$query = $this->db->get_where('members',array('gid'=>$data["gid"],'uid'=>$data["uid"]));

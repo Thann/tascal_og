@@ -56,9 +56,9 @@ $(document).ready( function()
 						return;
 					response( $.map( data.values, function( item ) {
 						return {
-							blah: item.blah,
 							id: item.id,
-							label: item.uname,
+							email: item.email,
+							label: item.rname,
 							value: item.uname
 						}
 					}));
@@ -67,11 +67,9 @@ $(document).ready( function()
 		},
 		minLength: 2,
 		select: function( event, ui ) {
-			console.log( ui.item ?
-				"Selected: " + ui.item.value + " aka " + ui.item.blah :
-				"Nothing selected, input was " + this.value );
-			console.log($(this));
+			$(this).val(ui.item.value);
 			add_member($(this));
+			return false;
 		}
 	});
 
